@@ -422,7 +422,7 @@ button{font-family:'DM Sans',sans-serif}
                 <div class="eprev">Dear Madame Gertrude Dupont, your annual tax declaration is due soon…</div>
               </div>
             </button>
-            <button class="eitem safe" id="email-doctor" onclick="markRead('email-doctor')" aria-label="Open doctor appointment email">
+            <button class="eitem safe" id="email-doctor" onclick="go('doctor-email')" aria-label="Open doctor appointment email">
               <div class="eicon safe">🏥</div>
               <div>
                 <div class="esender">Dr. Martin — Cabinet Médical</div>
@@ -518,7 +518,7 @@ button{font-family:'DM Sans',sans-serif}
           </form>
           <div class="form-actions">
             <button class="form-btn back" onclick="go('tax-email')" aria-label="Go back to email">← Back</button>
-            <button class="form-btn submit" onclick="openOverlay('o-review')" aria-label="Review and submit">Review & Submit →</button>
+            <button class="form-btn submit" onclick="openReview()" aria-label="Review and submit">Review & Submit →</button>
           </div>
         </div>
       </div>
@@ -530,6 +530,29 @@ button{font-family:'DM Sans',sans-serif}
           <h2 class="success-h">Your taxes have been submitted!</h2>
           <p class="success-s">Well done, Gertrude! You'll receive a confirmation email shortly.</p>
           <button class="form-btn back" style="margin-top:28px" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back to inbox</button>
+        </div>
+      </div>
+
+      <!-- Screen 9: Doctor email -->
+      <div class="screen" id="s-doctor-email">
+        <div class="eview">
+          <div class="eview-head">
+            <button class="back-btn" onclick="markRead('email-doctor'); go('mail-inbox')" aria-label="Back to inbox">← Back</button>
+            <h2 class="esubj-h">Appointment confirmed: June 3 at 10:00</h2>
+          </div>
+          <div class="emeta">
+            <span>From: <strong>contact@cabinet-martin.fr</strong></span>
+            <span>To: gertrude.dupont@gmail.com</span>
+            <span>May 15, 2026</span>
+          </div>
+          <div class="ebody">
+            <p>Dear Madame Dupont,</p><br>
+            <p>We are pleased to confirm your appointment with <strong>Dr. Martin</strong> on <strong>Tuesday, June 3, 2026 at 10:00</strong>.</p><br>
+            <p>📍 Cabinet Médical du Parc<br>14 Avenue des Roses, 69002 Lyon<br>2nd floor, room 204</p><br>
+            <p>Please remember to bring your <em>carte Vitale</em> and any recent prescriptions.</p><br>
+            <p>To cancel or reschedule, please call us at <strong>04 72 00 00 00</strong> at least 24 hours in advance.</p><br>
+            <p>We look forward to seeing you.<br>The team at Cabinet Médical du Parc</p>
+          </div>
         </div>
       </div>
 
@@ -596,15 +619,19 @@ button{font-family:'DM Sans',sans-serif}
 <div class="overlay" id="o-review" role="dialog" aria-modal="true" aria-labelledby="rev-title">
   <div class="mbox wide">
     <h2 class="mtitle" id="rev-title">Review your tax declaration</h2>
-    <div class="msection"><div class="msec-lbl">Personal Details</div>
-      <div class="msec-val">Gertrude Dupont · Born January 15, 1952<br>12 Rue des Fleurs, 69001 Lyon</div></div>
+    <div class="msection"><div class="msec-lbl">Full Name</div>
+      <div class="msec-val" id="rev-name">—</div></div>
+    <div class="msection"><div class="msec-lbl">Date of Birth</div>
+      <div class="msec-val" id="rev-dob">—</div></div>
+    <div class="msection"><div class="msec-lbl">Address</div>
+      <div class="msec-val" id="rev-addr">—</div></div>
     <div class="msection"><div class="msec-lbl">Income declared</div>
-      <div class="msec-val">€24,600 for the year 2025</div></div>
+      <div class="msec-val" id="rev-inc">—</div></div>
     <div class="msection"><div class="msec-lbl">Tax Number</div>
-      <div class="msec-val">12 34 567 890 123</div></div>
-    <div class="msection"><div class="msec-lbl">Refund to</div>
-      <div class="msec-val">IBAN: FR76 3000 6000 0112 3456 7890 189</div></div>
-    <p style="font-size:14px;color:#888;line-height:1.5;margin-bottom:16px">Everything looks correct. By clicking "Send" you confirm this information is accurate.</p>
+      <div class="msec-val" id="rev-tax">—</div></div>
+    <div class="msection"><div class="msec-lbl">Refund to (IBAN)</div>
+      <div class="msec-val" id="rev-iban">—</div></div>
+    <p style="font-size:14px;color:#888;line-height:1.5;margin-bottom:16px">Please check everything is correct. By clicking "Send" you confirm this information is accurate.</p>
     <div class="mbtns">
       <button class="mbtn grey" onclick="closeOverlay('o-review')" aria-label="Go back">Go back</button>
       <button class="mbtn grn" onclick="submitTaxes()" aria-label="Send tax declaration">Send ✓</button>
@@ -626,7 +653,8 @@ const urls = {
   'home':'aigis://home','search-results':'aigis://search',
   'shop-chat':'aigis://safeshop','shop-results':'aigis://safeshop/results',
   'mail-inbox':'aigis://mail/inbox','scam-email':'aigis://mail/1','tax-email':'aigis://mail/2',
-  'tax-form':'impots.gouv.fr/declaration/2025','tax-success':'impots.gouv.fr/declaration/submitted'
+  'tax-form':'impots.gouv.fr/declaration/2025','tax-success':'impots.gouv.fr/declaration/submitted',
+  'doctor-email':'aigis://mail/3'
 };
 const tabs = {
   'home':{n:'Welcome Page',s:'Search'},
@@ -637,7 +665,8 @@ const tabs = {
   'scam-email':{n:'BNP Paribas',s:'⚠️ Be careful'},
   'tax-email':{n:'Tax reminder',s:'impots.gouv.fr'},
   'tax-form':{n:'Tax Declaration',s:'impots.gouv.fr'},
-  'tax-success':{n:'Taxes submitted!',s:'✓ Done'}
+  'tax-success':{n:'Taxes submitted!',s:'✓ Done'},
+  'doctor-email':{n:'Dr. Martin',s:'cabinet-martin.fr'}
 };
 
 // ── AI panel content per screen ──
@@ -649,7 +678,8 @@ const aiScreens = {
   'mail-inbox':[{t:'ai',m:"You have 3 new messages. I've scanned them all. ⚠️ The first email looks suspicious — I recommend not clicking any links in it!"}],
   'scam-email':[{t:'ai',m:"🚨 Alert: The sender address <strong>bnp-paribas-secure.net</strong> is NOT the real BNP Paribas. This is a phishing email. Do not click any links!"}],
   'tax-email':[{t:'ai',m:"✅ This email comes from a verified government address (impots.gouv.fr). It is safe. Click the link to open the tax form and I can help you fill it."}],
-  'tax-success':[{t:'ai',m:"🎉 Excellent! Your 2025 tax declaration has been submitted successfully. You'll receive a confirmation by email within a few days. Well done, Gertrude!"}]
+  'tax-success':[{t:'ai',m:"🎉 Excellent! Your 2025 tax declaration has been submitted successfully. You'll receive a confirmation by email within a few days. Well done, Gertrude!"}],
+  'doctor-email':[{t:'ai',m:"✅ This is a confirmed appointment from Dr. Martin's cabinet. Everything looks legitimate. Don't forget to bring your carte Vitale!"}]
 };
 
 // ── Navigation ──
@@ -668,6 +698,7 @@ function go(name) {
   if (name === 'shop-chat') initShop();
   if (name === 'tax-form') setTimeout(taxFormAI, 400);
   if (name === 'shop-results') resetCartBar();
+  if (name === 'scam-email') setTimeout(() => showScamPopup(), 350);
 }
 
 // ── AI panel helpers ──
@@ -918,6 +949,8 @@ function markRead(emailId) {
 
 
 
+function showScamPopup() { openOverlay('o-scam'); }
+
 function showScamInfo() {
   document.getElementById('scam-title').textContent = 'How to spot a scam email';
   document.getElementById('scam-text').innerHTML =
@@ -998,7 +1031,7 @@ function importDoc() {
     const box = document.getElementById('aip-msgs');
     box.innerHTML = '';
     appendAI('ai','Document imported! ✅ All fields are now complete. Would you like to review everything before sending?',
-      appendAIBtn('Review before sending','grn','openOverlay("o-review")'));
+      appendAIBtn('Review before sending','grn','openReview()'));
   }, 600);
 }
 
@@ -1011,6 +1044,17 @@ function submitTaxes() {
 // ── Overlay helpers ──
 function openOverlay(id) { document.getElementById(id).classList.add('show'); }
 function closeOverlay(id) { document.getElementById(id).classList.remove('show'); }
+
+function openReview() {
+  const val = id => document.getElementById(id).value.trim() || '—';
+  document.getElementById('rev-name').textContent = val('f-name');
+  document.getElementById('rev-dob').textContent  = val('f-dob');
+  document.getElementById('rev-addr').textContent = val('f-addr');
+  document.getElementById('rev-inc').textContent  = val('f-inc') !== '—' ? '€' + val('f-inc') + ' for the year 2025' : '—';
+  document.getElementById('rev-tax').textContent  = val('f-tax');
+  document.getElementById('rev-iban').textContent = val('f-iban');
+  openOverlay('o-review');
+}
 
 // ── Init ──
 document.addEventListener('DOMContentLoaded', () => {
