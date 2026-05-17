@@ -125,6 +125,13 @@ button{font-family:'DM Sans',sans-serif}
 .eprev{font-size:13px;color:#888}
 .scam-note{display:none;background:#fffbe8;border:1px solid #ffe0a0;border-radius:8px;padding:12px 16px;margin-top:14px;font-size:14px;color:#7a5800;line-height:1.5}
 .scam-note.show{display:block}
+/* ── Read email state ── */
+.eitem.read{background:#f7f7f7;border-color:#e8e8e8;opacity:0.7;transition:opacity .4s,background .4s,border-color .4s}
+.eitem.read .esender{font-weight:400;color:#888}
+.eitem.read .esubj{font-weight:400;color:#999}
+.eitem.read .eicon{opacity:0.5}
+.mail-count{font-size:12px;font-weight:600;background:#e53935;color:#fff;border-radius:10px;padding:1px 7px;margin-left:6px;transition:opacity .3s}
+.mail-count.zero{background:#aaa}
 
 /* ── Email view ── */
 .eview{padding:28px;max-width:720px}
@@ -154,6 +161,13 @@ button{font-family:'DM Sans',sans-serif}
 .finput.missing{border-color:#ff9500;background:#fffbe8}
 @keyframes fill-pulse{0%{background:#c0f0d0}100%{background:#f0faf4}}
 
+/* Tax form actions */
+.form-actions{display:flex;gap:12px;margin-top:24px}
+.form-btn{padding:14px 28px;border-radius:10px;font-size:16px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;border:none;transition:background .15s}
+.form-btn.back{background:#f0f0f0;color:#444;border:2px solid #ddd}.form-btn.back:hover{background:#e4e4e4}
+.form-btn.submit{background:#1a1a1a;color:#fff}.form-btn.submit:hover{background:#333}
+.form-btn:focus{outline:2px solid #555}
+
 /* Success */
 .success-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
 .success-ico{font-size:72px;margin-bottom:20px}
@@ -172,6 +186,7 @@ button{font-family:'DM Sans',sans-serif}
 .ai-act-btn{background:#1a1a1a;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:7px;display:block;width:100%;transition:background .15s;font-weight:600}
 .ai-act-btn:hover{background:#333}.ai-act-btn.grn{background:#34c759}.ai-act-btn.grn:hover{background:#2ab34a}
 .ai-act-btn:focus{outline:2px solid #555}
+/* FIX: removed <code> icon button; kept only mic and image */
 .aip-input{padding:10px 12px;border-top:1px solid #e0e0e0;background:#fff;display:flex;align-items:center;gap:7px}
 .aip-input input{flex:1;border:1px solid #e0e0e0;border-radius:20px;padding:8px 13px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none}
 .aip-input input:focus{border-color:#bbb}
@@ -206,13 +221,27 @@ button{font-family:'DM Sans',sans-serif}
 /* ── Search results ── */
 .sr-wrap{padding:20px 28px;max-width:800px;width:100%}
 .sr-topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #eee}
+/* FIX: logo is text-only, no emoji (emoji lives only in the input bar search icon) */
 .sr-logo{font-size:20px;font-weight:700;color:#1a1a1a;white-space:nowrap}
 .sr-meta{font-size:13px;color:#999;margin-bottom:18px}
 .sr-item{margin-bottom:26px}
 .sr-url{font-size:12px;color:#1a6e35;margin-bottom:2px}
-.sr-title{font-size:19px;color:#1a0dab;font-weight:600;cursor:pointer;margin-bottom:4px;display:block;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;padding:0}
+.sr-title{font-size:19px;color:#1a0dab;font-weight:600;cursor:pointer;margin-bottom:6px;display:block;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;padding:0}
 .sr-title:hover{text-decoration:underline}.sr-title:focus{outline:2px solid #555}
-.sr-desc{font-size:14px;color:#555;line-height:1.5}
+.sr-desc{font-size:14px;color:#555;line-height:1.5;margin-bottom:6px}
+/* ── Search result safety badges (clickable, expandable) ── */
+.sr-safety{margin-top:7px}
+.sr-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:600;border:none;font-family:'DM Sans',sans-serif;cursor:default}
+.sr-badge.safe{background:#e8faf0;color:#1a6e35}
+.sr-badge.warn{background:#fff3e0;color:#c25a00;cursor:pointer}
+.sr-badge.warn:hover{background:#ffeacc}
+.sr-badge.danger{background:#fff0ee;color:#c62828;cursor:pointer}
+.sr-badge.danger:hover{background:#ffdcd8}
+.sr-badge:focus{outline:2px solid #555}
+.sr-detail{display:none;margin-top:7px;padding:10px 13px;border-radius:8px;font-size:13px;line-height:1.55}
+.sr-detail.show{display:block}
+.sr-detail.warn{background:#fff8f0;border:1px solid #ffd0a0;color:#7a4000}
+.sr-detail.danger{background:#fff4f3;border:1px solid #ffb3ae;color:#7a1a1a}
 
 /* ── Cart bar ── */
 .cart-bar{display:none;align-items:center;gap:14px;background:#1a1a1a;color:#fff;padding:14px 20px;border-radius:12px;margin-top:18px}
@@ -247,7 +276,7 @@ button{font-family:'DM Sans',sans-serif}
         <div class="sb-title">Quickly access</div>
         <button class="sb-item" onclick="go('mail-inbox')" aria-label="Gertrude's Mail">
           <div class="sb-icon mail">✉️</div>
-          <div><div class="sb-name">Gertrude's Mail</div><div class="sb-sub">3 new messages</div></div>
+          <div><div class="sb-name">Gertrude's Mail <span class="mail-count" id="sb-mail-count">3</span></div><div class="sb-sub" id="sb-mail-sub">3 new messages</div></div>
         </button>
         <button class="sb-item" onclick="go('home')" aria-label="Facebook">
           <div class="sb-icon fb">👥</div>
@@ -278,7 +307,7 @@ button{font-family:'DM Sans',sans-serif}
           <h1 class="home-h1">Welcome Gertrude!</h1>
           <p class="home-sub">What will it be today?</p>
           <div class="search-wrap" role="search">
-            <button class="icon-btn" aria-label="Search">🔍</button>
+            <button class="icon-btn" aria-label="Search" onclick="doSearch(document.querySelector('#s-home input').value)">🔍</button>
             <input type="text" placeholder="Search" aria-label="Search">
             <button class="icon-btn" aria-label="Voice search">🎤</button>
           </div>
@@ -289,7 +318,8 @@ button{font-family:'DM Sans',sans-serif}
       <div class="screen" id="s-search-results">
         <div class="sr-wrap">
           <div class="sr-topbar">
-            <span class="sr-logo">🔍 Aigis Search</span>
+            <!-- FIX: "Aigis Search" as plain text — no leading emoji to avoid duplication with search icon -->
+            <span class="sr-logo">Aigis Search</span>
             <div class="search-wrap" role="search" style="flex:1;max-width:520px">
               <button class="icon-btn" aria-label="Search" onclick="doSearch(document.getElementById('sr-input').value)">🔍</button>
               <input type="text" id="sr-input" placeholder="Search" aria-label="Search" style="flex:1;border:none;outline:none;font-size:16px;font-family:'DM Sans',sans-serif;color:#333">
@@ -376,7 +406,7 @@ button{font-family:'DM Sans',sans-serif}
         <div class="mail-wrap">
           <h2 class="mail-h">✉️ Gertrude's Mail</h2>
           <div class="elist">
-            <button class="eitem sus" onclick="go('scam-email')" aria-label="Open suspicious email from BNP Paribas">
+            <button class="eitem sus" id="email-scam" onclick="go('scam-email')" aria-label="Open suspicious email from BNP Paribas">
               <div class="eicon sus">⚠️</div>
               <div>
                 <div class="esender">BNP Paribas — URGENT</div>
@@ -384,7 +414,7 @@ button{font-family:'DM Sans',sans-serif}
                 <div class="eprev">Please click the link below to verify your identity immediately…</div>
               </div>
             </button>
-            <button class="eitem safe" onclick="go('tax-email')" aria-label="Open tax office reminder email">
+            <button class="eitem safe" id="email-tax" onclick="go('tax-email')" aria-label="Open tax office reminder email">
               <div class="eicon safe">📄</div>
               <div>
                 <div class="esender">Direction Générale des Finances Publiques</div>
@@ -392,7 +422,7 @@ button{font-family:'DM Sans',sans-serif}
                 <div class="eprev">Dear Madame Gertrude Dupont, your annual tax declaration is due soon…</div>
               </div>
             </button>
-            <button class="eitem safe" aria-label="Open doctor appointment email">
+            <button class="eitem safe" id="email-doctor" onclick="markRead('email-doctor')" aria-label="Open doctor appointment email">
               <div class="eicon safe">🏥</div>
               <div>
                 <div class="esender">Dr. Martin — Cabinet Médical</div>
@@ -465,6 +495,7 @@ button{font-family:'DM Sans',sans-serif}
       </div>
 
       <!-- Screen 7: Tax form -->
+      <!-- FIX: added back button and submit button so user can leave this page -->
       <div class="screen" id="s-tax-form">
         <div class="form-wrap">
           <h2 class="form-h">📋 Tax Declaration 2025</h2>
@@ -485,6 +516,10 @@ button{font-family:'DM Sans',sans-serif}
             <div class="fgroup"><label class="flabel" for="f-iban">Bank Account (IBAN)</label>
               <input class="finput" id="f-iban" type="text" aria-label="IBAN"></div>
           </form>
+          <div class="form-actions">
+            <button class="form-btn back" onclick="go('tax-email')" aria-label="Go back to email">← Back</button>
+            <button class="form-btn submit" onclick="openOverlay('o-review')" aria-label="Review and submit">Review & Submit →</button>
+          </div>
         </div>
       </div>
 
@@ -494,21 +529,22 @@ button{font-family:'DM Sans',sans-serif}
           <div class="success-ico">✅</div>
           <h2 class="success-h">Your taxes have been submitted!</h2>
           <p class="success-s">Well done, Gertrude! You'll receive a confirmation email shortly.</p>
+          <button class="form-btn back" style="margin-top:28px" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back to inbox</button>
         </div>
       </div>
 
     </main>
 
     <!-- Right AI panel -->
+    <!-- FIX: removed the </> code button from the input row -->
     <aside class="aip" aria-label="AI Assistant">
       <div class="aip-hdr">🤖 Aigis Assistant</div>
       <div class="aip-msgs" id="aip-msgs"></div>
       <div class="aip-input">
         <button class="icon-btn" aria-label="Attach image" title="Image">🖼️</button>
-        <button class="icon-btn" aria-label="Code mode" title="Code">&lt;/&gt;</button>
         <button class="icon-btn" aria-label="Voice input" title="Mic">🎤</button>
-        <input type="text" placeholder="What would you like to know?" aria-label="Ask Aigis">
-        <button class="send-btn" aria-label="Send">↑</button>
+        <input type="text" id="aip-text" placeholder="What would you like to know?" aria-label="Ask Aigis">
+        <button class="send-btn" onclick="sendAI()" aria-label="Send">↑</button>
       </div>
     </aside>
   </div>
@@ -606,7 +642,7 @@ const tabs = {
 
 // ── AI panel content per screen ──
 const aiScreens = {
-  'search-results':[{t:'ai',m:"Here are your search results! Let me know if you'd like help with any of these pages."}],
+  'search-results':[{t:'ai',m:"Here are your search results! Each result includes a safety rating so you know which sites are trustworthy. Let me know if you'd like help with any of these pages."}],
   'home':[{t:'ai',m:"Hello Gertrude! 👋 I'm Aigis, your online companion. I'm here to help you shop safely, check your emails, and fill out forms. What would you like to do today?"}],
   'shop-chat':[{t:'ai',m:"Opening SafeShop for you! I'll help you find something great."}],
   'shop-results':[{t:'ai',m:"I found 3 nightstands for you! ✅ The first and third are fully verified. ⚠️ The second has a 90% safety score — tap \"More info\" to understand why."}],
@@ -657,6 +693,18 @@ function appendAI(type, html, btn) {
 
 function appendAIBtn(label, cls, onclick) {
   return `<button class="ai-act-btn ${cls}" onclick="${onclick}" aria-label="${label}">${label}</button>`;
+}
+
+// FIX: wire up the AI panel send button
+function sendAI() {
+  const inp = document.getElementById('aip-text');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+  appendAI('u', msg);
+  setTimeout(() => {
+    appendAI('ai', "I've noted your question! For now, I'm focused on guiding you through the current page. Is there something specific I can help you with here?");
+  }, 800);
 }
 
 // ── Shop chat ──
@@ -762,12 +810,33 @@ function confirmPurchase() {
   appendAI('ai', `🎉 Payment successful! Your <strong>${cartItem.name}</strong> should arrive in 3 to 5 business days. Enjoy!`);
 }
 
-// ── Search ──
+// ── Search data with expandable safety info ──
 const searchData = [
-  {url:'wikipedia.org/wiki/', title:'General information — Wikipedia', desc:'Find encyclopaedic articles on any topic, written and verified by a global community.'},
-  {url:'bbc.com/news/', title:'Latest news — BBC News', desc:'Up-to-date world news, local news, and in-depth reporting from the BBC.'},
-  {url:'lemonde.fr/', title:'Actualités — Le Monde', desc:'Toute l\'actualité française et internationale sur Le Monde.fr.'},
-  {url:'youtube.com/results?search_query=', title:'Video results — YouTube', desc:'Watch videos, tutorials, and documentaries related to your search.'},
+  {
+    url:'wikipedia.org/wiki/', title:'General information — Wikipedia',
+    desc:'Find encyclopaedic articles on any topic, written and verified by a global community.',
+    safety:'safe', score:100,
+    safeLabel:'🛡️ 100% Safe'
+  },
+  {
+    url:'bbc.com/news/', title:'Latest news — BBC News',
+    desc:'Up-to-date world news, local news, and in-depth reporting from the BBC.',
+    safety:'safe', score:100,
+    safeLabel:'🛡️ 100% Safe'
+  },
+  {
+    url:'lemonde.fr/', title:'Actualités — Le Monde',
+    desc:'Toute l\'actualité française et internationale sur Le Monde.fr.',
+    safety:'safe', score:100,
+    safeLabel:'🛡️ 100% Safe'
+  },
+  {
+    url:'youtube.com/results?search_query=', title:'Video results — YouTube',
+    desc:'Watch videos, tutorials, and documentaries related to your search.',
+    safety:'warn', score:75,
+    safeLabel:'⚠️ 75% Safe — tap for details',
+    detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites. Check the channel name and view count before trusting a video.'
+  },
 ];
 
 function doSearch(query) {
@@ -779,25 +848,75 @@ function doSearch(query) {
   document.getElementById('sr-meta').textContent = 'About ' + searchData.length + ' results (0.38 seconds)';
   const list = document.getElementById('sr-list');
   list.innerHTML = '';
-  searchData.forEach(r => {
+
+  searchData.forEach((r, i) => {
     const div = document.createElement('div');
     div.className = 'sr-item';
-    div.innerHTML = `<div class="sr-url">${r.url}${encodeURIComponent(query)}</div>
-      <button class="sr-title" aria-label="${r.title}">${r.title.replace('QUERY', query)}</button>
-      <div class="sr-desc">${r.desc}</div>`;
+
+    // Build badge — clickable only for warn/danger
+    const detailId = `sr-detail-${i}`;
+    const badgeId  = `sr-badge-${i}`;
+    const isClickable = r.safety !== 'safe';
+    const badgeTag = isClickable ? 'button' : 'span';
+    const badgeExtra = isClickable
+      ? `id="${badgeId}" onclick="toggleSrDetail('${detailId}','${badgeId}','${r.safety}')" aria-expanded="false" aria-controls="${detailId}"`
+      : '';
+
+    const detailHtml = r.detail
+      ? `<div class="sr-detail ${r.safety}" id="${detailId}" role="region" aria-live="polite">ℹ️ ${r.detail}</div>`
+      : '';
+
+    div.innerHTML = `
+      <div class="sr-url">${r.url}${encodeURIComponent(query)}</div>
+      <button class="sr-title" aria-label="${r.title}">${r.title}</button>
+      <div class="sr-desc">${r.desc}</div>
+      <div class="sr-safety">
+        <${badgeTag} class="sr-badge ${r.safety}" ${badgeExtra}>${r.safeLabel}</${badgeTag}>
+        ${detailHtml}
+      </div>`;
     list.appendChild(div);
   });
-  // switch screen manually (don't use go() to avoid resetting the input)
+
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('s-search-results').classList.add('active');
-  const t = tabs['search-results'];
   document.getElementById('tab-name').textContent = query;
   document.getElementById('tab-sub').textContent = 'Web search';
   setAI('search-results');
 }
 
-// ── Scam email ──
-function showScamPopup() { openOverlay('o-scam'); }
+function toggleSrDetail(detailId, badgeId, safety) {
+  const detail = document.getElementById(detailId);
+  const badge  = document.getElementById(badgeId);
+  if (!detail) return;
+  const open = detail.classList.toggle('show');
+  badge.setAttribute('aria-expanded', open);
+  if (safety === 'warn') {
+    badge.textContent = open ? '⚠️ 75% Safe — masquer ▲' : '⚠️ 75% Safe — tap for details';
+  } else {
+    badge.textContent = open ? '🚨 Not safe — masquer ▲' : '🚨 Not safe — tap for details';
+  }
+}
+
+// ── Read email state ──
+const readState = { 'email-scam': false, 'email-tax': false, 'email-doctor': false };
+
+function markRead(emailId) {
+  if (readState[emailId]) return;
+  readState[emailId] = true;
+  const el = document.getElementById(emailId);
+  if (el) el.classList.add('read');
+  // Update sidebar unread count
+  const unread = Object.values(readState).filter(v => !v).length;
+  const countEl = document.getElementById('sb-mail-count');
+  const subEl   = document.getElementById('sb-mail-sub');
+  if (countEl) {
+    countEl.textContent = unread;
+    if (unread === 0) countEl.classList.add('zero');
+  }
+  if (subEl) subEl.textContent = unread === 0 ? 'No new messages' : `${unread} new message${unread > 1 ? 's' : ''}`;
+}
+
+
 
 function showScamInfo() {
   document.getElementById('scam-title').textContent = 'How to spot a scam email';
@@ -811,12 +930,12 @@ function showScamInfo() {
 
 function dismissScam() {
   closeOverlay('o-scam');
-  // reset popup for next time
   document.getElementById('scam-title').textContent = 'Warning: Suspicious Link';
   document.getElementById('scam-text').textContent = 'This link leads to a website flagged in multiple scam databases. Do not click it.';
   document.getElementById('scam-btns').innerHTML =
     `<button class="mbtn grey" onclick="closeOverlay('o-scam')" aria-label="Go back">Go back</button>`
     +`<button class="mbtn red" onclick="showScamInfo()" aria-label="More information">More info</button>`;
+  markRead('email-scam');
   go('mail-inbox');
   setTimeout(() => document.getElementById('scam-note').classList.add('show'), 300);
 }
@@ -841,7 +960,6 @@ const fData = {
 function startAutofill() {
   if (autofillDone) return;
   autofillDone = true;
-  // Clear fields first
   ['f-name','f-dob','f-addr','f-inc','f-tax','f-iban'].forEach(id => {
     const el = document.getElementById(id);
     el.value=''; el.className='finput';
@@ -886,6 +1004,7 @@ function importDoc() {
 
 function submitTaxes() {
   closeOverlay('o-review');
+  markRead('email-tax');
   go('tax-success');
 }
 
@@ -893,7 +1012,7 @@ function submitTaxes() {
 function openOverlay(id) { document.getElementById(id).classList.add('show'); }
 function closeOverlay(id) { document.getElementById(id).classList.remove('show'); }
 
-// Close overlay on backdrop click
+// ── Init ──
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.overlay').forEach(ov => {
     ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('show'); });
@@ -901,12 +1020,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('shop-text').addEventListener('keydown', e => {
     if (e.key === 'Enter') sendShop();
   });
-  // Home search bar
+  // Home search
   const homeInput = document.querySelector('#s-home input');
   homeInput.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(homeInput.value); });
-  document.querySelector('#s-home .search-wrap .icon-btn').addEventListener('click', () => doSearch(homeInput.value));
   // Search results bar
   document.getElementById('sr-input').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(e.target.value); });
+  // AI panel input
+  document.getElementById('aip-text').addEventListener('keydown', e => { if (e.key === 'Enter') sendAI(); });
   // Init home AI
   setAI('home');
 });
