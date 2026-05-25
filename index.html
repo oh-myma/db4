@@ -6,6 +6,7 @@
 <title>Aigis — Browser Companion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style id="dyn-font"></style>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;font-size:15px;background:#d4d4d4;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}
@@ -55,6 +56,7 @@ button{font-family:'DM Sans',sans-serif}
 .screen{display:none;flex:1;flex-direction:column;animation:fadeIn .2s ease}
 .screen.active{display:flex}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
 /* ── Screen 0: Home ── */
 .home{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px}
@@ -194,7 +196,8 @@ button{font-family:'DM Sans',sans-serif}
 .etrust.safe{background:#c8f0da;color:#0d5c2a}
 .scam-note{display:none;background:#fffbe8;border:1px solid #ffe0a0;border-radius:8px;padding:12px 16px;margin-top:14px;font-size:14px;color:#7a5800;line-height:1.5}
 .scam-note.show{display:block}
-.eitem.read{opacity:.6;filter:grayscale(.3)}
+.eitem.read{opacity:.55;filter:grayscale(.4)}
+.eitem.dismissed{display:none}
 
 /* mail count badge */
 .mail-count{font-size:12px;font-weight:600;background:#e53935;color:#fff;border-radius:10px;padding:1px 7px;margin-left:6px;transition:opacity .3s}
@@ -347,9 +350,10 @@ input[type=range]{accent-color:#2b2b2b}
   <!-- Top bar -->
   <div class="topbar">
     <div class="tl-group"><div class="tl r"></div><div class="tl y"></div><div class="tl g"></div></div>
-    <button class="nav-btn" aria-label="Back">&#8592;</button>
-    <button class="nav-btn" aria-label="Forward">&#8594;</button>
-    <button class="nav-btn" aria-label="Reload">&#8635;</button>
+    <button class="nav-btn" id="btn-back" aria-label="Back" onclick="navBack()" title="Back">&#8592;</button>
+    <button class="nav-btn" id="btn-fwd" aria-label="Forward" onclick="navForward()" title="Forward">&#8594;</button>
+    <button class="nav-btn" id="btn-reload" aria-label="Reload" onclick="navReload()" title="Reload">&#8635;</button>
+    <button class="nav-btn" id="btn-new-tab" onclick="openNewTab()" aria-label="New tab" title="New tab" style="font-size:14px;padding:4px 8px;border:1px solid #555;border-radius:6px;color:#aaa;letter-spacing:.5px">+</button>
     <div class="addr-bar">
       <span class="addr-lock">&#128274;</span>
       <span class="addr-text" id="addr">aigis://home</span>
@@ -437,12 +441,7 @@ input[type=range]{accent-color:#2b2b2b}
                 <button class="shop-send" onclick="sendShop()" aria-label="Send">↑</button>
               </div>
             </div>
-            <div id="shop-actions" style="display:none">
-              <div class="action-row" style="flex-direction:column;gap:8px;margin-top:10px">
-                <button class="big-btn pri" style="padding:12px;font-size:14px" onclick="showShopResults()" aria-label="Show results">🔍 Show results</button>
-                <button class="big-btn sec" style="padding:12px;font-size:14px" onclick="addDetails()" aria-label="Add more details">✏️ Add details</button>
-              </div>
-            </div>
+
           </div>
           <!-- right: product grid -->
           <div class="shop-grid-col">
@@ -528,8 +527,8 @@ input[type=range]{accent-color:#2b2b2b}
             <h2 class="esubj-h">Your account has been suspended</h2>
             <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
             <div class="email-classify">
-              <button class="classify-btn safe" onclick="alert('Marked as safe')" aria-label="Mark as safe">✓ Safe</button>
-              <button class="classify-btn unsafe" onclick="alert('Marked as unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
+              <button class="classify-btn safe" id="cls-safe-scam" onclick="classifyEmail('email-scam','safe')" aria-label="Mark as safe">✓ Safe</button>
+              <button class="classify-btn unsafe" id="cls-unsafe-scam" onclick="classifyEmail('email-scam','unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
             </div>
           </div>
           <div class="emeta">
@@ -561,8 +560,8 @@ input[type=range]{accent-color:#2b2b2b}
             <h2 class="esubj-h">Reminder: Tax declaration due May 31</h2>
             <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
             <div class="email-classify">
-              <button class="classify-btn safe" onclick="alert('Marked as safe')" aria-label="Mark as safe">✓ Safe</button>
-              <button class="classify-btn unsafe" onclick="alert('Marked as unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
+              <button class="classify-btn safe" id="cls-safe-tax" onclick="classifyEmail('email-tax','safe')" aria-label="Mark as safe">✓ Safe</button>
+              <button class="classify-btn unsafe" id="cls-unsafe-tax" onclick="classifyEmail('email-tax','unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
             </div>
           </div>
           <div class="emeta">
@@ -647,8 +646,8 @@ input[type=range]{accent-color:#2b2b2b}
             <h2 class="esubj-h">Appointment confirmed: June 3 at 10:00</h2>
             <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
             <div class="email-classify">
-              <button class="classify-btn safe" onclick="alert('Marked as safe')" aria-label="Mark as safe">✓ Safe</button>
-              <button class="classify-btn unsafe" onclick="alert('Marked as unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
+              <button class="classify-btn safe" id="cls-safe-doctor" onclick="classifyEmail('email-doctor','safe')" aria-label="Mark as safe">✓ Safe</button>
+              <button class="classify-btn unsafe" id="cls-unsafe-doctor" onclick="classifyEmail('email-doctor','unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
             </div>
           </div>
           <div class="emeta">
@@ -771,13 +770,23 @@ input[type=range]{accent-color:#2b2b2b}
       <input type="range" id="font-size-range" min="14" max="22" value="15" oninput="applyFontSize(this.value)">
       <span class="settings-val" id="font-size-val">15px</span>
     </div>
+    <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:6px">
+      <label style="font-weight:600">Preview</label>
+      <div id="font-preview" style="font-size:15px;color:#555;border:1px solid #eee;border-radius:8px;padding:8px 12px;width:100%;background:#fafafa">
+        The quick brown fox jumps over the lazy dog.
+      </div>
+    </div>
+    <div class="settings-row">
+      <label for="contrast-toggle">High contrast</label>
+      <input type="checkbox" id="contrast-toggle" onchange="applyHighContrast(this.checked)" style="width:20px;height:20px;cursor:pointer">
+    </div>
     <div class="settings-row">
       <label for="lang-select">Language</label>
-      <select id="lang-select">
-        <option>English</option>
-        <option>Français</option>
-        <option>Deutsch</option>
-        <option>Italiano</option>
+      <select id="lang-select" onchange="applyLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="it">Italiano</option>
       </select>
     </div>
     <div class="settings-row">
@@ -792,6 +801,53 @@ input[type=range]{accent-color:#2b2b2b}
 </div>
 
 <script>
+// ── Navigation history (back/forward) ──
+let navHistory = [];
+let navPos = -1;
+
+function navPush(screenId) {
+  // drop any forward history when navigating to a new screen
+  navHistory = navHistory.slice(0, navPos + 1);
+  navHistory.push(screenId);
+  navPos = navHistory.length - 1;
+  updateNavBtns();
+}
+
+function navBack() {
+  if (navPos <= 0) return;
+  navPos--;
+  goNoHistory(navHistory[navPos]);
+  updateNavBtns();
+}
+
+function navForward() {
+  if (navPos >= navHistory.length - 1) return;
+  navPos++;
+  goNoHistory(navHistory[navPos]);
+  updateNavBtns();
+}
+
+function navReload() {
+  const btn = document.getElementById('btn-reload');
+  btn.style.animation = 'spin .4s linear';
+  setTimeout(() => btn.style.animation = '', 400);
+  // re-run screen init if applicable
+  const cur = navHistory[navPos];
+  if (cur === 'shop-chat') initShop();
+  else if (cur === 'tax-form') setTimeout(taxFormAI, 200);
+  // visual flash
+  const center = document.querySelector('.center');
+  center.style.opacity = '0.5';
+  setTimeout(() => center.style.opacity = '1', 300);
+}
+
+function updateNavBtns() {
+  const back = document.getElementById('btn-back');
+  const fwd  = document.getElementById('btn-fwd');
+  if (back) back.style.opacity = navPos > 0 ? '1' : '0.35';
+  if (fwd)  fwd.style.opacity  = navPos < navHistory.length - 1 ? '1' : '0.35';
+}
+
 // ── State ──
 let shopPhase = 0;
 let cartItem = {};
@@ -839,6 +895,16 @@ const aiScreens = {
 };
 
 // ── Tab management ──
+function openNewTab() {
+  // open a fresh home tab
+  const id = 'home-' + Date.now();
+  const meta = {label:'New Tab',sub:'aigis://home',icon:'🏠'};
+  openTabs.push({id:'home', label:meta.label, sub:meta.sub, icon:meta.icon, uid:id});
+  activeTabId = 'home';
+  renderTabs();
+  go('home');
+}
+
 function openTab(screenId, context) {
   const meta = tabMeta[screenId] || {label:screenId,sub:'',icon:'🏷️'};
   const existing = openTabs.find(t => t.id === screenId);
@@ -847,7 +913,7 @@ function openTab(screenId, context) {
   }
   activeTabId = screenId;
   renderTabs();
-  go(screenId);
+  go(screenId); // go() already calls navPush
 }
 
 function closeTab(tabId, e) {
@@ -888,14 +954,33 @@ function renderTabs() {
 }
 
 // ── Navigation ──
-function go(name) {
+function goNoHistory(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('s-' + name);
   if (el) el.classList.add('active');
   document.getElementById('addr').textContent = urls[name] || 'aigis://home';
   setAI(name);
-  if (name === 'shop-chat') initShop();
   if (name === 'tax-form') setTimeout(taxFormAI, 400);
+  // hide AI panel in SafeShop (has its own chat), show everywhere else
+  const shopScreens = ['shop-chat', 'shop-success'];
+  const shouldHide = shopScreens.includes(name);
+  const aip = document.getElementById('aip');
+  const btn = document.getElementById('aip-toggle');
+  if (shouldHide && aipOpen) {
+    aip.classList.add('collapsed');
+    btn.classList.remove('panel-open');
+    btn.title = 'Open Aigis Assistant';
+    // don't toggle aipOpen so it restores when leaving shop
+  } else if (!shouldHide && aipOpen) {
+    aip.classList.remove('collapsed');
+    btn.classList.add('panel-open');
+    btn.title = 'Close Aigis Assistant';
+  }
+}
+
+function go(name) {
+  goNoHistory(name);
+  navPush(name);
 }
 
 // ── AI panel ──
@@ -947,23 +1032,60 @@ const sttPhrases = {
 let sttTimer;
 function openSTT(context) {
   sttContext = context;
-  document.getElementById('stt-transcript').textContent = 'Say something…';
+  const transcript = document.getElementById('stt-transcript');
+  const label = document.querySelector('.stt-label');
+  transcript.textContent = '';
+  if (label) label.textContent = 'Listening…';
   document.getElementById('stt-overlay').classList.add('show');
-  // simulate transcript appearing
+
   const phrase = sttPhrases[context] || 'I would like some help please';
+
+  // Phase 1: silence for 1.2s (user is about to speak)
+  // Phase 2: words appear one at a time at natural speech pace (~120ms/char avg)
+  // Phase 3: 0.8s pause then "Processing…" then apply
+  let phase = 1;
   let chars = 0;
+  let elapsed = 0;
+
+  // word-by-word appearance feels more realistic than char-by-char
+  const words = phrase.split(' ');
+  let wordIdx = 0;
+  let built = '';
+
   sttTimer = setInterval(() => {
-    chars += 2;
-    document.getElementById('stt-transcript').textContent = phrase.slice(0, chars);
-    if (chars >= phrase.length) {
-      clearInterval(sttTimer);
-      setTimeout(() => applySTT(phrase), 600);
+    elapsed += 80;
+
+    if (phase === 1) {
+      // listening silence — animate the mic with dot pulses
+      const dots = '.'.repeat((Math.floor(elapsed/300) % 3) + 1);
+      transcript.textContent = dots;
+      transcript.style.color = '#ccc';
+      if (elapsed >= 1200) { phase = 2; elapsed = 0; transcript.textContent = ''; transcript.style.color = '#888'; }
+
+    } else if (phase === 2) {
+      // words appearing
+      if (wordIdx < words.length) {
+        built += (wordIdx > 0 ? ' ' : '') + words[wordIdx];
+        transcript.textContent = built;
+        wordIdx++;
+      } else {
+        phase = 3; elapsed = 0;
+        if (label) label.textContent = 'Processing…';
+      }
+
+    } else if (phase === 3) {
+      if (elapsed >= 800) {
+        clearInterval(sttTimer);
+        applySTT(phrase);
+      }
     }
-  }, 60);
+  }, 80);
 }
 function cancelSTT() {
   clearInterval(sttTimer);
   document.getElementById('stt-overlay').classList.remove('show');
+  const label = document.querySelector('.stt-label');
+  if (label) label.textContent = 'Listening…';
 }
 function applySTT(text) {
   cancelSTT();
@@ -995,7 +1117,7 @@ function initShop() {
   document.getElementById('shop-grid-hdr').style.display = 'none';
   document.getElementById('shop-grid-empty').style.display = 'flex';
   document.getElementById('shop-cart-bar').classList.remove('show');
-  ['shop-mic-area','shop-input-area','shop-actions'].forEach(id => document.getElementById(id).style.display='none');
+  ['shop-mic-area','shop-input-area'].forEach(id => document.getElementById(id).style.display='none');
   cartItems = [];
   setTimeout(() => {
     addShopMsg('ai',"Hello Gertrude! 👋 What are you looking for today? You can type below or press the mic button to speak.");
@@ -1031,70 +1153,84 @@ function sendShop() {
   setTimeout(()=>addShopTyping(),300);
   setTimeout(()=>{
     const t=document.getElementById('shop-typing'); if(t)t.remove();
-    addShopMsg('ai','Great! 🌸 Would you like to answer a few more questions to refine the results, or shall I show you what I found?');
-    document.getElementById('shop-actions').style.display='block';
-    shopPhase=3;
-  },2000);
-}
-function addDetails() {
-  if(shopPhase!==3) return;
-  document.getElementById('shop-actions').style.display='none';
-  addShopMsg('ai','Of course! Any colour preference, size, or maximum budget in mind?');
-  document.getElementById('shop-input-area').style.display='block';
-  document.getElementById('shop-mic-area').style.display='block';
-  shopPhase=1;
+    // show results immediately in the grid
+    showShopResults(msg);
+    // ai confirms and offers refinement
+    addShopMsg('ai','Here's what I found! 🛍️ You can refine by adding more details, or add items to your cart.');
+    // re-open input for follow-up refinement
+    document.getElementById('shop-input-area').style.display='block';
+    document.getElementById('shop-mic-area').style.display='block';
+    shopPhase=1;
+  },1800);
 }
 
-// ── Product catalog by category ──
+// ── Product catalog by category — Unsplash source photos ──
+// Unsplash source URLs: free, no API key, resizes on the fly
 const allProducts = {
   nightstand: [
-    {img:'https://placehold.co/300x160/fce4ec/c2185b?text=HEMNES',name:'HEMNES Nightstand',price:'€89',desc:'Classic design · IKEA · White stain',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/f8bbd0/880e4f?text=Vintage',name:'Vintage Pink Nightstand',price:'€54',desc:'Retro style · TheGoodCorner',safety:'warn',score:'90%',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
-    {img:'https://placehold.co/300x160/f48fb1/ad1457?text=Modern',name:'Modern Blush Nightstand',price:'€119',desc:'Minimalist · Maisons du Monde',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'HEMNES Nightstand',price:'€89',desc:'Classic design · IKEA · White stain',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Vintage Pink Nightstand',price:'€54',desc:'Retro style · TheGoodCorner',safety:'warn',score:'90%',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Modern Blush Nightstand',price:'€119',desc:'Minimalist · Maisons du Monde',safety:'safe',score:'100%'},
   ],
   lamp: [
-    {img:'https://placehold.co/300x160/fff9c4/f9a825?text=Lamp',name:'Ikea RANARP Lamp',price:'€35',desc:'Vintage style · IKEA · Off-white',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/ffe0b2/e65100?text=Floor+Lamp',name:'Tall Arc Floor Lamp',price:'€79',desc:'Modern · La Redoute',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/fff3e0/ff6f00?text=Desk+Lamp',name:'LED Desk Lamp',price:'€28',desc:'Adjustable · Amazon Basics',safety:'warn',score:'85%',warn:'Third-party seller — check reviews before ordering.'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'RANARP Floor Lamp',price:'€35',desc:'Vintage style · IKEA · Off-white',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Arc Floor Lamp',price:'€79',desc:'Modern · La Redoute',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'LED Desk Lamp',price:'€28',desc:'Adjustable · Amazon Basics',safety:'warn',score:'85%',warn:'Third-party seller — check reviews before ordering.'},
   ],
   chair: [
-    {img:'https://placehold.co/300x160/e8f5e9/2e7d32?text=Chair',name:'POÄNG Armchair',price:'€129',desc:'Comfortable · IKEA · Birch veneer',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/c8e6c9/1b5e20?text=Office+Chair',name:'Ergonomic Office Chair',price:'€199',desc:'Lumbar support · Maisons du Monde',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/dcedc8/558b2f?text=Dining+Chair',name:'Retro Dining Chair',price:'€65',desc:'Scandinavian style · TheGoodCorner',safety:'warn',score:'88%',warn:'Private seller — limited return policy.'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'POÄNG Armchair',price:'€129',desc:'Comfortable · IKEA · Birch veneer',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Ergonomic Office Chair',price:'€199',desc:'Lumbar support · Maisons du Monde',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Retro Dining Chair',price:'€65',desc:'Scandinavian style · TheGoodCorner',safety:'warn',score:'88%',warn:'Private seller — limited return policy.'},
   ],
   book: [
-    {img:'https://placehold.co/300x160/e3f2fd/1565c0?text=Book',name:'The Little Prince',price:'€9',desc:'Classic literature · Gallimard',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/bbdefb/0d47a1?text=Cookbook',name:'French Cooking for Everyone',price:'€24',desc:'500 recipes · Hachette',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/90caf9/1a237e?text=Novel',name:'Un été à Bordeaux',price:'€14',desc:'Novel · Pocket editions',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'The Little Prince',price:'€9',desc:'Classic literature · Gallimard',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'French Cooking for Everyone',price:'€24',desc:'500 recipes · Hachette',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Un été à Bordeaux',price:'€14',desc:'Novel · Pocket editions',safety:'safe',score:'100%'},
   ],
   plant: [
-    {img:'https://placehold.co/300x160/e8f5e9/2e7d32?text=Plant',name:'Monstera Deliciosa',price:'€19',desc:'Indoor plant · Truffaut',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/c8e6c9/1b5e20?text=Cactus',name:'Cactus Assortment (3 pots)',price:'€12',desc:'Low maintenance · Botanic',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/a5d6a7/33691e?text=Orchid',name:'White Orchid',price:'€15',desc:'Flowering · Ikea',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Monstera Deliciosa',price:'€19',desc:'Indoor plant · Truffaut',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Cactus Assortment (3 pots)',price:'€12',desc:'Low maintenance · Botanic',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'White Orchid',price:'€15',desc:'Flowering · Ikea',safety:'safe',score:'100%'},
+  ],
+  candle: [
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Scented Candle Set',price:'€18',desc:'Lavender & vanilla · Maisons du Monde',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Beeswax Pillar Candle',price:'€12',desc:'Natural wax · Botanic',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Soy Candle Jar',price:'€22',desc:'Eco-friendly · Etsy seller',safety:'warn',score:'87%',warn:'Small independent seller — delivery may take longer.'},
+  ],
+  rug: [
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Berber Wool Rug',price:'€89',desc:'Handwoven · 160x230cm · La Redoute',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'STOCKHOLM Rug',price:'€129',desc:'Flatwoven · IKEA · 170x240cm',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Vintage Kilim Rug',price:'€65',desc:'Turkish style · TheGoodCorner',safety:'warn',score:'91%',warn:'Reseller — inspect photos carefully before ordering.'},
   ],
   default: [
-    {img:'https://placehold.co/300x160/eeeeee/757575?text=Item+1',name:'Popular Choice',price:'€45',desc:'Best seller · Verified vendor',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/e0e0e0/424242?text=Item+2',name:'Budget Option',price:'€22',desc:'Good value · Verified vendor',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/bdbdbd/212121?text=Item+3',name:'Premium Pick',price:'€89',desc:'Top rated · Verified vendor',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Top Pick',price:'€45',desc:'Best seller · Verified vendor',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Great Value Option',price:'€22',desc:'Good value · Verified vendor',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Premium Pick',price:'€89',desc:'Top rated · Verified vendor',safety:'safe',score:'100%'},
   ]
 };
 
+// Reads ALL user messages in the chat to understand full context,
+// not just the last one (fixes "green" refinement resolving to wrong category)
 function getProductsForQuery(query) {
-  const q = (query||'').toLowerCase();
-  if (q.includes('nightstand') || q.includes('chevet') || q.includes('bedside')) return allProducts.nightstand;
-  if (q.includes('lamp') || q.includes('lampe') || q.includes('light')) return allProducts.lamp;
-  if (q.includes('chair') || q.includes('chaise') || q.includes('fauteuil')) return allProducts.chair;
-  if (q.includes('book') || q.includes('livre') || q.includes('roman')) return allProducts.book;
-  if (q.includes('plant') || q.includes('plante') || q.includes('fleur') || q.includes('flower')) return allProducts.plant;
+  const allUserBubbles = Array.from(document.querySelectorAll('#shop-msgs .cmsg.u .cbubble'))
+    .map(el => el.textContent.toLowerCase())
+    .join(' ');
+  // combine everything the user has said with the explicit query
+  const q = (allUserBubbles + ' ' + (query||'')).toLowerCase();
+  if (q.includes('nightstand') || q.includes('chevet') || q.includes('bedside') || q.includes('table de nuit')) return allProducts.nightstand;
+  if (q.includes('lamp') || q.includes('lampe') || q.includes('light') || q.includes('lumière')) return allProducts.lamp;
+  if (q.includes('chair') || q.includes('chaise') || q.includes('fauteuil') || q.includes('armchair')) return allProducts.chair;
+  if (q.includes('book') || q.includes('livre') || q.includes('roman') || q.includes('cook')) return allProducts.book;
+  if (q.includes('plant') || q.includes('plante') || q.includes('fleur') || q.includes('flower') || q.includes('monstera') || q.includes('cactus')) return allProducts.plant;
+  if (q.includes('candle') || q.includes('bougie') || q.includes('scent')) return allProducts.candle;
+  if (q.includes('rug') || q.includes('tapis') || q.includes('carpet')) return allProducts.rug;
   return allProducts.default;
 }
 
 // legacy — kept for backward compat references
 const shopProducts = allProducts.nightstand;
 
-function showShopResults() {
-  document.getElementById('shop-actions').style.display='none';
-  addShopMsg('ai','Here are the best matches! Check the results on the right. 👉');
+function showShopResults(queryOverride) {
   // show grid
   const grid = document.getElementById('shop-grid');
   const hdr = document.getElementById('shop-grid-hdr');
@@ -1105,7 +1241,7 @@ function showShopResults() {
   empty.style.display='none';
   // derive title from last user message
   const userBubbles = document.querySelectorAll('#shop-msgs .cmsg.u .cbubble');
-  const lastMsg = userBubbles.length ? userBubbles[userBubbles.length-1].textContent : 'your search';
+  const lastMsg = queryOverride || (userBubbles.length ? userBubbles[userBubbles.length-1].textContent : 'your search');
   document.getElementById('shop-grid-title').textContent = `Results for "${lastMsg}"`;
   const products = getProductsForQuery(lastMsg);
   products.forEach((p,i)=>{
@@ -1185,6 +1321,49 @@ function confirmPurchase() {
 
 // ── Mail ──
 const readState={'email-scam':false,'email-tax':false,'email-doctor':false};
+
+function classifyEmail(emailId, verdict) {
+  const item = document.getElementById(emailId);
+  if (!item) return;
+
+  // update inbox row color + badge
+  const badge = item.querySelector('.etrust');
+  if (verdict === 'safe') {
+    item.className = item.className.replace(/score-\w+/, 'score-safe');
+    item.style.background = '#eafaf3';
+    item.style.borderColor = '#a0e0bb';
+    const icon = item.querySelector('.eicon');
+    if (icon) { icon.className = 'eicon safe'; icon.textContent = '✅'; }
+    if (badge) { badge.className = 'etrust safe'; badge.textContent = '✓ Marked safe by you'; }
+  } else {
+    item.className = item.className.replace(/score-\w+/, 'score-danger');
+    item.style.background = '#fff0ee';
+    item.style.borderColor = '#ffccc8';
+    const icon = item.querySelector('.eicon');
+    if (icon) { icon.className = 'eicon danger'; icon.textContent = '⚠️'; }
+    if (badge) { badge.className = 'etrust danger'; badge.textContent = '⚠️ Marked unsafe by you'; }
+  }
+
+  // update the classify buttons in the open email view to reflect current state
+  const safeBtn   = document.getElementById('cls-safe-'   + emailId.replace('email-',''));
+  const unsafeBtn = document.getElementById('cls-unsafe-' + emailId.replace('email-',''));
+  if (verdict === 'safe') {
+    if (safeBtn)   { safeBtn.style.background='#1a6e35'; safeBtn.style.color='#fff'; safeBtn.textContent='✓ Marked safe'; }
+    if (unsafeBtn) { unsafeBtn.style.opacity='.4'; }
+  } else {
+    if (unsafeBtn) { unsafeBtn.style.background='#c62828'; unsafeBtn.style.color='#fff'; unsafeBtn.textContent='⚠️ Marked unsafe'; }
+    if (safeBtn)   { safeBtn.style.opacity='.4'; }
+  }
+
+  // subtle AI panel confirmation
+  const box = document.getElementById('aip-msgs');
+  if (box) {
+    const msg = verdict === 'safe'
+      ? '✅ Got it — this email has been marked as safe.'
+      : '⚠️ Noted — this email has been marked as unsafe and will be treated with caution.';
+    appendAI('ai', msg);
+  }
+}
 function markRead(emailId){
   if(readState[emailId]) return;
   readState[emailId]=true;
@@ -1200,6 +1379,22 @@ function showScamPopup(){openOverlay('o-scam');}
 function dismissScamIgnore(){
   closeOverlay('o-scam');
   markRead('email-scam');
+  go('mail-inbox');
+  setTimeout(() => {
+    const el = document.getElementById('email-scam');
+    if (el) {
+      el.style.transition = 'opacity .4s, max-height .4s';
+      el.style.overflow = 'hidden';
+      el.style.maxHeight = el.offsetHeight + 'px';
+      requestAnimationFrame(() => {
+        el.style.opacity = '0';
+        el.style.maxHeight = '0';
+        el.style.padding = '0';
+        el.style.margin = '0';
+      });
+      setTimeout(() => el.classList.add('dismissed'), 420);
+    }
+  }, 200);
 }
 function showScamInfo(){
   document.getElementById('scam-title').textContent='How to spot a scam email';
@@ -1220,7 +1415,23 @@ function dismissScam(){
     +`<button class="mbtn red" onclick="showScamInfo()">More info</button>`;
   markRead('email-scam');
   go('mail-inbox');
-  setTimeout(()=>document.getElementById('scam-note').classList.add('show'),300);
+  // hide the scam email from inbox after a short delay — it has been moved to scam folder
+  setTimeout(() => {
+    const el = document.getElementById('email-scam');
+    if (el) {
+      el.style.transition = 'opacity .4s, max-height .4s';
+      el.style.overflow = 'hidden';
+      el.style.maxHeight = el.offsetHeight + 'px';
+      requestAnimationFrame(() => {
+        el.style.opacity = '0';
+        el.style.maxHeight = '0';
+        el.style.padding = '0';
+        el.style.margin = '0';
+      });
+      setTimeout(() => el.classList.add('dismissed'), 420);
+    }
+  }, 200);
+  setTimeout(()=>document.getElementById('scam-note').classList.add('show'),600);
 }
 
 // ── Search ──
@@ -1320,8 +1531,60 @@ function openReview(){
 // ── Settings ──
 function toggleSettings(){document.getElementById('settings-overlay').classList.toggle('show');}
 function applyFontSize(v){
-  document.getElementById('font-size-val').textContent=v+'px';
-  document.getElementById('browser').style.fontSize=v+'px';
+  const base = parseInt(v);
+  document.getElementById('font-size-val').textContent = base + 'px';
+  // inject a stylesheet that overrides font sizes across the whole browser UI
+  // scale factor relative to default base of 15px
+  const scale = base / 15;
+  const rules = `
+    #browser { font-size: ${base}px !important; }
+    #browser p, #browser span:not(.tl):not(.addr-lock):not(.mail-count),
+    #browser div.cbubble, #browser div.abubble,
+    #browser .eprev, #browser .esubj, #browser .esender,
+    #browser .sb-sub, #browser .sr-desc, #browser .form-sub-txt,
+    #browser .mtext, #browser .msec-val, #browser .shop-card-desc,
+    #browser .shop-card-name, #browser .sr-desc
+    { font-size: ${base}px !important; }
+    #browser button:not(.tl):not(.aip-hdr-close):not(.nav-btn):not(.send-btn):not(.shop-send):not(.mail-count),
+    #browser input, #browser textarea, #browser select, #browser label
+    { font-size: ${base}px !important; }
+    #browser .sb-name { font-size: ${Math.round(base * 0.93)}px !important; }
+    #browser .esender, #browser .esubj { font-size: ${Math.round(base * 1.0)}px !important; }
+    #browser .flabel { font-size: ${Math.round(base * 1.2)}px !important; }
+    #browser .finput { font-size: ${Math.round(base * 1.13)}px !important; }
+    #browser .home-h1 { font-size: ${Math.round(base * 3.47)}px !important; }
+    #browser .home-sub { font-size: ${Math.round(base * 1.47)}px !important; }
+    #browser .mail-h, #browser .prod-h, #browser .form-h, #browser .esubj-h,
+    #browser .shop-grid-title, #browser .success-h
+    { font-size: ${Math.round(base * 1.47)}px !important; }
+    #browser .pprice, #browser .shop-card-price { font-size: ${Math.round(base * 1.33)}px !important; }
+  `;
+  document.getElementById('dyn-font').textContent = rules;
+  // live preview
+  const preview = document.getElementById('font-preview');
+  if (preview) preview.style.fontSize = base + 'px';
+}
+function applyHighContrast(on) {
+  const browser = document.getElementById('browser');
+  if (on) {
+    browser.style.filter = 'contrast(1.15)';
+    document.querySelectorAll('.cbubble,.abubble,.eitem,.pcard,.shop-card').forEach(el => {
+      el.style.border = '2px solid #000';
+    });
+  } else {
+    browser.style.filter = '';
+    document.querySelectorAll('.cbubble,.abubble,.eitem,.pcard,.shop-card').forEach(el => {
+      el.style.border = '';
+    });
+  }
+}
+function applyLanguage(lang) {
+  const greetings = {en:'Welcome Gertrude!', fr:'Bienvenue Gertrude !', de:'Willkommen Gertrude!', it:'Benvenuta Gertrude!'};
+  const subs = {en:'What will it be today?', fr:'Que souhaitez-vous faire ?', de:'Was möchten Sie heute tun?', it:'Cosa desidera fare oggi?'};
+  const h = document.getElementById('home-greeting');
+  const s = h && h.nextElementSibling;
+  if (h && greetings[lang]) h.textContent = greetings[lang];
+  if (s && subs[lang]) s.textContent = subs[lang];
 }
 
 // ── Overlay helpers ──
@@ -1349,6 +1612,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   // init tabs and AI
   renderTabs();
   setAI('home');
+  navPush('home');
+  updateNavBtns();
 
   // mark scam email as read when we navigate away from it properly
   document.getElementById('s-scam-email'); // just ensure it exists
