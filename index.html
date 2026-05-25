@@ -24,9 +24,12 @@ button{font-family:'DM Sans',sans-serif}
 .addr-bar{flex:1;background:#3c3c3c;border-radius:6px;height:28px;display:flex;align-items:center;padding:0 12px;color:#aaa;font-size:13px;gap:6px;overflow:hidden}
 .addr-lock{color:#28c840;font-size:11px}
 .addr-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* top-bar settings btn */
+.topbar-settings{background:none;border:none;color:#999;cursor:pointer;font-size:16px;padding:4px 6px;border-radius:4px;margin-left:4px}
+.topbar-settings:hover{color:#ccc}
 
 /* ── 3-column layout ── */
-.main{display:flex;flex:1;overflow:hidden}
+.main{display:flex;flex:1;overflow:hidden;position:relative}
 
 /* ── Left sidebar ── */
 .sidebar{width:230px;background:#f0f0f0;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid #ddd;overflow-y:auto}
@@ -35,12 +38,17 @@ button{font-family:'DM Sans',sans-serif}
 .sb-title{font-size:13px;font-weight:700;color:#222;margin-bottom:8px}
 .sb-divider{height:1px;background:#ddd;margin:0 12px}
 .sb-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:background .15s}
-.sb-item:hover{background:#e4e4e4}.sb-item:focus{outline:2px solid #555}
-.sb-item.active{background:#e0e0e0}
+.sb-item:hover{background:#e0e0e0}.sb-item:focus{outline:2px solid #555}
+.sb-item.active{background:#d8d8d8;border-left:3px solid #2b2b2b}
 .sb-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.sb-icon.mail{background:#e4f1fd}.sb-icon.fb{background:#e8edf8}.sb-icon.shop{background:#e6f7ea}.sb-icon.tab{background:#eee;font-size:13px}
-.sb-name{font-size:14px;font-weight:600;color:#222;line-height:1.2}
-.sb-sub{font-size:12px;color:#888}
+.sb-icon.mail{background:#cce3f8}.sb-icon.fb{background:#d6dff5}.sb-icon.shop{background:#cceedd}.sb-icon.tab{background:#e0e0e0;font-size:13px}
+.sb-name{font-size:14px;font-weight:700;color:#1a1a1a;line-height:1.2}
+.sb-sub{font-size:12px;color:#777}
+/* pin-to-shortcuts btn inside tab items */
+.pin-btn{margin-left:auto;background:none;border:1px solid #ccc;border-radius:5px;font-size:11px;padding:2px 6px;color:#888;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.pin-btn:hover{background:#ddd;color:#333}
+/* open tabs list */
+.open-tabs-list{display:flex;flex-direction:column;gap:2px;padding:0 8px 8px}
 
 /* ── Center ── */
 .center{flex:1;background:#fff;overflow-y:auto;position:relative;display:flex;flex-direction:column;min-width:0}
@@ -59,28 +67,57 @@ button{font-family:'DM Sans',sans-serif}
 .icon-btn{background:none;border:none;cursor:pointer;color:#999;font-size:18px;padding:2px;display:flex;align-items:center;border-radius:50%}
 .icon-btn:hover{color:#444}.icon-btn:focus{outline:2px solid #555}
 
-/* ── Screen 1: SafeShop chat ── */
-.shop-wrap{flex:1;display:flex;flex-direction:column;padding:24px;max-width:700px;margin:0 auto;width:100%}
+/* ── SafeShop: 2-column layout ── */
+.shop-layout{flex:1;display:flex;overflow:hidden}
+.shop-chat-col{flex:1;display:flex;flex-direction:column;padding:24px;border-right:1px solid #eee;min-width:0}
+.shop-results-col{width:340px;flex-shrink:0;background:#fafafa;display:flex;flex-direction:column;overflow-y:auto}
+.shop-results-col-hdr{padding:16px 16px 8px;font-size:13px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #eee}
+.shop-results-col-body{flex:1;padding:12px;display:flex;flex-direction:column;gap:10px}
+.sr-mini-card{background:#fff;border:1px solid #eee;border-radius:10px;overflow:hidden;transition:box-shadow .15s;animation:fadeIn .2s ease}
+.sr-mini-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.09)}
+.sr-mini-img{width:100%;height:100px;object-fit:cover;display:block}
+.sr-mini-body{padding:10px}
+.sr-mini-name{font-size:14px;font-weight:600;color:#222;margin-bottom:2px}
+.sr-mini-price{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:6px}
+.sr-mini-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-bottom:7px}
+.sr-mini-badge.safe{background:#e8faf0;color:#1a6e35}.sr-mini-badge.warn{background:#fff3e0;color:#c25a00}
+.sr-mini-cart-btn{width:100%;padding:8px;border-radius:7px;border:none;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600;background:#1a1a1a;color:#fff;transition:background .15s}
+.sr-mini-cart-btn:hover{background:#333}.sr-mini-cart-btn:disabled{opacity:.6;cursor:default}
+.shop-results-col-empty{flex:1;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:14px;text-align:center;padding:20px}
+
 .shop-head{font-size:22px;font-weight:700;color:#222;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.chat-msgs{flex:1;display:flex;flex-direction:column;gap:14px;min-height:200px}
+.chat-msgs{flex:1;display:flex;flex-direction:column;gap:14px;overflow-y:auto;min-height:120px}
 .cmsg{display:flex;gap:10px;align-items:flex-start;animation:fadeIn .2s ease}
 .cmsg.u{flex-direction:row-reverse}
 .cavatar{width:36px;height:36px;border-radius:50%;background:#2b2b2b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.cbubble{background:#f2f2f2;border-radius:16px;padding:12px 18px;font-size:16px;color:#333;max-width:480px;line-height:1.5}
+.cbubble{background:#f2f2f2;border-radius:16px;padding:12px 18px;font-size:16px;color:#333;max-width:380px;line-height:1.5}
 .cmsg.u .cbubble{background:#1a1a1a;color:#fff}
-.mic-row{display:flex;align-items:center;gap:12px;margin-top:16px}
-.mic-big{width:52px;height:52px;border-radius:50%;background:#f0f0f0;border:2px solid #ddd;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.mic-big:hover{background:#e4e4e4}.mic-big:focus{outline:2px solid #555}
-.shop-input-row{display:flex;gap:10px;margin-top:14px}
-.shop-input{flex:1;border:2px solid #e0e0e0;border-radius:50px;padding:12px 18px;font-size:16px;font-family:'DM Sans',sans-serif;outline:none}
+.mic-row{display:flex;align-items:center;gap:12px;margin-top:12px}
+.mic-big{width:52px;height:52px;border-radius:50%;background:#f0f0f0;border:2px solid #ddd;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .1s}
+.mic-big:hover{background:#e4e4e4}.mic-big.listening{background:#ffe0e0;border-color:#ff9999;animation:pulse 1s infinite}
+.mic-big:focus{outline:2px solid #555}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.shop-input-row{display:flex;gap:10px;margin-top:12px;align-items:flex-end}
+.shop-input{flex:1;border:2px solid #e0e0e0;border-radius:16px;padding:10px 14px;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;resize:none;min-height:44px;max-height:120px;overflow-y:auto;line-height:1.4}
 .shop-input:focus{border-color:#bbb}
-.shop-send{background:#2b2b2b;color:#fff;border:none;border-radius:50px;padding:12px 24px;font-size:15px;font-weight:600;cursor:pointer}
+.shop-send{background:#2b2b2b;color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .shop-send:hover{background:#444}.shop-send:focus{outline:2px solid #555}
 .action-row{display:flex;gap:14px;margin-top:16px}
-.big-btn{flex:1;padding:16px;font-size:17px;font-weight:600;border-radius:12px;border:2px solid;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.big-btn{flex:1;padding:14px;font-size:16px;font-weight:600;border-radius:12px;border:2px solid;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
 .big-btn.pri{background:#1a1a1a;color:#fff;border-color:#1a1a1a}.big-btn.pri:hover{background:#333}
 .big-btn.sec{background:#fff;color:#1a1a1a;border-color:#ddd}.big-btn.sec:hover{background:#f5f5f5}
 .big-btn:focus{outline:2px solid #555}
+
+/* STT overlay */
+.stt-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:20px}
+.stt-overlay.show{display:flex}
+.stt-box{background:#fff;border-radius:20px;padding:36px 48px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;gap:16px}
+.stt-mic-anim{width:80px;height:80px;border-radius:50%;background:#ff3b30;display:flex;align-items:center;justify-content:center;font-size:36px;animation:stt-pulse 1s infinite}
+@keyframes stt-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.4)}70%{box-shadow:0 0 0 18px rgba(255,59,48,0)}}
+.stt-label{font-size:18px;font-weight:600;color:#333}
+.stt-transcript{font-size:15px;color:#888;min-height:24px;font-style:italic}
+.stt-cancel{background:#f0f0f0;border:none;border-radius:10px;padding:10px 24px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600}
+.stt-cancel:hover{background:#e0e0e0}
 
 /* Typing dots */
 .dots{display:flex;gap:4px;align-items:center;padding:2px 0}
@@ -88,7 +125,7 @@ button{font-family:'DM Sans',sans-serif}
 .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
 @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
 
-/* ── Screen 2: Products ── */
+/* ── Screen 2: Products (kept for fallback) ── */
 .prod-wrap{padding:28px}
 .prod-h{font-size:22px;font-weight:700;color:#222;margin-bottom:4px}
 .prod-sub{color:#888;font-size:15px;margin-bottom:20px}
@@ -109,37 +146,65 @@ button{font-family:'DM Sans',sans-serif}
 .warn-exp.show{display:block}
 .other-btn{display:block;margin:0 auto;padding:12px 28px;background:#f0f0f0;border:2px solid #ddd;border-radius:50px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600}
 .other-btn:hover{background:#e4e4e4}.other-btn:focus{outline:2px solid #555}
+.cart-bar{display:none;align-items:center;gap:14px;background:#1a1a1a;color:#fff;padding:14px 20px;border-radius:12px;margin-top:18px}
+.cart-bar.show{display:flex}
+.cart-info{flex:1;font-size:15px;line-height:1.4}
+.cart-checkout-btn{background:#34c759;color:#fff;border:none;border-radius:8px;padding:11px 22px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.cart-checkout-btn:hover{background:#2ab34a}.cart-checkout-btn:focus{outline:2px solid #aaa}
 
 /* ── Mail inbox ── */
-.mail-wrap{padding:28px}
-.mail-h{font-size:22px;font-weight:700;color:#222;margin-bottom:18px}
-.elist{display:flex;flex-direction:column;gap:8px}
-.eitem{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-radius:10px;cursor:pointer;border:none;width:100%;text-align:left;transition:opacity .15s;font-family:'DM Sans',sans-serif}
-.eitem:hover{opacity:.85}.eitem:focus{outline:2px solid #555}
-.eitem.sus{background:#fff0ee;border:1px solid #ffccc8}
-.eitem.safe{background:#f0faf4;border:1px solid #b8e8c8}
+.mail-wrap{padding:28px;max-width:800px}
+.mail-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.mail-h{font-size:22px;font-weight:700;color:#222;flex:1}
+.mail-tool-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid #ddd;background:#fff;font-size:13px;font-weight:600;color:#444;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+.mail-tool-btn:hover{background:#f0f0f0}.mail-tool-btn:focus{outline:2px solid #555}
+.mail-tool-btn.primary{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.mail-tool-btn.primary:hover{background:#333}
+.elist{display:flex;flex-direction:column;gap:6px}
+/* trust score colors */
+.eitem{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border-radius:10px;cursor:pointer;border:none;width:100%;text-align:left;transition:opacity .15s;font-family:'DM Sans',sans-serif;border:1px solid transparent}
+.eitem:hover{filter:brightness(.97)}.eitem:focus{outline:2px solid #555}
+.eitem.score-danger{background:#fff0ee;border-color:#ffccc8}
+.eitem.score-warn{background:#fff8ee;border-color:#ffe0b0}
+.eitem.score-ok{background:#f0faf4;border-color:#b8e8c8}
+.eitem.score-safe{background:#eafaf3;border-color:#a0e0bb}
 .eicon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.eicon.sus{background:#ffd0c8}.eicon.safe{background:#bcf0ce}
+.eicon.danger{background:#ffd0c8}.eicon.warn{background:#ffe5b0}.eicon.safe{background:#bcf0ce}
+.emeta-row{display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap}
 .esender{font-size:14px;font-weight:700;color:#222}
+.edate{font-size:12px;color:#aaa;margin-left:auto;white-space:nowrap}
 .esubj{font-size:15px;font-weight:600;color:#333;margin:2px 0}
 .eprev{font-size:13px;color:#888}
+.etrust{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.etrust.danger{background:#ffded8;color:#c62828}
+.etrust.warn{background:#ffefd0;color:#b06000}
+.etrust.ok{background:#d4f4e2;color:#1a6e35}
+.etrust.safe{background:#c8f0da;color:#0d5c2a}
 .scam-note{display:none;background:#fffbe8;border:1px solid #ffe0a0;border-radius:8px;padding:12px 16px;margin-top:14px;font-size:14px;color:#7a5800;line-height:1.5}
 .scam-note.show{display:block}
-/* ── Read email state ── */
-.eitem.read{background:#f7f7f7;border-color:#e8e8e8;opacity:0.7;transition:opacity .4s,background .4s,border-color .4s}
-.eitem.read .esender{font-weight:400;color:#888}
-.eitem.read .esubj{font-weight:400;color:#999}
-.eitem.read .eicon{opacity:0.5}
+.eitem.read{opacity:.6;filter:grayscale(.3)}
+
+/* mail count badge */
 .mail-count{font-size:12px;font-weight:600;background:#e53935;color:#fff;border-radius:10px;padding:1px 7px;margin-left:6px;transition:opacity .3s}
 .mail-count.zero{background:#aaa}
 
 /* ── Email view ── */
 .eview{padding:28px;max-width:720px}
-.eview-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.eview-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
 .back-btn{background:none;border:1px solid #ddd;border-radius:8px;padding:8px 14px;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#444;white-space:nowrap}
 .back-btn:hover{background:#f5f5f5}.back-btn:focus{outline:2px solid #555}
-.esubj-h{font-size:22px;font-weight:700;color:#1a1a1a}
-.emeta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;font-size:13px;color:#888}
+.esubj-h{font-size:22px;font-weight:700;color:#1a1a1a;flex:1}
+/* manual classify buttons */
+.email-classify{display:flex;gap:8px}
+.classify-btn{padding:6px 12px;border-radius:7px;border:none;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600}
+.classify-btn.safe{background:#e8faf0;color:#1a6e35;border:1px solid #b8e8c8}
+.classify-btn.safe:hover{background:#cff0df}
+.classify-btn.unsafe{background:#fff0ee;color:#c62828;border:1px solid #ffccc8}
+.classify-btn.unsafe:hover{background:#ffddd8}
+/* audio description btn */
+.audio-desc-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:7px;border:1px solid #ddd;background:#f8f8f8;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#555}
+.audio-desc-btn:hover{background:#eee}
+.emeta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;font-size:13px;color:#888;align-items:center}
 .ebody{font-size:16px;line-height:1.8;color:#333;border-top:1px solid #eee;padding-top:16px}
 .sus-link{color:#e53935;text-decoration:underline;cursor:pointer;font-weight:600}
 .sus-link:focus{outline:2px solid #e53935}
@@ -160,36 +225,43 @@ button{font-family:'DM Sans',sans-serif}
 .finput.filled{border-color:#34c759;background:#f0faf4;animation:fill-pulse .4s ease}
 .finput.missing{border-color:#ff9500;background:#fffbe8}
 @keyframes fill-pulse{0%{background:#c0f0d0}100%{background:#f0faf4}}
-
-/* Tax form actions */
 .form-actions{display:flex;gap:12px;margin-top:24px}
 .form-btn{padding:14px 28px;border-radius:10px;font-size:16px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;border:none;transition:background .15s}
 .form-btn.back{background:#f0f0f0;color:#444;border:2px solid #ddd}.form-btn.back:hover{background:#e4e4e4}
 .form-btn.submit{background:#1a1a1a;color:#fff}.form-btn.submit:hover{background:#333}
 .form-btn:focus{outline:2px solid #555}
 
-/* Success */
+/* ── Success ── */
 .success-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
 .success-ico{font-size:72px;margin-bottom:20px}
 .success-h{font-size:34px;font-weight:700;color:#1a1a1a;margin-bottom:10px}
-.success-s{font-size:18px;color:#888}
+.success-s{font-size:18px;color:#888;margin-bottom:28px}
+/* confetti */
+.confetti-row{display:flex;gap:6px;font-size:28px;margin-bottom:16px;animation:confetti-pop .5s ease}
+@keyframes confetti-pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
 
 /* ── Right AI panel ── */
-.aip{width:420px;background:#f5f5f5;flex-shrink:0;border-left:1px solid #e0e0e0;display:flex;flex-direction:column}
+.aip{width:380px;background:#f5f5f5;flex-shrink:0;border-left:1px solid #e0e0e0;display:flex;flex-direction:column;transition:width .25s,opacity .25s}
+.aip.collapsed{width:0;opacity:0;pointer-events:none;overflow:hidden}
+/* floating toggle button */
+.aip-toggle{position:absolute;bottom:20px;right:20px;width:48px;height:48px;border-radius:50%;background:#2b2b2b;border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;transition:background .15s}
+.aip-toggle:hover{background:#444}
+.aip-toggle.panel-open{right:388px}
 .aip-hdr{padding:14px 16px;font-weight:700;font-size:14px;color:#333;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:8px}
+.aip-hdr-close{margin-left:auto;background:none;border:none;color:#aaa;font-size:18px;cursor:pointer;border-radius:4px;padding:2px 5px}
+.aip-hdr-close:hover{color:#555}
 .aip-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
 .amsg{display:flex;gap:8px;align-items:flex-start;animation:fadeIn .2s ease}
 .amsg.u{flex-direction:row-reverse}
 .aavatar{width:28px;height:28px;border-radius:50%;background:#2b2b2b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.abubble{background:#fff;border-radius:12px;padding:10px 14px;font-size:14px;color:#333;max-width:300px;line-height:1.5;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.amsg.u .abubble{background:#fff;text-align:right}
+.abubble{background:#fff;border-radius:12px;padding:10px 14px;font-size:14px;color:#333;max-width:280px;line-height:1.5;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.amsg.u .abubble{background:#e8e8e8;text-align:right}
 .ai-act-btn{background:#1a1a1a;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:7px;display:block;width:100%;transition:background .15s;font-weight:600}
 .ai-act-btn:hover{background:#333}.ai-act-btn.grn{background:#34c759}.ai-act-btn.grn:hover{background:#2ab34a}
 .ai-act-btn:focus{outline:2px solid #555}
-/* FIX: removed <code> icon button; kept only mic and image */
 .aip-input{padding:10px 12px;border-top:1px solid #e0e0e0;background:#fff;display:flex;align-items:center;gap:7px}
-.aip-input input{flex:1;border:1px solid #e0e0e0;border-radius:20px;padding:8px 13px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none}
-.aip-input input:focus{border-color:#bbb}
+.aip-input-text{flex:1;border:1px solid #e0e0e0;border-radius:16px;padding:8px 13px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;resize:none;min-height:36px;max-height:90px;overflow-y:auto;line-height:1.4}
+.aip-input-text:focus{border-color:#bbb}
 .send-btn{width:32px;height:32px;border-radius:50%;background:#2b2b2b;border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0}
 .send-btn:hover{background:#444}.send-btn:focus{outline:2px solid #555}
 
@@ -201,11 +273,12 @@ button{font-family:'DM Sans',sans-serif}
 .mtitle{font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:18px}
 .mrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:16px}
 .mrow-lbl{color:#888}.mrow-val{font-weight:600;color:#222}
-.mbtns{display:flex;gap:12px;margin-top:22px}
-.mbtn{flex:1;padding:14px;border-radius:10px;font-size:16px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;border:none;transition:background .15s}
+.mbtns{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.mbtn{flex:1;padding:14px;border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;border:none;transition:background .15s;min-width:100px}
 .mbtn.grey{background:#e0e0e0;color:#444}.mbtn.grey:hover{background:#d0d0d0}
 .mbtn.grn{background:#34c759;color:#fff}.mbtn.grn:hover{background:#2ab34a}
 .mbtn.red{background:#ff3b30;color:#fff}.mbtn.red:hover{background:#cc2e24}
+.mbtn.outline{background:#fff;color:#444;border:2px solid #ddd}.mbtn.outline:hover{background:#f5f5f5}
 .mbtn:focus{outline:2px solid #555}
 .mtext{font-size:15px;color:#444;line-height:1.6;margin-bottom:14px}
 .msection{margin-bottom:14px}
@@ -213,15 +286,15 @@ button{font-family:'DM Sans',sans-serif}
 .msec-val{font-size:15px;color:#222;line-height:1.5}
 .import-btn{background:#1a1a1a;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
 .import-btn:hover{background:#333}.import-btn:focus{outline:2px solid #555}
-
-/* scam popup icon */
 .scam-ico{font-size:40px;margin-bottom:10px}
 .scam-title{font-size:20px;font-weight:700;color:#c62828;margin-bottom:10px}
+/* don't show again checkbox */
+.dsa-row{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:#888;cursor:pointer}
+.dsa-row input{cursor:pointer}
 
 /* ── Search results ── */
 .sr-wrap{padding:20px 28px;max-width:800px;width:100%}
 .sr-topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #eee}
-/* FIX: logo is text-only, no emoji (emoji lives only in the input bar search icon) */
 .sr-logo{font-size:20px;font-weight:700;color:#1a1a1a;white-space:nowrap}
 .sr-meta{font-size:13px;color:#999;margin-bottom:18px}
 .sr-item{margin-bottom:26px}
@@ -229,7 +302,6 @@ button{font-family:'DM Sans',sans-serif}
 .sr-title{font-size:19px;color:#1a0dab;font-weight:600;cursor:pointer;margin-bottom:6px;display:block;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;padding:0}
 .sr-title:hover{text-decoration:underline}.sr-title:focus{outline:2px solid #555}
 .sr-desc{font-size:14px;color:#555;line-height:1.5;margin-bottom:6px}
-/* ── Search result safety badges (clickable, expandable) ── */
 .sr-safety{margin-top:7px}
 .sr-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:600;border:none;font-family:'DM Sans',sans-serif;cursor:default}
 .sr-badge.safe{background:#e8faf0;color:#1a6e35}
@@ -243,27 +315,34 @@ button{font-family:'DM Sans',sans-serif}
 .sr-detail.warn{background:#fff8f0;border:1px solid #ffd0a0;color:#7a4000}
 .sr-detail.danger{background:#fff4f3;border:1px solid #ffb3ae;color:#7a1a1a}
 
-/* ── Cart bar ── */
-.cart-bar{display:none;align-items:center;gap:14px;background:#1a1a1a;color:#fff;padding:14px 20px;border-radius:12px;margin-top:18px}
-.cart-bar.show{display:flex}
-.cart-info{flex:1;font-size:15px;line-height:1.4}
-.cart-checkout-btn{background:#34c759;color:#fff;border:none;border-radius:8px;padding:11px 22px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.cart-checkout-btn:hover{background:#2ab34a}.cart-checkout-btn:focus{outline:2px solid #aaa}
+/* ── Settings panel ── */
+.settings-overlay{display:none;position:fixed;inset:0;z-index:250}
+.settings-overlay.show{display:block}
+.settings-backdrop{position:absolute;inset:0}
+.settings-panel{position:absolute;top:50px;right:60px;background:#fff;border-radius:14px;padding:24px;width:300px;box-shadow:0 12px 40px rgba(0,0,0,.2);animation:fadeIn .15s ease}
+.settings-h{font-size:16px;font-weight:700;color:#222;margin-bottom:16px}
+.settings-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:15px;color:#333}
+.settings-row label{flex:1}
+.settings-row select,.settings-row input[type=range]{flex:1}
+select{border:1px solid #ddd;border-radius:6px;padding:4px 8px;font-size:14px;font-family:'DM Sans',sans-serif}
+input[type=range]{accent-color:#2b2b2b}
+.settings-val{font-size:13px;color:#888;min-width:30px;text-align:right}
 </style>
 </head>
 <body>
-<div class="browser">
+<div class="browser" id="browser">
 
   <!-- Top bar -->
   <div class="topbar">
-    <button class="nav-btn" aria-label="Back" title="Back">&#8592;</button>
-    <button class="nav-btn" aria-label="Forward" title="Forward">&#8594;</button>
-    <button class="nav-btn" aria-label="Reload" title="Reload">&#8635;</button>
+    <div class="tl-group"><div class="tl r"></div><div class="tl y"></div><div class="tl g"></div></div>
+    <button class="nav-btn" aria-label="Back">&#8592;</button>
+    <button class="nav-btn" aria-label="Forward">&#8594;</button>
+    <button class="nav-btn" aria-label="Reload">&#8635;</button>
     <div class="addr-bar">
       <span class="addr-lock">&#128274;</span>
       <span class="addr-text" id="addr">aigis://home</span>
     </div>
-    <div class="tl-group" style="margin-left:6px;margin-right:0"><div class="tl r"></div><div class="tl y"></div><div class="tl g"></div></div>
+    <button class="topbar-settings nav-btn" onclick="toggleSettings()" aria-label="Settings" title="Settings">⚙️</button>
   </div>
 
   <!-- 3-column -->
@@ -274,15 +353,15 @@ button{font-family:'DM Sans',sans-serif}
       <div class="sb-section">
         <div class="sb-lbl">Shortcuts</div>
         <div class="sb-title">Quickly access</div>
-        <button class="sb-item" onclick="go('mail-inbox')" aria-label="Gertrude's Mail">
+        <button class="sb-item" onclick="openTab('mail-inbox','mail')" aria-label="Gertrude's Mail">
           <div class="sb-icon mail">✉️</div>
           <div><div class="sb-name">Gertrude's Mail <span class="mail-count" id="sb-mail-count">3</span></div><div class="sb-sub" id="sb-mail-sub">3 new messages</div></div>
         </button>
-        <button class="sb-item" onclick="go('home')" aria-label="Facebook">
+        <button class="sb-item" onclick="openTab('home','facebook')" aria-label="Facebook">
           <div class="sb-icon fb">👥</div>
           <div><div class="sb-name">Facebook</div><div class="sb-sub">Catch up with friends</div></div>
         </button>
-        <button class="sb-item" onclick="go('shop-chat')" aria-label="SafeShop">
+        <button class="sb-item" onclick="openTab('shop-chat','shop')" aria-label="SafeShop">
           <div class="sb-icon shop">🛒</div>
           <div><div class="sb-name">SafeShop</div><div class="sb-sub">Browse multiple shops</div></div>
         </button>
@@ -290,12 +369,9 @@ button{font-family:'DM Sans',sans-serif}
       <div class="sb-divider"></div>
       <div class="sb-section">
         <div class="sb-lbl">Open Tabs</div>
-        <div class="sb-title">Currently Looking at</div>
-        <button class="sb-item active" id="tab-btn" onclick="go('home')" aria-label="Current tab">
-          <div class="sb-icon tab">🏷️</div>
-          <div><div class="sb-name" id="tab-name">Welcome Page</div><div class="sb-sub" id="tab-sub">Search</div></div>
-        </button>
+        <div class="sb-title">Currently open</div>
       </div>
+      <div class="open-tabs-list" id="open-tabs-list"></div>
     </nav>
 
     <!-- Center -->
@@ -304,12 +380,12 @@ button{font-family:'DM Sans',sans-serif}
       <!-- Screen 0: Home -->
       <div class="screen active" id="s-home">
         <div class="home">
-          <h1 class="home-h1">Welcome Gertrude!</h1>
+          <h1 class="home-h1" id="home-greeting">Welcome Gertrude!</h1>
           <p class="home-sub">What will it be today?</p>
           <div class="search-wrap" role="search">
             <button class="icon-btn" aria-label="Search" onclick="doSearch(document.querySelector('#s-home input').value)">🔍</button>
             <input type="text" placeholder="Search" aria-label="Search">
-            <button class="icon-btn" aria-label="Voice search">🎤</button>
+            <button class="icon-btn" aria-label="Voice search" onclick="openSTT('home-search')">🎤</button>
           </div>
         </div>
       </div>
@@ -318,12 +394,11 @@ button{font-family:'DM Sans',sans-serif}
       <div class="screen" id="s-search-results">
         <div class="sr-wrap">
           <div class="sr-topbar">
-            <!-- FIX: "Aigis Search" as plain text — no leading emoji to avoid duplication with search icon -->
             <span class="sr-logo">Aigis Search</span>
             <div class="search-wrap" role="search" style="flex:1;max-width:520px">
               <button class="icon-btn" aria-label="Search" onclick="doSearch(document.getElementById('sr-input').value)">🔍</button>
               <input type="text" id="sr-input" placeholder="Search" aria-label="Search" style="flex:1;border:none;outline:none;font-size:16px;font-family:'DM Sans',sans-serif;color:#333">
-              <button class="icon-btn" aria-label="Voice search">🎤</button>
+              <button class="icon-btn" aria-label="Voice search" onclick="openSTT('sr-search')">🎤</button>
             </div>
           </div>
           <div class="sr-meta" id="sr-meta">About 4 results (0.42 seconds)</div>
@@ -333,70 +408,41 @@ button{font-family:'DM Sans',sans-serif}
 
       <!-- Screen 1: SafeShop chat -->
       <div class="screen" id="s-shop-chat">
-        <div class="shop-wrap">
-          <div class="shop-head">🛒 SafeShop</div>
-          <div class="chat-msgs" id="shop-msgs"></div>
-          <div id="shop-mic-area" style="display:none">
-            <div class="mic-row">
-              <button class="mic-big" aria-label="Use microphone">🎤</button>
-              <span style="color:#999;font-size:15px">Or type below</span>
-            </div>
-          </div>
-          <div id="shop-input-area" style="display:none">
-            <div class="shop-input-row">
-              <input class="shop-input" id="shop-text" type="text" placeholder="Describe what you're looking for…" aria-label="Describe what you're looking for">
-              <button class="shop-send" onclick="sendShop()" aria-label="Send">Send</button>
-            </div>
-          </div>
-          <div id="shop-actions" style="display:none">
-            <div class="action-row">
-              <button class="big-btn pri" onclick="go('shop-results')" aria-label="Show results">🔍 Show results</button>
-              <button class="big-btn sec" onclick="addDetails()" aria-label="Add more details">✏️ Add details</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Screen 2: Products -->
-      <div class="screen" id="s-shop-results">
-        <div class="prod-wrap">
-          <h2 class="prod-h">Results for "pink nightstand"</h2>
-          <p class="prod-sub">3 items found · Verified by SafeShop ✓</p>
-          <div class="prod-grid">
-            <div class="pcard">
-              <img src="https://placehold.co/300x160/fce4ec/c2185b?text=Pink+Nightstand" alt="HEMNES Nightstand">
-              <div class="pcard-body">
-                <div class="pname">HEMNES Nightstand</div>
-                <div class="pprice">€89</div>
-                <div class="badge safe">🛡️ 100% Safe</div>
-                <button class="cbtn cart" id="cart-btn-0" onclick="addToCart('HEMNES Nightstand','€89','cart-btn-0')" aria-label="Add HEMNES Nightstand to cart">Add to cart</button>
+        <div class="shop-layout">
+          <!-- left: chat -->
+          <div class="shop-chat-col">
+            <div class="shop-head">🛒 SafeShop</div>
+            <div class="chat-msgs" id="shop-msgs"></div>
+            <div id="shop-mic-area" style="display:none">
+              <div class="mic-row">
+                <button class="mic-big" id="shop-mic-btn" aria-label="Use microphone" onclick="openSTT('shop')">🎤</button>
+                <span style="color:#999;font-size:14px">Speak or type below</span>
               </div>
             </div>
-            <div class="pcard">
-              <img src="https://placehold.co/300x160/f8bbd0/880e4f?text=Vintage+Nightstand" alt="Vintage Pink Nightstand">
-              <div class="pcard-body">
-                <div class="pname">Vintage Pink Nightstand</div>
-                <div class="pprice">€54</div>
-                <div class="badge warn">⚠️ 90% Safe</div>
-                <div class="warn-exp" id="warn-exp">ℹ️ This item is sold by a reseller on TheGoodCorner which has some negative reviews.</div>
-                <button class="cbtn info" id="info-btn" onclick="toggleWarn()" aria-label="More info about this seller">More info</button>
-                <button class="cbtn cart" id="cart-btn-1" onclick="addToCart('Vintage Pink Nightstand','€54','cart-btn-1')" aria-label="Add Vintage Pink Nightstand to cart">Add to cart</button>
+            <div id="shop-input-area" style="display:none">
+              <div class="shop-input-row">
+                <textarea class="shop-input" id="shop-text" placeholder="Describe what you're looking for…" aria-label="Describe what you're looking for" rows="1"></textarea>
+                <button class="shop-send" onclick="sendShop()" aria-label="Send">↑</button>
               </div>
             </div>
-            <div class="pcard">
-              <img src="https://placehold.co/300x160/f48fb1/ad1457?text=Modern+Nightstand" alt="Modern Blush Nightstand">
-              <div class="pcard-body">
-                <div class="pname">Modern Blush Nightstand</div>
-                <div class="pprice">€119</div>
-                <div class="badge safe">🛡️ 100% Safe</div>
-                <button class="cbtn cart" id="cart-btn-2" onclick="addToCart('Modern Blush Nightstand','€119','cart-btn-2')" aria-label="Add Modern Blush Nightstand to cart">Add to cart</button>
+            <div id="shop-actions" style="display:none">
+              <div class="action-row">
+                <button class="big-btn pri" onclick="showShopResults()" aria-label="Show results">🔍 Show results</button>
+                <button class="big-btn sec" onclick="addDetails()" aria-label="Add more details">✏️ Add details</button>
               </div>
             </div>
           </div>
-          <button class="other-btn" aria-label="See other results">Other results →</button>
-          <div class="cart-bar" id="cart-bar">
-            <div class="cart-info" id="cart-bar-info">🛒 1 item in cart</div>
-            <button class="cart-checkout-btn" onclick="checkout()" aria-label="Proceed to checkout">Checkout →</button>
+          <!-- right: results panel -->
+          <div class="shop-results-col">
+            <div class="shop-results-col-hdr">Results</div>
+            <div class="shop-results-col-body" id="shop-results-panel">
+              <div class="shop-results-col-empty" id="shop-results-empty">Results will appear here as we chat</div>
+            </div>
+            <!-- checkout bar -->
+            <div id="shop-cart-footer" style="display:none;padding:12px;border-top:1px solid #eee;background:#fff">
+              <div id="shop-cart-label" style="font-size:13px;color:#555;margin-bottom:8px">🛒 1 item in cart</div>
+              <button class="cart-checkout-btn" style="width:100%" onclick="checkout()" aria-label="Checkout">Checkout →</button>
+            </div>
           </div>
         </div>
       </div>
@@ -404,35 +450,53 @@ button{font-family:'DM Sans',sans-serif}
       <!-- Screen 4: Mail inbox -->
       <div class="screen" id="s-mail-inbox">
         <div class="mail-wrap">
-          <h2 class="mail-h">✉️ Gertrude's Mail</h2>
+          <div class="mail-toolbar">
+            <h2 class="mail-h">✉️ Gertrude's Mail</h2>
+            <button class="mail-tool-btn primary" onclick="alert('Compose new email')" aria-label="New mail">✏️ New mail</button>
+            <button class="mail-tool-btn" onclick="alert('Filter options')" aria-label="Filter">⚙️ Filter</button>
+            <button class="mail-tool-btn" onclick="openSTT('mail-voice')" aria-label="Voice command">🎤 Voice</button>
+            <button class="mail-tool-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Audio</button>
+          </div>
           <div class="elist">
-            <button class="eitem sus" id="email-scam" onclick="go('scam-email')" aria-label="Open suspicious email from BNP Paribas">
-              <div class="eicon sus">⚠️</div>
-              <div>
-                <div class="esender">BNP Paribas — URGENT</div>
+            <button class="eitem score-danger" id="email-scam" onclick="openTab('scam-email','mail')" aria-label="Open suspicious email from BNP Paribas">
+              <div class="eicon danger">⚠️</div>
+              <div style="flex:1;min-width:0">
+                <div class="emeta-row">
+                  <span class="esender">BNP Paribas — URGENT</span>
+                  <span class="etrust danger">⚠️ 12% — Likely scam</span>
+                  <span class="edate">Today, 09:14</span>
+                </div>
                 <div class="esubj">Your account has been suspended</div>
                 <div class="eprev">Please click the link below to verify your identity immediately…</div>
               </div>
             </button>
-            <button class="eitem safe" id="email-tax" onclick="go('tax-email')" aria-label="Open tax office reminder email">
+            <button class="eitem score-ok" id="email-tax" onclick="openTab('tax-email','mail')" aria-label="Open tax office reminder email">
               <div class="eicon safe">📄</div>
-              <div>
-                <div class="esender">Direction Générale des Finances Publiques</div>
+              <div style="flex:1;min-width:0">
+                <div class="emeta-row">
+                  <span class="esender">Direction Générale des Finances Publiques</span>
+                  <span class="etrust ok">✓ 94% — Trusted</span>
+                  <span class="edate">Yesterday, 16:40</span>
+                </div>
                 <div class="esubj">Reminder: Tax declaration due May 31</div>
                 <div class="eprev">Dear Madame Gertrude Dupont, your annual tax declaration is due soon…</div>
               </div>
             </button>
-            <button class="eitem safe" id="email-doctor" onclick="go('doctor-email')" aria-label="Open doctor appointment email">
+            <button class="eitem score-safe" id="email-doctor" onclick="openTab('doctor-email','mail')" aria-label="Open doctor appointment email">
               <div class="eicon safe">🏥</div>
-              <div>
-                <div class="esender">Dr. Martin — Cabinet Médical</div>
+              <div style="flex:1;min-width:0">
+                <div class="emeta-row">
+                  <span class="esender">Dr. Martin — Cabinet Médical</span>
+                  <span class="etrust safe">✓ 100% — Verified</span>
+                  <span class="edate">May 15, 10:02</span>
+                </div>
                 <div class="esubj">Appointment confirmed: June 3 at 10:00</div>
                 <div class="eprev">Your appointment with Dr. Martin is confirmed for June 3…</div>
               </div>
             </button>
           </div>
           <div class="scam-note" id="scam-note">
-            💡 <strong>Good to know:</strong> Your real bank will never ask you to verify your account by clicking a link in an email.
+            💡 <strong>Good to know:</strong> Your real bank will never ask you to verify your account by clicking a link in an email. If unsure, call the number on the back of your card.
           </div>
         </div>
       </div>
@@ -443,11 +507,17 @@ button{font-family:'DM Sans',sans-serif}
           <div class="eview-head">
             <button class="back-btn" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back</button>
             <h2 class="esubj-h">Your account has been suspended</h2>
+            <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
+            <div class="email-classify">
+              <button class="classify-btn safe" onclick="alert('Marked as safe')" aria-label="Mark as safe">✓ Safe</button>
+              <button class="classify-btn unsafe" onclick="alert('Marked as unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
+            </div>
           </div>
           <div class="emeta">
             <span>From: <strong>noreply@bnp-paribas-secure.net</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
-            <span>May 14, 2026</span>
+            <span>May 25, 2026 — 09:14</span>
+            <span class="etrust danger" style="font-size:13px">⚠️ 12% trust score — Likely scam</span>
           </div>
           <div class="ebody">
             <p>Dear Customer,</p><br>
@@ -470,11 +540,17 @@ button{font-family:'DM Sans',sans-serif}
           <div class="eview-head">
             <button class="back-btn" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back</button>
             <h2 class="esubj-h">Reminder: Tax declaration due May 31</h2>
+            <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
+            <div class="email-classify">
+              <button class="classify-btn safe" onclick="alert('Marked as safe')" aria-label="Mark as safe">✓ Safe</button>
+              <button class="classify-btn unsafe" onclick="alert('Marked as unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
+            </div>
           </div>
           <div class="emeta">
             <span>From: <strong>impots.gouv.fr</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
-            <span>May 13, 2026</span>
+            <span>May 24, 2026 — 16:40</span>
+            <span class="etrust ok" style="font-size:13px">✓ 94% trust score — Trusted sender</span>
           </div>
           <div class="ebody">
             <p>Dear Madame Gertrude Dupont,</p><br>
@@ -482,8 +558,8 @@ button{font-family:'DM Sans',sans-serif}
             <p>Please complete your declaration via the official tax portal:</p><br>
             <p>
               <span class="safe-link-wrap">
-                <span class="safe-link" onclick="go('tax-form')" tabindex="0"
-                      onkeydown="if(event.key==='Enter')go('tax-form')"
+                <span class="safe-link" onclick="openTab('tax-form','mail')" tabindex="0"
+                      onkeydown="if(event.key==='Enter')openTab('tax-form','mail')"
                       role="link" aria-label="Safe link to official tax form">→ Access my tax declaration</span>
                 <span class="safe-ck" aria-hidden="true">✓</span>
               </span>
@@ -495,7 +571,6 @@ button{font-family:'DM Sans',sans-serif}
       </div>
 
       <!-- Screen 7: Tax form -->
-      <!-- FIX: added back button and submit button so user can leave this page -->
       <div class="screen" id="s-tax-form">
         <div class="form-wrap">
           <h2 class="form-h">📋 Tax Declaration 2025</h2>
@@ -518,7 +593,7 @@ button{font-family:'DM Sans',sans-serif}
           </form>
           <div class="form-actions">
             <button class="form-btn back" onclick="go('tax-email')" aria-label="Go back to email">← Back</button>
-            <button class="form-btn submit" onclick="openReview()" aria-label="Review and submit">Review & Submit →</button>
+            <button class="form-btn submit" onclick="openReview()" aria-label="Review and submit">Review &amp; Submit →</button>
           </div>
         </div>
       </div>
@@ -526,10 +601,22 @@ button{font-family:'DM Sans',sans-serif}
       <!-- Screen 8: Tax success -->
       <div class="screen" id="s-tax-success">
         <div class="success-wrap">
-          <div class="success-ico">✅</div>
+          <div class="confetti-row">🎉 🎊 ✅ 🎊 🎉</div>
+          <div class="success-ico">📋</div>
           <h2 class="success-h">Your taxes have been submitted!</h2>
           <p class="success-s">Well done, Gertrude! You'll receive a confirmation email shortly.</p>
-          <button class="form-btn back" style="margin-top:28px" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back to inbox</button>
+          <button class="form-btn back" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back to inbox</button>
+        </div>
+      </div>
+
+      <!-- Screen: Shop success -->
+      <div class="screen" id="s-shop-success">
+        <div class="success-wrap">
+          <div class="confetti-row">🎉 🛍️ ✅ 🛍️ 🎉</div>
+          <div class="success-ico">📦</div>
+          <h2 class="success-h">Order placed successfully!</h2>
+          <p class="success-s" id="shop-success-msg">Your item should arrive in 3 to 5 business days. Enjoy!</p>
+          <button class="form-btn back" style="margin-top:8px" onclick="openTab('shop-chat','shop')" aria-label="Back to shop">← Back to SafeShop</button>
         </div>
       </div>
 
@@ -539,11 +626,17 @@ button{font-family:'DM Sans',sans-serif}
           <div class="eview-head">
             <button class="back-btn" onclick="markRead('email-doctor'); go('mail-inbox')" aria-label="Back to inbox">← Back</button>
             <h2 class="esubj-h">Appointment confirmed: June 3 at 10:00</h2>
+            <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
+            <div class="email-classify">
+              <button class="classify-btn safe" onclick="alert('Marked as safe')" aria-label="Mark as safe">✓ Safe</button>
+              <button class="classify-btn unsafe" onclick="alert('Marked as unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
+            </div>
           </div>
           <div class="emeta">
             <span>From: <strong>contact@cabinet-martin.fr</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
-            <span>May 15, 2026</span>
+            <span>May 15, 2026 — 10:02</span>
+            <span class="etrust safe" style="font-size:13px">✓ 100% — Verified sender</span>
           </div>
           <div class="ebody">
             <p>Dear Madame Dupont,</p><br>
@@ -559,31 +652,35 @@ button{font-family:'DM Sans',sans-serif}
     </main>
 
     <!-- Right AI panel -->
-    <!-- FIX: removed the </> code button from the input row -->
-    <aside class="aip" aria-label="AI Assistant">
-      <div class="aip-hdr">🤖 Aigis Assistant</div>
+    <aside class="aip" id="aip" aria-label="AI Assistant">
+      <div class="aip-hdr">🤖 Aigis Assistant
+        <button class="aip-hdr-close" onclick="toggleAIP()" aria-label="Collapse AI panel" title="Collapse">✕</button>
+      </div>
       <div class="aip-msgs" id="aip-msgs"></div>
       <div class="aip-input">
-        <button class="icon-btn" aria-label="Attach image" title="Image">🖼️</button>
-        <button class="icon-btn" aria-label="Voice input" title="Mic">🎤</button>
-        <input type="text" id="aip-text" placeholder="What would you like to know?" aria-label="Ask Aigis">
+        <button class="icon-btn" aria-label="Voice input" onclick="openSTT('ai-panel')">🎤</button>
+        <textarea class="aip-input-text" id="aip-text" placeholder="What would you like to know?" aria-label="Ask Aigis" rows="1"></textarea>
         <button class="send-btn" onclick="sendAI()" aria-label="Send">↑</button>
       </div>
     </aside>
-  </div>
-</div>
+
+    <!-- Floating toggle for AI panel -->
+    <button class="aip-toggle panel-open" id="aip-toggle" onclick="toggleAIP()" aria-label="Toggle AI panel" title="Toggle Aigis Assistant">🤖</button>
+
+  </div><!-- end .main -->
+</div><!-- end .browser -->
 
 <!-- Cart modal -->
 <div class="overlay" id="o-cart" role="dialog" aria-modal="true" aria-labelledby="cart-title">
   <div class="mbox">
-    <h2 class="mtitle" id="cart-title">🛒 Checkout</h2>
+    <h2 class="mtitle" id="cart-title">🛒 Confirm your order</h2>
     <div class="mrow"><span class="mrow-lbl">Item</span><span class="mrow-val" id="m-item">—</span></div>
     <div class="mrow"><span class="mrow-lbl">Price</span><span class="mrow-val" id="m-price">—</span></div>
     <div class="mrow"><span class="mrow-lbl">Delivery</span><span class="mrow-val">12 Rue des Fleurs, Lyon</span></div>
     <div class="mrow"><span class="mrow-lbl">Payment</span><span class="mrow-val">Visa •••• 4821</span></div>
     <div class="mbtns">
       <button class="mbtn grey" onclick="closeOverlay('o-cart')" aria-label="Go back">Go back</button>
-      <button class="mbtn grn" onclick="confirmPurchase()" aria-label="Confirm purchase">Confirm purchase ✓</button>
+      <button class="mbtn grn" onclick="confirmPurchase()" aria-label="Confirm purchase">Confirm ✓</button>
     </div>
   </div>
 </div>
@@ -593,11 +690,13 @@ button{font-family:'DM Sans',sans-serif}
   <div class="mbox">
     <div class="scam-ico">🚨</div>
     <h2 class="scam-title" id="scam-title">Warning: Suspicious Link</h2>
-    <p class="mtext" id="scam-text">This link leads to a website flagged in multiple scam databases. Do not click it.</p>
+    <p class="mtext" id="scam-text">This link leads to a website flagged in multiple scam databases. We recommend not clicking it.</p>
     <div class="mbtns" id="scam-btns">
-      <button class="mbtn grey" onclick="closeOverlay('o-scam')" aria-label="Go back">Go back</button>
+      <button class="mbtn grey" onclick="closeOverlay('o-scam');go('mail-inbox')" aria-label="Go back to inbox">← Go back</button>
+      <button class="mbtn outline" onclick="dismissScamIgnore()" aria-label="Ignore warning">Ignore anyway</button>
       <button class="mbtn red" onclick="showScamInfo()" aria-label="More information">More info</button>
     </div>
+    <label class="dsa-row"><input type="checkbox" id="dsa-check"> Don't show this warning again</label>
   </div>
 </div>
 
@@ -610,7 +709,7 @@ button{font-family:'DM Sans',sans-serif}
     <input type="file" id="doc-file" accept="image/*,.pdf" style="display:none" onchange="importDoc()">
     <button class="import-btn" onclick="document.getElementById('doc-file').click()" aria-label="Import document">📁 Import document</button>
     <div class="mbtns" style="margin-top:10px">
-      <button class="mbtn grey" onclick="closeOverlay('o-missing')" aria-label="Cancel" style="flex:1">Cancel</button>
+      <button class="mbtn grey" onclick="closeOverlay('o-missing')" aria-label="Cancel">Cancel</button>
     </div>
   </div>
 </div>
@@ -619,22 +718,56 @@ button{font-family:'DM Sans',sans-serif}
 <div class="overlay" id="o-review" role="dialog" aria-modal="true" aria-labelledby="rev-title">
   <div class="mbox wide">
     <h2 class="mtitle" id="rev-title">Review your tax declaration</h2>
-    <div class="msection"><div class="msec-lbl">Full Name</div>
-      <div class="msec-val" id="rev-name">—</div></div>
-    <div class="msection"><div class="msec-lbl">Date of Birth</div>
-      <div class="msec-val" id="rev-dob">—</div></div>
-    <div class="msection"><div class="msec-lbl">Address</div>
-      <div class="msec-val" id="rev-addr">—</div></div>
-    <div class="msection"><div class="msec-lbl">Income declared</div>
-      <div class="msec-val" id="rev-inc">—</div></div>
-    <div class="msection"><div class="msec-lbl">Tax Number</div>
-      <div class="msec-val" id="rev-tax">—</div></div>
-    <div class="msection"><div class="msec-lbl">Refund to (IBAN)</div>
-      <div class="msec-val" id="rev-iban">—</div></div>
-    <p style="font-size:14px;color:#888;line-height:1.5;margin-bottom:16px">Please check everything is correct. By clicking "Send" you confirm this information is accurate.</p>
+    <div class="msection"><div class="msec-lbl">Full Name</div><div class="msec-val" id="rev-name">—</div></div>
+    <div class="msection"><div class="msec-lbl">Date of Birth</div><div class="msec-val" id="rev-dob">—</div></div>
+    <div class="msection"><div class="msec-lbl">Address</div><div class="msec-val" id="rev-addr">—</div></div>
+    <div class="msection"><div class="msec-lbl">Income declared</div><div class="msec-val" id="rev-inc">—</div></div>
+    <div class="msection"><div class="msec-lbl">Tax Number</div><div class="msec-val" id="rev-tax">—</div></div>
+    <div class="msection"><div class="msec-lbl">Refund to (IBAN)</div><div class="msec-val" id="rev-iban">—</div></div>
+    <p style="font-size:14px;color:#888;line-height:1.5;margin-bottom:16px">Please check everything is correct before sending.</p>
     <div class="mbtns">
       <button class="mbtn grey" onclick="closeOverlay('o-review')" aria-label="Go back">Go back</button>
       <button class="mbtn grn" onclick="submitTaxes()" aria-label="Send tax declaration">Send ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- STT simulation overlay -->
+<div class="stt-overlay" id="stt-overlay" role="dialog" aria-modal="true" aria-label="Speech to text">
+  <div class="stt-box">
+    <div class="stt-mic-anim">🎤</div>
+    <div class="stt-label">Listening…</div>
+    <div class="stt-transcript" id="stt-transcript">Say something…</div>
+    <button class="stt-cancel" onclick="cancelSTT()">Cancel</button>
+  </div>
+</div>
+
+<!-- Settings panel -->
+<div class="settings-overlay" id="settings-overlay">
+  <div class="settings-backdrop" onclick="toggleSettings()"></div>
+  <div class="settings-panel">
+    <div class="settings-h">⚙️ Display settings</div>
+    <div class="settings-row">
+      <label for="font-size-range">Text size</label>
+      <input type="range" id="font-size-range" min="14" max="22" value="15" oninput="applyFontSize(this.value)">
+      <span class="settings-val" id="font-size-val">15px</span>
+    </div>
+    <div class="settings-row">
+      <label for="lang-select">Language</label>
+      <select id="lang-select">
+        <option>English</option>
+        <option>Français</option>
+        <option>Deutsch</option>
+        <option>Italiano</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <label>Voice commands</label>
+      <button class="mail-tool-btn" onclick="openSTT('settings')">🎤 Enable</button>
+    </div>
+    <div class="settings-row">
+      <label>Audio descriptions</label>
+      <button class="mail-tool-btn" onclick="alert('Audio descriptions enabled')">🔊 Enable</button>
     </div>
   </div>
 </div>
@@ -646,433 +779,485 @@ let cartItem = {};
 let cartItems = [];
 let warnOpen = false;
 let autofillDone = false;
-let currentQuery = '';
+let aipOpen = true;
+let sttContext = '';
+let openTabs = [{id:'home',label:'Welcome Page',sub:'aigis://home',icon:'🏠'}];
+let activeTabId = 'home';
 
-// ── URL / tab maps ──
+// ── URL map ──
 const urls = {
   'home':'aigis://home','search-results':'aigis://search',
   'shop-chat':'aigis://safeshop','shop-results':'aigis://safeshop/results',
   'mail-inbox':'aigis://mail/inbox','scam-email':'aigis://mail/1','tax-email':'aigis://mail/2',
   'tax-form':'impots.gouv.fr/declaration/2025','tax-success':'impots.gouv.fr/declaration/submitted',
-  'doctor-email':'aigis://mail/3'
+  'doctor-email':'aigis://mail/3','shop-success':'aigis://safeshop/order-confirmed'
 };
-const tabs = {
-  'home':{n:'Welcome Page',s:'Search'},
-  'search-results':{n:'Search Results',s:'Web search'},
-  'shop-chat':{n:'SafeShop',s:'Shopping assistant'},
-  'shop-results':{n:'SafeShop',s:'Search results'},
-  'mail-inbox':{n:"Gertrude's Mail",s:'Inbox'},
-  'scam-email':{n:'BNP Paribas',s:'⚠️ Be careful'},
-  'tax-email':{n:'Tax reminder',s:'impots.gouv.fr'},
-  'tax-form':{n:'Tax Declaration',s:'impots.gouv.fr'},
-  'tax-success':{n:'Taxes submitted!',s:'✓ Done'},
-  'doctor-email':{n:'Dr. Martin',s:'cabinet-martin.fr'}
+const tabMeta = {
+  'home':{label:'Welcome Page',sub:'aigis://home',icon:'🏠'},
+  'shop-chat':{label:'SafeShop',sub:'aigis://safeshop',icon:'🛒'},
+  'mail-inbox':{label:"Gertrude's Mail",sub:'aigis://mail',icon:'✉️'},
+  'scam-email':{label:'BNP Paribas',sub:'⚠️ Suspicious',icon:'⚠️'},
+  'tax-email':{label:'Tax reminder',sub:'impots.gouv.fr',icon:'📄'},
+  'tax-form':{label:'Tax Declaration',sub:'impots.gouv.fr',icon:'📋'},
+  'tax-success':{label:'Taxes submitted!',sub:'Done ✓',icon:'✅'},
+  'doctor-email':{label:'Dr. Martin',sub:'cabinet-martin.fr',icon:'🏥'},
+  'search-results':{label:'Search Results',sub:'aigis://search',icon:'🔍'},
+  'shop-success':{label:'Order confirmed',sub:'aigis://safeshop',icon:'📦'},
+  'facebook':{label:'Facebook',sub:'facebook.com',icon:'👥'}
 };
 
-// ── AI panel content per screen ──
 const aiScreens = {
-  'search-results':[{t:'ai',m:"Here are your search results! Each result includes a safety rating so you know which sites are trustworthy. Let me know if you'd like help with any of these pages."}],
   'home':[{t:'ai',m:"Hello Gertrude! 👋 I'm Aigis, your online companion. I'm here to help you shop safely, check your emails, and fill out forms. What would you like to do today?"}],
-  'shop-chat':[{t:'ai',m:"Opening SafeShop for you! I'll help you find something great."}],
-  'shop-results':[{t:'ai',m:"I found 3 nightstands for you! ✅ The first and third are fully verified. ⚠️ The second has a 90% safety score — tap \"More info\" to understand why."}],
-  'mail-inbox':[{t:'ai',m:"You have 3 new messages. I've scanned them all. ⚠️ The first email looks suspicious — I recommend not clicking any links in it!"}],
-  'scam-email':[{t:'ai',m:"🚨 Alert: The sender address <strong>bnp-paribas-secure.net</strong> is NOT the real BNP Paribas. This is a phishing email. Do not click any links!"}],
-  'tax-email':[{t:'ai',m:"✅ This email comes from a verified government address (impots.gouv.fr). It is safe. Click the link to open the tax form and I can help you fill it."}],
-  'tax-success':[{t:'ai',m:"🎉 Excellent! Your 2025 tax declaration has been submitted successfully. You'll receive a confirmation by email within a few days. Well done, Gertrude!"}],
-  'doctor-email':[{t:'ai',m:"✅ This is a confirmed appointment from Dr. Martin's cabinet. Everything looks legitimate. Don't forget to bring your carte Vitale!"}]
+  'search-results':[{t:'ai',m:"Here are your search results! Each one has a safety rating so you know which sites to trust. Let me know if you need help with any of them."}],
+  'shop-chat':[{t:'ai',m:"SafeShop is open! Tell me what you're looking for and I'll find the best and safest options for you."}],
+  'mail-inbox':[{t:'ai',m:"You have 3 messages. ⚠️ The first email looks suspicious — I recommend not clicking any links in it!"}],
+  'scam-email':[{t:'ai',m:"🚨 Alert: The sender <strong>bnp-paribas-secure.net</strong> is NOT the real BNP Paribas. This is a phishing attempt. Do not click any links!"}],
+  'tax-email':[{t:'ai',m:"✅ This email is from a verified government address (impots.gouv.fr). It is safe. I can help you fill in the tax form automatically if you'd like."}],
+  'tax-form':[],
+  'tax-success':[{t:'ai',m:"🎉 Excellent! Your 2025 tax declaration has been submitted. You'll receive a confirmation email within a few days. Well done, Gertrude!"}],
+  'doctor-email':[{t:'ai',m:"✅ This appointment confirmation from Dr. Martin is legitimate. Don't forget to bring your carte Vitale on June 3!"}],
+  'shop-success':[{t:'ai',m:"🎉 Your order is confirmed! I'll keep an eye on your inbox for delivery updates and flag them as trusted when they arrive."}]
 };
+
+// ── Tab management ──
+function openTab(screenId, context) {
+  const meta = tabMeta[screenId] || {label:screenId,sub:'',icon:'🏷️'};
+  const existing = openTabs.find(t => t.id === screenId);
+  if (!existing) {
+    openTabs.push({id:screenId, label:meta.label, sub:meta.sub, icon:meta.icon});
+  }
+  activeTabId = screenId;
+  renderTabs();
+  go(screenId);
+}
+
+function closeTab(tabId, e) {
+  e.stopPropagation();
+  openTabs = openTabs.filter(t => t.id !== tabId);
+  if (openTabs.length === 0) openTabs = [{id:'home',label:'Welcome Page',sub:'aigis://home',icon:'🏠'}];
+  if (activeTabId === tabId) {
+    activeTabId = openTabs[openTabs.length-1].id;
+    go(activeTabId);
+  }
+  renderTabs();
+}
+
+function switchTab(tabId) {
+  activeTabId = tabId;
+  renderTabs();
+  go(tabId);
+}
+
+function renderTabs() {
+  const list = document.getElementById('open-tabs-list');
+  list.innerHTML = '';
+  openTabs.forEach(tab => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center;gap:6px;padding:6px 8px 6px 10px;border-radius:8px;cursor:pointer;transition:background .15s;' + (tab.id===activeTabId?'background:#d8d8d8;border-left:3px solid #2b2b2b;':'');
+    div.innerHTML = `
+      <span style="font-size:14px;flex-shrink:0">${tab.icon}</span>
+      <div style="flex:1;min-width:0;cursor:pointer" onclick="switchTab('${tab.id}')">
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${tab.label}</div>
+        <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${tab.sub}</div>
+      </div>
+      <button class="pin-btn" onclick="alert('Pinned to shortcuts!')" title="Pin to shortcuts">📌</button>
+      <button style="background:none;border:none;color:#bbb;cursor:pointer;font-size:14px;padding:2px 4px;border-radius:4px" onclick="closeTab('${tab.id}',event)" title="Close tab" aria-label="Close tab">✕</button>`;
+    if (tab.id !== activeTabId) div.onmouseenter = () => div.style.background='#e4e4e4';
+    div.onmouseleave = () => { if(tab.id!==activeTabId) div.style.background=''; };
+    list.appendChild(div);
+  });
+}
 
 // ── Navigation ──
 function go(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('s-' + name);
   if (el) el.classList.add('active');
-
   document.getElementById('addr').textContent = urls[name] || 'aigis://home';
-  const t = tabs[name] || {n:'Welcome Page',s:'Search'};
-  document.getElementById('tab-name').textContent = t.n;
-  document.getElementById('tab-sub').textContent = t.s;
-
   setAI(name);
-
   if (name === 'shop-chat') initShop();
   if (name === 'tax-form') setTimeout(taxFormAI, 400);
-  if (name === 'shop-results') resetCartBar();
-  if (name === 'scam-email') setTimeout(() => showScamPopup(), 350);
 }
 
-// ── AI panel helpers ──
+// ── AI panel ──
 function setAI(screen) {
   const c = aiScreens[screen] || aiScreens['home'];
   const box = document.getElementById('aip-msgs');
   box.innerHTML = '';
   c.forEach(m => appendAI(m.t, m.m));
 }
-
 function appendAI(type, html, btn) {
   const box = document.getElementById('aip-msgs');
   const d = document.createElement('div');
-  d.className = 'amsg' + (type === 'u' ? ' u' : '');
-  if (type === 'ai') {
-    d.innerHTML = `<div class="aavatar">🤖</div><div><div class="abubble">${html}</div>${btn||''}</div>`;
-  } else {
-    d.innerHTML = `<div class="abubble">${html}</div>`;
-  }
+  d.className = 'amsg' + (type==='u'?' u':'');
+  d.innerHTML = type==='ai'
+    ? `<div class="aavatar">🤖</div><div><div class="abubble">${html}</div>${btn||''}</div>`
+    : `<div class="abubble">${html}</div>`;
   box.appendChild(d);
   box.scrollTop = box.scrollHeight;
 }
-
 function appendAIBtn(label, cls, onclick) {
   return `<button class="ai-act-btn ${cls}" onclick="${onclick}" aria-label="${label}">${label}</button>`;
 }
-
-// FIX: wire up the AI panel send button
 function sendAI() {
   const inp = document.getElementById('aip-text');
   const msg = inp.value.trim();
   if (!msg) return;
-  inp.value = '';
+  inp.value = ''; inp.style.height='';
   appendAI('u', msg);
-  setTimeout(() => {
-    appendAI('ai', "I've noted your question! For now, I'm focused on guiding you through the current page. Is there something specific I can help you with here?");
-  }, 800);
+  setTimeout(() => appendAI('ai',"Thanks for your message! I'm focused on helping you with the current page. Is there something specific I can assist with here?"),800);
+}
+function toggleAIP() {
+  aipOpen = !aipOpen;
+  document.getElementById('aip').classList.toggle('collapsed', !aipOpen);
+  const btn = document.getElementById('aip-toggle');
+  btn.classList.toggle('panel-open', aipOpen);
+  btn.title = aipOpen ? 'Close AI panel' : 'Open AI panel';
+}
+
+// ── STT simulation ──
+const sttPhrases = {
+  'shop': 'A pink nightstand please',
+  'shop2': 'I would like it in a round shape',
+  'home-search': 'Latest news France',
+  'sr-search': 'Recipe for quiche lorraine',
+  'ai-panel': 'What is this website about?',
+  'mail-voice': 'Show me my unread emails',
+  'settings': 'Increase text size'
+};
+let sttTimer;
+function openSTT(context) {
+  sttContext = context;
+  document.getElementById('stt-transcript').textContent = 'Say something…';
+  document.getElementById('stt-overlay').classList.add('show');
+  // simulate transcript appearing
+  const phrase = sttPhrases[context] || 'I would like some help please';
+  let chars = 0;
+  sttTimer = setInterval(() => {
+    chars += 2;
+    document.getElementById('stt-transcript').textContent = phrase.slice(0, chars);
+    if (chars >= phrase.length) {
+      clearInterval(sttTimer);
+      setTimeout(() => applySTT(phrase), 600);
+    }
+  }, 60);
+}
+function cancelSTT() {
+  clearInterval(sttTimer);
+  document.getElementById('stt-overlay').classList.remove('show');
+}
+function applySTT(text) {
+  cancelSTT();
+  if (sttContext === 'shop' || sttContext === 'shop2') {
+    document.getElementById('shop-text').value = text;
+    sendShop();
+  } else if (sttContext === 'home-search') {
+    document.querySelector('#s-home input').value = text;
+    doSearch(text);
+  } else if (sttContext === 'sr-search') {
+    document.getElementById('sr-input').value = text;
+    doSearch(text);
+  } else if (sttContext === 'ai-panel') {
+    document.getElementById('aip-text').value = text;
+    sendAI();
+  } else {
+    appendAI('u', text);
+    setTimeout(() => appendAI('ai', "Got it! I heard: \"" + text + "\". Let me help you with that."), 700);
+  }
 }
 
 // ── Shop chat ──
+let shopResultsShown = false;
 function initShop() {
-  shopPhase = 0;
+  shopPhase = 0; shopResultsShown = false;
   document.getElementById('shop-msgs').innerHTML = '';
+  document.getElementById('shop-results-panel').innerHTML = '<div class="shop-results-col-empty">Results will appear here as we chat</div>';
+  document.getElementById('shop-cart-footer').style.display = 'none';
   ['shop-mic-area','shop-input-area','shop-actions'].forEach(id => document.getElementById(id).style.display='none');
+  cartItems = [];
   setTimeout(() => {
-    addShopMsg('ai', "Hello Gertrude! 👋 What are you looking for today? You can type below or use the mic button.");
-    document.getElementById('shop-mic-area').style.display = 'block';
-    document.getElementById('shop-input-area').style.display = 'block';
+    addShopMsg('ai',"Hello Gertrude! 👋 What are you looking for today? You can type below or press the mic button to speak.");
+    document.getElementById('shop-mic-area').style.display='block';
+    document.getElementById('shop-input-area').style.display='block';
     shopPhase = 1;
-  }, 500);
+  }, 400);
 }
-
 function addShopMsg(type, text) {
   const box = document.getElementById('shop-msgs');
   const d = document.createElement('div');
-  d.className = 'cmsg' + (type === 'u' ? ' u' : '');
-  d.innerHTML = type === 'ai'
+  d.className='cmsg'+(type==='u'?' u':'');
+  d.innerHTML = type==='ai'
     ? `<div class="cavatar">🤖</div><div class="cbubble">${text}</div>`
     : `<div class="cbubble">${text}</div>`;
-  box.appendChild(d);
-  box.scrollTop = box.scrollHeight;
+  box.appendChild(d); box.scrollTop=box.scrollHeight;
 }
-
 function addShopTyping() {
   const box = document.getElementById('shop-msgs');
-  const d = document.createElement('div');
-  d.className = 'cmsg'; d.id = 'shop-typing';
-  d.innerHTML = `<div class="cavatar">🤖</div><div class="cbubble"><div class="dots"><span></span><span></span><span></span></div></div>`;
-  box.appendChild(d); box.scrollTop = box.scrollHeight;
+  const d = document.createElement('div'); d.className='cmsg'; d.id='shop-typing';
+  d.innerHTML=`<div class="cavatar">🤖</div><div class="cbubble"><div class="dots"><span></span><span></span><span></span></div></div>`;
+  box.appendChild(d); box.scrollTop=box.scrollHeight;
 }
-
 function sendShop() {
-  if (shopPhase !== 1) return;
+  if (shopPhase!==1) return;
   const inp = document.getElementById('shop-text');
-  const msg = inp.value.trim() || 'A pink nightstand';
-  inp.value = '';
+  const msg = inp.value.trim()||'A pink nightstand';
+  inp.value=''; inp.style.height='';
   addShopMsg('u', msg);
-  document.getElementById('shop-input-area').style.display = 'none';
-  document.getElementById('shop-mic-area').style.display = 'none';
-  shopPhase = 2;
-  setTimeout(() => addShopTyping(), 300);
-  setTimeout(() => {
-    const t = document.getElementById('shop-typing'); if(t) t.remove();
-    addShopMsg('ai', 'Great choice! 🌸 Would you like to answer a few more questions to refine the results, or shall I show you what I found?');
-    document.getElementById('shop-actions').style.display = 'block';
-    shopPhase = 3;
-  }, 2000);
+  document.getElementById('shop-input-area').style.display='none';
+  document.getElementById('shop-mic-area').style.display='none';
+  shopPhase=2;
+  setTimeout(()=>addShopTyping(),300);
+  setTimeout(()=>{
+    const t=document.getElementById('shop-typing'); if(t)t.remove();
+    addShopMsg('ai','Great! 🌸 Would you like to answer a few more questions to refine the results, or shall I show you what I found?');
+    document.getElementById('shop-actions').style.display='block';
+    shopPhase=3;
+  },2000);
 }
-
 function addDetails() {
-  if (shopPhase !== 3) return;
-  document.getElementById('shop-actions').style.display = 'none';
-  addShopMsg('ai', 'Of course! Do you have a preferred material or colour? Any size preference or a maximum budget?');
-  document.getElementById('shop-input-area').style.display = 'block';
-  shopPhase = 1;
+  if(shopPhase!==3) return;
+  document.getElementById('shop-actions').style.display='none';
+  addShopMsg('ai','Of course! Any colour preference, size, or maximum budget in mind?');
+  document.getElementById('shop-input-area').style.display='block';
+  document.getElementById('shop-mic-area').style.display='block';
+  shopPhase=1;
 }
 
-// ── Products ──
-function toggleWarn() {
-  warnOpen = !warnOpen;
-  document.getElementById('warn-exp').classList.toggle('show', warnOpen);
-  document.getElementById('info-btn').textContent = warnOpen ? 'Hide info' : 'More info';
-}
+const shopProducts = [
+  {img:'https://placehold.co/300x100/fce4ec/c2185b?text=HEMNES+Nightstand',name:'HEMNES Nightstand',price:'€89',safety:'safe',score:'100%',btnId:'sp-btn-0'},
+  {img:'https://placehold.co/300x100/f8bbd0/880e4f?text=Vintage+Nightstand',name:'Vintage Nightstand',price:'€54',safety:'warn',score:'90%',btnId:'sp-btn-1',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
+  {img:'https://placehold.co/300x100/f48fb1/ad1457?text=Modern+Nightstand',name:'Modern Blush Nightstand',price:'€119',safety:'safe',score:'100%',btnId:'sp-btn-2'},
+];
 
-function resetCartBar() {
-  cartItems = [];
-  ['cart-btn-0','cart-btn-1','cart-btn-2'].forEach(id => {
-    const b = document.getElementById(id);
-    if (b) { b.textContent = 'Add to cart'; b.disabled = false; b.style.opacity = ''; }
+function showShopResults() {
+  document.getElementById('shop-actions').style.display='none';
+  addShopMsg('ai','Here are the best matches! Check the results panel on the right. 👉');
+  // populate results panel
+  const panel = document.getElementById('shop-results-panel');
+  panel.innerHTML='';
+  shopProducts.forEach((p,i)=>{
+    const card = document.createElement('div');
+    card.className='sr-mini-card'; card.id='spc-'+i;
+    card.innerHTML=`
+      <img src="${p.img}" alt="${p.name}">
+      <div class="sr-mini-body">
+        <div class="sr-mini-name">${p.name}</div>
+        <div class="sr-mini-price">${p.price}</div>
+        <div class="sr-mini-badge ${p.safety}">${p.safety==='safe'?'🛡️':'⚠️'} ${p.score} Safe</div>
+        ${p.warn?`<div style="font-size:12px;color:#c25a00;margin-bottom:6px;background:#fff8f0;border-radius:6px;padding:6px 8px">ℹ️ ${p.warn}</div>`:''}
+        <button class="sr-mini-cart-btn" id="${p.btnId}" onclick="addToCartShop('${p.name}','${p.price}','${p.btnId}')">Add to cart</button>
+      </div>`;
+    panel.appendChild(card);
   });
-  const bar = document.getElementById('cart-bar');
-  if (bar) bar.classList.remove('show');
+  shopResultsShown = true;
+  shopPhase = 4;
 }
 
-function addToCart(name, price, btnId) {
+function addToCartShop(name, price, btnId) {
   cartItem = {name, price};
   cartItems = [{name, price}];
   const btn = document.getElementById(btnId);
-  if (btn) { btn.textContent = '✓ In cart'; btn.disabled = true; btn.style.opacity = '0.7'; }
-  const bar = document.getElementById('cart-bar');
-  const info = document.getElementById('cart-bar-info');
-  if (info) info.textContent = `🛒 ${name} — ${price}`;
-  if (bar) bar.classList.add('show');
-  const box = document.getElementById('aip-msgs');
-  box.innerHTML = '';
-  appendAI('ai', `✅ <strong>${name}</strong> added to your cart! Ready to checkout? Click the Checkout button when you're done.`);
+  if(btn){btn.textContent='✓ In cart';btn.disabled=true;}
+  document.getElementById('shop-cart-footer').style.display='block';
+  document.getElementById('shop-cart-label').textContent=`🛒 ${name} — ${price}`;
+  addShopMsg('ai',`✅ <strong>${name}</strong> added! Ready to checkout?`);
+}
+
+// ── Products (kept for any fallback) ──
+function toggleWarn(){
+  warnOpen=!warnOpen;
+  document.getElementById('warn-exp').classList.toggle('show',warnOpen);
+  document.getElementById('info-btn').textContent=warnOpen?'Hide info':'More info';
+}
+function addToCart(name,price,btnId){
+  cartItem={name,price}; cartItems=[{name,price}];
+  const btn=document.getElementById(btnId);
+  if(btn){btn.textContent='✓ In cart';btn.disabled=true;btn.style.opacity='.7';}
+  const bar=document.getElementById('cart-bar');
+  if(bar){bar.classList.add('show');document.getElementById('cart-bar-info').textContent=`🛒 ${name} — ${price}`;}
 }
 
 function checkout() {
-  if (!cartItems.length) return;
-  document.getElementById('m-item').textContent = cartItem.name;
-  document.getElementById('m-price').textContent = cartItem.price;
+  if(!cartItem.name) return;
+  document.getElementById('m-item').textContent=cartItem.name;
+  document.getElementById('m-price').textContent=cartItem.price;
   openOverlay('o-cart');
 }
-
 function confirmPurchase() {
   closeOverlay('o-cart');
-  const box = document.getElementById('aip-msgs');
-  box.innerHTML = '';
-  appendAI('ai', `🎉 Payment successful! Your <strong>${cartItem.name}</strong> should arrive in 3 to 5 business days. Enjoy!`);
+  document.getElementById('shop-success-msg').textContent=`Your ${cartItem.name} should arrive in 3 to 5 business days. Enjoy!`;
+  openTab('shop-success','shop');
 }
 
-// ── Search data with expandable safety info ──
-const searchData = [
-  {
-    url:'wikipedia.org/wiki/', title:'General information — Wikipedia',
-    desc:'Find encyclopaedic articles on any topic, written and verified by a global community.',
-    safety:'safe', score:100,
-    safeLabel:'🛡️ 100% Safe'
-  },
-  {
-    url:'bbc.com/news/', title:'Latest news — BBC News',
-    desc:'Up-to-date world news, local news, and in-depth reporting from the BBC.',
-    safety:'safe', score:100,
-    safeLabel:'🛡️ 100% Safe'
-  },
-  {
-    url:'lemonde.fr/', title:'Actualités — Le Monde',
-    desc:'Toute l\'actualité française et internationale sur Le Monde.fr.',
-    safety:'safe', score:100,
-    safeLabel:'🛡️ 100% Safe'
-  },
-  {
-    url:'youtube.com/results?search_query=', title:'Video results — YouTube',
-    desc:'Watch videos, tutorials, and documentaries related to your search.',
-    safety:'warn', score:75,
-    safeLabel:'⚠️ 75% Safe — tap for details',
-    detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites. Check the channel name and view count before trusting a video.'
-  },
-];
-
-function doSearch(query) {
-  query = (query || '').trim();
-  if (!query) return;
-  currentQuery = query;
-  document.getElementById('sr-input').value = query;
-  document.getElementById('addr').textContent = 'aigis://search?q=' + encodeURIComponent(query);
-  document.getElementById('sr-meta').textContent = 'About ' + searchData.length + ' results (0.38 seconds)';
-  const list = document.getElementById('sr-list');
-  list.innerHTML = '';
-
-  searchData.forEach((r, i) => {
-    const div = document.createElement('div');
-    div.className = 'sr-item';
-
-    // Build badge — clickable only for warn/danger
-    const detailId = `sr-detail-${i}`;
-    const badgeId  = `sr-badge-${i}`;
-    const isClickable = r.safety !== 'safe';
-    const badgeTag = isClickable ? 'button' : 'span';
-    const badgeExtra = isClickable
-      ? `id="${badgeId}" onclick="toggleSrDetail('${detailId}','${badgeId}','${r.safety}')" aria-expanded="false" aria-controls="${detailId}"`
-      : '';
-
-    const detailHtml = r.detail
-      ? `<div class="sr-detail ${r.safety}" id="${detailId}" role="region" aria-live="polite">ℹ️ ${r.detail}</div>`
-      : '';
-
-    div.innerHTML = `
-      <div class="sr-url">${r.url}${encodeURIComponent(query)}</div>
-      <button class="sr-title" aria-label="${r.title}">${r.title}</button>
-      <div class="sr-desc">${r.desc}</div>
-      <div class="sr-safety">
-        <${badgeTag} class="sr-badge ${r.safety}" ${badgeExtra}>${r.safeLabel}</${badgeTag}>
-        ${detailHtml}
-      </div>`;
-    list.appendChild(div);
-  });
-
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('s-search-results').classList.add('active');
-  document.getElementById('tab-name').textContent = query;
-  document.getElementById('tab-sub').textContent = 'Web search';
-  setAI('search-results');
+// ── Mail ──
+const readState={'email-scam':false,'email-tax':false,'email-doctor':false};
+function markRead(emailId){
+  if(readState[emailId]) return;
+  readState[emailId]=true;
+  const el=document.getElementById(emailId);
+  if(el) el.classList.add('read');
+  const unread=Object.values(readState).filter(v=>!v).length;
+  const countEl=document.getElementById('sb-mail-count');
+  const subEl=document.getElementById('sb-mail-sub');
+  if(countEl){countEl.textContent=unread;if(unread===0)countEl.classList.add('zero');}
+  if(subEl) subEl.textContent=unread===0?'No new messages':`${unread} new message${unread>1?'s':''}`;
 }
-
-function toggleSrDetail(detailId, badgeId, safety) {
-  const detail = document.getElementById(detailId);
-  const badge  = document.getElementById(badgeId);
-  if (!detail) return;
-  const open = detail.classList.toggle('show');
-  badge.setAttribute('aria-expanded', open);
-  if (safety === 'warn') {
-    badge.textContent = open ? '⚠️ 75% Safe — masquer ▲' : '⚠️ 75% Safe — tap for details';
-  } else {
-    badge.textContent = open ? '🚨 Not safe — masquer ▲' : '🚨 Not safe — tap for details';
-  }
+function showScamPopup(){openOverlay('o-scam');}
+function dismissScamIgnore(){
+  closeOverlay('o-scam');
+  markRead('email-scam');
 }
-
-// ── Read email state ──
-const readState = { 'email-scam': false, 'email-tax': false, 'email-doctor': false };
-
-function markRead(emailId) {
-  if (readState[emailId]) return;
-  readState[emailId] = true;
-  const el = document.getElementById(emailId);
-  if (el) el.classList.add('read');
-  // Update sidebar unread count
-  const unread = Object.values(readState).filter(v => !v).length;
-  const countEl = document.getElementById('sb-mail-count');
-  const subEl   = document.getElementById('sb-mail-sub');
-  if (countEl) {
-    countEl.textContent = unread;
-    if (unread === 0) countEl.classList.add('zero');
-  }
-  if (subEl) subEl.textContent = unread === 0 ? 'No new messages' : `${unread} new message${unread > 1 ? 's' : ''}`;
-}
-
-
-
-function showScamPopup() { openOverlay('o-scam'); }
-
-function showScamInfo() {
-  document.getElementById('scam-title').textContent = 'How to spot a scam email';
-  document.getElementById('scam-text').innerHTML =
+function showScamInfo(){
+  document.getElementById('scam-title').textContent='How to spot a scam email';
+  document.getElementById('scam-text').innerHTML=
     'Real banks <strong>never</strong> ask you to click a link in an email to verify your account.<br><br>'
-    + 'This email came from <strong>bnp-paribas-secure.net</strong> — not the real bank (bnpparibas.fr).<br><br>'
-    + 'The safest action is to <strong>ignore it</strong>. If worried, call your bank directly.';
-  document.getElementById('scam-btns').innerHTML =
+    +'This email came from <strong>bnp-paribas-secure.net</strong> — not the real bank (bnpparibas.fr).<br><br>'
+    +'The safest action is to <strong>ignore it</strong>. If worried, call your bank directly.';
+  document.getElementById('scam-btns').innerHTML=
     `<button class="mbtn grn" onclick="dismissScam()" aria-label="Understood" style="flex:1">Understood ✓</button>`;
 }
-
-function dismissScam() {
+function dismissScam(){
   closeOverlay('o-scam');
-  document.getElementById('scam-title').textContent = 'Warning: Suspicious Link';
-  document.getElementById('scam-text').textContent = 'This link leads to a website flagged in multiple scam databases. Do not click it.';
-  document.getElementById('scam-btns').innerHTML =
-    `<button class="mbtn grey" onclick="closeOverlay('o-scam')" aria-label="Go back">Go back</button>`
-    +`<button class="mbtn red" onclick="showScamInfo()" aria-label="More information">More info</button>`;
+  document.getElementById('scam-title').textContent='Warning: Suspicious Link';
+  document.getElementById('scam-text').textContent='This link leads to a website flagged in multiple scam databases. We recommend not clicking it.';
+  document.getElementById('scam-btns').innerHTML=
+    `<button class="mbtn grey" onclick="closeOverlay('o-scam');go('mail-inbox')">← Go back</button>`
+    +`<button class="mbtn outline" onclick="dismissScamIgnore()">Ignore anyway</button>`
+    +`<button class="mbtn red" onclick="showScamInfo()">More info</button>`;
   markRead('email-scam');
   go('mail-inbox');
-  setTimeout(() => document.getElementById('scam-note').classList.add('show'), 300);
+  setTimeout(()=>document.getElementById('scam-note').classList.add('show'),300);
+}
+
+// ── Search ──
+const searchData=[
+  {url:'wikipedia.org/wiki/',title:'General information — Wikipedia',desc:'Find encyclopaedic articles on any topic.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
+  {url:'bbc.com/news/',title:'Latest news — BBC News',desc:'Up-to-date world news and in-depth reporting from the BBC.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
+  {url:'lemonde.fr/',title:'Actualités — Le Monde',desc:'Toute l\'actualité française et internationale.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
+  {url:'youtube.com/results?q=',title:'Video results — YouTube',desc:'Watch videos and tutorials related to your search.',safety:'warn',safeLabel:'⚠️ 75% Safe',detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites.'},
+];
+function doSearch(query){
+  query=(query||'').trim(); if(!query) return;
+  document.getElementById('sr-input').value=query;
+  document.getElementById('addr').textContent='aigis://search?q='+encodeURIComponent(query);
+  document.getElementById('sr-meta').textContent='About '+searchData.length+' results (0.38 seconds)';
+  const list=document.getElementById('sr-list'); list.innerHTML='';
+  searchData.forEach((r,i)=>{
+    const div=document.createElement('div'); div.className='sr-item';
+    const detailId='sr-detail-'+i, badgeId='sr-badge-'+i;
+    const isC=r.safety!=='safe';
+    const badgeTag=isC?'button':'span';
+    const bExtra=isC?`id="${badgeId}" onclick="toggleSrDetail('${detailId}','${badgeId}','${r.safety}')" aria-expanded="false"`:'';
+    const detailHtml=r.detail?`<div class="sr-detail ${r.safety}" id="${detailId}">ℹ️ ${r.detail}</div>`:'';
+    div.innerHTML=`
+      <div class="sr-url">${r.url}${encodeURIComponent(query)}</div>
+      <button class="sr-title">${r.title}</button>
+      <div class="sr-desc">${r.desc}</div>
+      <div class="sr-safety"><${badgeTag} class="sr-badge ${r.safety}" ${bExtra}>${r.safeLabel}</${badgeTag}>${detailHtml}</div>`;
+    list.appendChild(div);
+  });
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s-search-results').classList.add('active');
+  openTab('search-results','search');
+  setAI('search-results');
+}
+function toggleSrDetail(detailId,badgeId,safety){
+  const detail=document.getElementById(detailId),badge=document.getElementById(badgeId);
+  if(!detail) return;
+  const open=detail.classList.toggle('show');
+  badge.setAttribute('aria-expanded',open);
+  badge.textContent=open?(safety==='warn'?'⚠️ 75% Safe ▲':'🚨 Not safe ▲'):(safety==='warn'?'⚠️ 75% Safe':'🚨 Not safe');
 }
 
 // ── Tax form ──
-function taxFormAI() {
-  const box = document.getElementById('aip-msgs');
-  box.innerHTML = '';
-  autofillDone = false;
-  appendAI('ai', 'I can see the official tax form! Would you like me to fill it in for you using your saved information?',
+function taxFormAI(){
+  const box=document.getElementById('aip-msgs'); box.innerHTML=''; autofillDone=false;
+  appendAI('ai','I can see the official tax form! Would you like me to fill it in automatically using your saved information?',
     appendAIBtn('Yes please!','grn','startAutofill()'));
 }
-
-const fData = {
-  'f-name':'Gertrude Dupont',
-  'f-dob':'15 January 1952',
-  'f-addr':'12 Rue des Fleurs, 69001 Lyon',
-  'f-inc':'24,600',
-  'f-iban':'FR76 3000 6000 0112 3456 7890 189'
-};
-
-function startAutofill() {
-  if (autofillDone) return;
-  autofillDone = true;
-  ['f-name','f-dob','f-addr','f-inc','f-tax','f-iban'].forEach(id => {
-    const el = document.getElementById(id);
-    el.value=''; el.className='finput';
-  });
-  const box = document.getElementById('aip-msgs');
-  box.innerHTML = '';
+const fData={'f-name':'Gertrude Dupont','f-dob':'15 January 1952','f-addr':'12 Rue des Fleurs, 69001 Lyon','f-inc':'24,600','f-iban':'FR76 3000 6000 0112 3456 7890 189'};
+function startAutofill(){
+  if(autofillDone) return; autofillDone=true;
+  ['f-name','f-dob','f-addr','f-inc','f-tax','f-iban'].forEach(id=>{const el=document.getElementById(id);el.value='';el.className='finput';});
+  const box=document.getElementById('aip-msgs'); box.innerHTML='';
   appendAI('ai','Filling in the form for you… 🔄');
-  const fields = Object.keys(fData);
-  let i = 0;
-  function next() {
-    if (i >= fields.length) {
-      setTimeout(() => {
+  const fields=Object.keys(fData); let i=0;
+  function next(){
+    if(i>=fields.length){
+      setTimeout(()=>{
         document.getElementById('f-tax').classList.add('missing');
         openOverlay('o-missing');
-        box.innerHTML = '';
+        box.innerHTML='';
         appendAI('ai','⚠️ Almost done! One field needs a document: <strong>Tax Number</strong>. I couldn\'t find it in your saved profile.');
-      }, 400);
-      return;
+      },400); return;
     }
-    const el = document.getElementById(fields[i]);
-    el.value = fData[fields[i]];
-    el.classList.add('filled');
-    i++;
-    setTimeout(next, 380);
+    document.getElementById(fields[i]).value=fData[fields[i]];
+    document.getElementById(fields[i]).classList.add('filled');
+    i++; setTimeout(next,380);
   }
   next();
 }
-
-function importDoc() {
+function importDoc(){
   closeOverlay('o-missing');
-  setTimeout(() => {
-    const el = document.getElementById('f-tax');
-    el.classList.remove('missing');
-    el.value = '12 34 567 890 123';
-    el.classList.add('filled');
-    const box = document.getElementById('aip-msgs');
-    box.innerHTML = '';
-    appendAI('ai','Document imported! ✅ All fields are now complete. Would you like to review everything before sending?',
+  setTimeout(()=>{
+    const el=document.getElementById('f-tax');
+    el.classList.remove('missing'); el.value='12 34 567 890 123'; el.classList.add('filled');
+    const box=document.getElementById('aip-msgs'); box.innerHTML='';
+    appendAI('ai','Document imported! ✅ All fields complete. Ready to review?',
       appendAIBtn('Review before sending','grn','openReview()'));
-  }, 600);
+  },600);
 }
-
-function submitTaxes() {
+function submitTaxes(){
   closeOverlay('o-review');
   markRead('email-tax');
-  go('tax-success');
+  openTab('tax-success','mail');
 }
-
-// ── Overlay helpers ──
-function openOverlay(id) { document.getElementById(id).classList.add('show'); }
-function closeOverlay(id) { document.getElementById(id).classList.remove('show'); }
-
-function openReview() {
-  const val = id => document.getElementById(id).value.trim() || '—';
-  document.getElementById('rev-name').textContent = val('f-name');
-  document.getElementById('rev-dob').textContent  = val('f-dob');
-  document.getElementById('rev-addr').textContent = val('f-addr');
-  document.getElementById('rev-inc').textContent  = val('f-inc') !== '—' ? '€' + val('f-inc') + ' for the year 2025' : '—';
-  document.getElementById('rev-tax').textContent  = val('f-tax');
-  document.getElementById('rev-iban').textContent = val('f-iban');
+function openReview(){
+  const val=id=>document.getElementById(id).value.trim()||'—';
+  document.getElementById('rev-name').textContent=val('f-name');
+  document.getElementById('rev-dob').textContent=val('f-dob');
+  document.getElementById('rev-addr').textContent=val('f-addr');
+  document.getElementById('rev-inc').textContent=val('f-inc')!=='—'?'€'+val('f-inc')+' for year 2025':'—';
+  document.getElementById('rev-tax').textContent=val('f-tax');
+  document.getElementById('rev-iban').textContent=val('f-iban');
   openOverlay('o-review');
 }
 
+// ── Settings ──
+function toggleSettings(){document.getElementById('settings-overlay').classList.toggle('show');}
+function applyFontSize(v){
+  document.getElementById('font-size-val').textContent=v+'px';
+  document.getElementById('browser').style.fontSize=v+'px';
+}
+
+// ── Overlay helpers ──
+function openOverlay(id){document.getElementById(id).classList.add('show');}
+function closeOverlay(id){document.getElementById(id).classList.remove('show');}
+
+// ── Auto-resize textareas ──
+function autoResize(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
+
 // ── Init ──
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.overlay').forEach(ov => {
-    ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('show'); });
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.overlay').forEach(ov=>{
+    ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('show');});
   });
-  document.getElementById('shop-text').addEventListener('keydown', e => {
-    if (e.key === 'Enter') sendShop();
-  });
-  // Home search
-  const homeInput = document.querySelector('#s-home input');
-  homeInput.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(homeInput.value); });
-  // Search results bar
-  document.getElementById('sr-input').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(e.target.value); });
-  // AI panel input
-  document.getElementById('aip-text').addEventListener('keydown', e => { if (e.key === 'Enter') sendAI(); });
-  // Init home AI
+
+  // auto-resize textareas
+  document.getElementById('shop-text').addEventListener('input',function(){autoResize(this);});
+  document.getElementById('aip-text').addEventListener('input',function(){autoResize(this);});
+
+  document.getElementById('shop-text').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendShop();}});
+  document.getElementById('aip-text').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}});
+  document.querySelector('#s-home input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
+  document.getElementById('sr-input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
+
+  // init tabs and AI
+  renderTabs();
   setAI('home');
+
+  // mark scam email as read when we navigate away from it properly
+  document.getElementById('s-scam-email'); // just ensure it exists
 });
 </script>
 </body>
