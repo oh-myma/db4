@@ -69,7 +69,7 @@ button{font-family:'DM Sans',sans-serif}
 
 /* ── SafeShop: chat left + grid right ── */
 .shop-layout{flex:1;display:flex;overflow:hidden}
-.shop-chat-col{width:300px;flex-shrink:0;display:flex;flex-direction:column;padding:20px 16px;border-right:1px solid #eee;background:#fafafa;overflow-y:auto}
+.shop-chat-col{width:300px;flex-shrink:0;display:flex;flex-direction:column;padding:20px 16px 16px;border-right:1px solid #eee;background:#fafafa;overflow:hidden}
 .shop-grid-col{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:24px 28px}
 .shop-grid-hdr{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .shop-grid-title{font-size:28px;font-weight:700;color:#1a1a1a;flex:1}
@@ -98,7 +98,7 @@ button{font-family:'DM Sans',sans-serif}
 .shop-results-col-empty{display:none}
 
 .shop-head{font-size:22px;font-weight:700;color:#222;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.chat-msgs{flex:1;display:flex;flex-direction:column;gap:14px;overflow-y:auto;min-height:120px}
+.chat-msgs{flex:1;display:flex;flex-direction:column;gap:14px;overflow-y:auto;min-height:0}
 .cmsg{display:flex;gap:10px;align-items:flex-start;animation:fadeIn .2s ease}
 .cmsg.u{flex-direction:row-reverse}
 .cavatar{width:36px;height:36px;border-radius:50%;background:#2b2b2b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
@@ -424,7 +424,7 @@ input[type=range]{accent-color:#2b2b2b}
           <!-- left: chat -->
           <div class="shop-chat-col">
             <div class="shop-head" style="font-size:16px;margin-bottom:14px">🛒 SafeShop</div>
-            <div class="chat-msgs" id="shop-msgs" style="flex:1;min-height:80px"></div>
+            <div class="chat-msgs" id="shop-msgs" style="flex:1;min-height:0;overflow-y:auto"></div>
             <div id="shop-mic-area" style="display:none">
               <div class="mic-row" style="margin-top:10px">
                 <button class="mic-big" id="shop-mic-btn" aria-label="Use microphone" onclick="openSTT('shop')">🎤</button>
@@ -693,8 +693,8 @@ input[type=range]{accent-color:#2b2b2b}
 <div class="overlay" id="o-cart" role="dialog" aria-modal="true" aria-labelledby="cart-title">
   <div class="mbox">
     <h2 class="mtitle" id="cart-title">🛒 Confirm your order</h2>
-    <div class="mrow"><span class="mrow-lbl">Item</span><span class="mrow-val" id="m-item">—</span></div>
-    <div class="mrow"><span class="mrow-lbl">Price</span><span class="mrow-val" id="m-price">—</span></div>
+    <div id="m-items-list"></div>
+    <div class="mrow"><span class="mrow-lbl">Total</span><span class="mrow-val" id="m-total">—</span></div>
     <div class="mrow"><span class="mrow-lbl">Delivery</span><span class="mrow-val">12 Rue des Fleurs, Lyon</span></div>
     <div class="mrow"><span class="mrow-lbl">Payment</span><span class="mrow-val">Visa •••• 4821</span></div>
     <div class="mbtns">
@@ -1045,11 +1045,52 @@ function addDetails() {
   shopPhase=1;
 }
 
-const shopProducts = [
-  {img:'https://placehold.co/300x160/fce4ec/c2185b?text=HEMNES',name:'HEMNES Nightstand',price:'€89',desc:'Classic design · IKEA · White stain',safety:'safe',score:'100%',btnId:'sp-btn-0'},
-  {img:'https://placehold.co/300x160/f8bbd0/880e4f?text=Vintage',name:'Vintage Pink Nightstand',price:'€54',desc:'Retro style · TheGoodCorner',safety:'warn',score:'90%',btnId:'sp-btn-1',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
-  {img:'https://placehold.co/300x160/f48fb1/ad1457?text=Modern',name:'Modern Blush Nightstand',price:'€119',desc:'Minimalist · Maisons du Monde',safety:'safe',score:'100%',btnId:'sp-btn-2'},
-];
+// ── Product catalog by category ──
+const allProducts = {
+  nightstand: [
+    {img:'https://placehold.co/300x160/fce4ec/c2185b?text=HEMNES',name:'HEMNES Nightstand',price:'€89',desc:'Classic design · IKEA · White stain',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/f8bbd0/880e4f?text=Vintage',name:'Vintage Pink Nightstand',price:'€54',desc:'Retro style · TheGoodCorner',safety:'warn',score:'90%',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
+    {img:'https://placehold.co/300x160/f48fb1/ad1457?text=Modern',name:'Modern Blush Nightstand',price:'€119',desc:'Minimalist · Maisons du Monde',safety:'safe',score:'100%'},
+  ],
+  lamp: [
+    {img:'https://placehold.co/300x160/fff9c4/f9a825?text=Lamp',name:'Ikea RANARP Lamp',price:'€35',desc:'Vintage style · IKEA · Off-white',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/ffe0b2/e65100?text=Floor+Lamp',name:'Tall Arc Floor Lamp',price:'€79',desc:'Modern · La Redoute',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/fff3e0/ff6f00?text=Desk+Lamp',name:'LED Desk Lamp',price:'€28',desc:'Adjustable · Amazon Basics',safety:'warn',score:'85%',warn:'Third-party seller — check reviews before ordering.'},
+  ],
+  chair: [
+    {img:'https://placehold.co/300x160/e8f5e9/2e7d32?text=Chair',name:'POÄNG Armchair',price:'€129',desc:'Comfortable · IKEA · Birch veneer',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/c8e6c9/1b5e20?text=Office+Chair',name:'Ergonomic Office Chair',price:'€199',desc:'Lumbar support · Maisons du Monde',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/dcedc8/558b2f?text=Dining+Chair',name:'Retro Dining Chair',price:'€65',desc:'Scandinavian style · TheGoodCorner',safety:'warn',score:'88%',warn:'Private seller — limited return policy.'},
+  ],
+  book: [
+    {img:'https://placehold.co/300x160/e3f2fd/1565c0?text=Book',name:'The Little Prince',price:'€9',desc:'Classic literature · Gallimard',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/bbdefb/0d47a1?text=Cookbook',name:'French Cooking for Everyone',price:'€24',desc:'500 recipes · Hachette',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/90caf9/1a237e?text=Novel',name:'Un été à Bordeaux',price:'€14',desc:'Novel · Pocket editions',safety:'safe',score:'100%'},
+  ],
+  plant: [
+    {img:'https://placehold.co/300x160/e8f5e9/2e7d32?text=Plant',name:'Monstera Deliciosa',price:'€19',desc:'Indoor plant · Truffaut',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/c8e6c9/1b5e20?text=Cactus',name:'Cactus Assortment (3 pots)',price:'€12',desc:'Low maintenance · Botanic',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/a5d6a7/33691e?text=Orchid',name:'White Orchid',price:'€15',desc:'Flowering · Ikea',safety:'safe',score:'100%'},
+  ],
+  default: [
+    {img:'https://placehold.co/300x160/eeeeee/757575?text=Item+1',name:'Popular Choice',price:'€45',desc:'Best seller · Verified vendor',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/e0e0e0/424242?text=Item+2',name:'Budget Option',price:'€22',desc:'Good value · Verified vendor',safety:'safe',score:'100%'},
+    {img:'https://placehold.co/300x160/bdbdbd/212121?text=Item+3',name:'Premium Pick',price:'€89',desc:'Top rated · Verified vendor',safety:'safe',score:'100%'},
+  ]
+};
+
+function getProductsForQuery(query) {
+  const q = (query||'').toLowerCase();
+  if (q.includes('nightstand') || q.includes('chevet') || q.includes('bedside')) return allProducts.nightstand;
+  if (q.includes('lamp') || q.includes('lampe') || q.includes('light')) return allProducts.lamp;
+  if (q.includes('chair') || q.includes('chaise') || q.includes('fauteuil')) return allProducts.chair;
+  if (q.includes('book') || q.includes('livre') || q.includes('roman')) return allProducts.book;
+  if (q.includes('plant') || q.includes('plante') || q.includes('fleur') || q.includes('flower')) return allProducts.plant;
+  return allProducts.default;
+}
+
+// legacy — kept for backward compat references
+const shopProducts = allProducts.nightstand;
 
 function showShopResults() {
   document.getElementById('shop-actions').style.display='none';
@@ -1066,7 +1107,9 @@ function showShopResults() {
   const userBubbles = document.querySelectorAll('#shop-msgs .cmsg.u .cbubble');
   const lastMsg = userBubbles.length ? userBubbles[userBubbles.length-1].textContent : 'your search';
   document.getElementById('shop-grid-title').textContent = `Results for "${lastMsg}"`;
-  shopProducts.forEach((p,i)=>{
+  const products = getProductsForQuery(lastMsg);
+  products.forEach((p,i)=>{
+    p.btnId = 'sp-btn-' + i;
     const card = document.createElement('div');
     card.className='shop-card';
     card.innerHTML=`
@@ -1086,13 +1129,18 @@ function showShopResults() {
 }
 
 function addToCartShop(name, price, btnId) {
-  cartItem = {name, price};
-  cartItems = [{name, price}];
+  const already = cartItems.find(i => i.name === name);
+  if (!already) cartItems.push({name, price});
   const btn = document.getElementById(btnId);
   if(btn){btn.textContent='✓ In cart';btn.disabled=true;}
+  const count = cartItems.length;
   document.getElementById('shop-cart-bar').classList.add('show');
-  document.getElementById('shop-cart-label').textContent=`🛒 ${name} — ${price}`;
-  addShopMsg('ai',`✅ <strong>${name}</strong> added! Ready to checkout?`);
+  document.getElementById('shop-cart-label').textContent=`🛒 ${count} item${count>1?'s':''} in cart`;
+  // re-open input so user can keep searching for more things
+  document.getElementById('shop-mic-area').style.display='block';
+  document.getElementById('shop-input-area').style.display='block';
+  shopPhase = 1;
+  addShopMsg('ai',`✅ <strong>${name}</strong> added to cart! You can search for more items, or checkout when you're ready.`);
 }
 
 // ── Products (kept for any fallback) ──
@@ -1110,14 +1158,28 @@ function addToCart(name,price,btnId){
 }
 
 function checkout() {
-  if(!cartItem.name) return;
-  document.getElementById('m-item').textContent=cartItem.name;
-  document.getElementById('m-price').textContent=cartItem.price;
+  if(!cartItems.length) return;
+  const list = document.getElementById('m-items-list');
+  list.innerHTML = '';
+  let totalNum = 0;
+  cartItems.forEach(item => {
+    const num = parseFloat(item.price.replace(/[^0-9.]/g,'')) || 0;
+    totalNum += num;
+    const row = document.createElement('div');
+    row.className = 'mrow';
+    row.innerHTML = `<span class="mrow-lbl">${item.name}</span><span class="mrow-val">${item.price}</span>`;
+    list.appendChild(row);
+  });
+  const currency = cartItems[0].price.match(/[^0-9.,]/)?.[0] || '€';
+  document.getElementById('m-total').textContent = currency + totalNum.toFixed(0);
   openOverlay('o-cart');
 }
 function confirmPurchase() {
   closeOverlay('o-cart');
-  document.getElementById('shop-success-msg').textContent=`Your ${cartItem.name} should arrive in 3 to 5 business days. Enjoy!`;
+  const summary = cartItems.length === 1
+    ? `Your ${cartItems[0].name} should arrive in 3 to 5 business days. Enjoy!`
+    : `Your ${cartItems.length} items should arrive in 3 to 5 business days. Enjoy!`;
+  document.getElementById('shop-success-msg').textContent = summary;
   openTab('shop-success','shop');
 }
 
