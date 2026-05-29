@@ -52,9 +52,16 @@ button{font-family:'DM Sans',sans-serif}
 .open-tabs-list{display:flex;flex-direction:column;gap:2px;padding:0 8px 8px}
 
 /* ── Center ── */
-.center{flex:1;background:#fff;overflow-y:auto;position:relative;display:flex;flex-direction:column;min-width:0;min-height:0}
-.screen{display:none;flex:1;flex-direction:column;animation:fadeIn .2s ease;overflow:hidden;min-height:0}
+/* FIX 2: Changed overflow-y to hidden to prevent main container from stretching */
+.center{flex:1;background:#fff;overflow-y:hidden;position:relative;display:flex;flex-direction:column;min-width:0;min-height:0}
+
+/* FIX 2: Changed overflow to overflow-y:auto to allow screens to scroll internally */
+.screen{display:none;flex:1;flex-direction:column;animation:fadeIn .2s ease;overflow-y:auto;min-height:0}
 .screen.active{display:flex}
+
+/* FIX 2: Locked the shop screen so only its inner columns can scroll */
+#s-shop-chat {overflow:hidden !important;}
+
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
@@ -528,6 +535,8 @@ input[type=range]{accent-color:#2b2b2b}
           <div class="eview-head">
             <button class="back-btn" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back</button>
             <h2 class="esubj-h">Your account has been suspended</h2>
+            <button class="audio-desc-btn" onclick="analyzeCurrentEmail()">✨ Explain</button>
+            <button class="audio-desc-btn" onclick="draftReplyCurrentEmail()">✨ Draft Reply</button>
             <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
             <div class="email-classify">
               <button class="classify-btn safe" id="cls-safe-scam" onclick="classifyEmail('email-scam','safe')" aria-label="Mark as safe">✓ Safe</button>
@@ -561,6 +570,8 @@ input[type=range]{accent-color:#2b2b2b}
           <div class="eview-head">
             <button class="back-btn" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back</button>
             <h2 class="esubj-h">Reminder: Tax declaration due May 31</h2>
+            <button class="audio-desc-btn" onclick="analyzeCurrentEmail()">✨ Explain</button>
+            <button class="audio-desc-btn" onclick="draftReplyCurrentEmail()">✨ Draft Reply</button>
             <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
             <div class="email-classify">
               <button class="classify-btn safe" id="cls-safe-tax" onclick="classifyEmail('email-tax','safe')" aria-label="Mark as safe">✓ Safe</button>
@@ -647,6 +658,8 @@ input[type=range]{accent-color:#2b2b2b}
           <div class="eview-head">
             <button class="back-btn" onclick="markRead('email-doctor'); go('mail-inbox')" aria-label="Back to inbox">← Back</button>
             <h2 class="esubj-h">Appointment confirmed: June 3 at 10:00</h2>
+            <button class="audio-desc-btn" onclick="analyzeCurrentEmail()">✨ Explain</button>
+            <button class="audio-desc-btn" onclick="draftReplyCurrentEmail()">✨ Draft Reply</button>
             <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
             <div class="email-classify">
               <button class="classify-btn safe" id="cls-safe-doctor" onclick="classifyEmail('email-doctor','safe')" aria-label="Mark as safe">✓ Safe</button>
@@ -803,7 +816,83 @@ input[type=range]{accent-color:#2b2b2b}
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
+let cachedModelName = null;
+
+async function discoverValidModel(key) {
+  if (cachedModelName) return cachedModelName;
+  
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+    if (!res.ok) {
+        const err = await res.json().catch(()=>({}));
+        throw new Error(err.error?.message || "Could not list models");
+    }
+    const data = await res.json();
+    
+    // Find all Gemini models that support generateContent
+    const validModels = data.models.filter(m => 
+      m.supportedGenerationMethods && 
+      m.supportedGenerationMethods.includes('generateContent') &&
+      m.name.includes('gemini')
+    );
+    
+    if (validModels.length === 0) throw new Error("No text generation models available for this API key.");
+    
+    // Pick the smartest/fastest available default based on what is active on this API key tier
+    const bestModel = validModels.find(m => m.name.includes('gemini-1.5-flash')) 
+                   || validModels.find(m => m.name.includes('gemini-1.5'))
+                   || validModels.find(m => m.name.includes('gemini-2'))
+                   || validModels[0];
+    
+    cachedModelName = bestModel.name.replace('models/', '');
+    console.log("Auto-discovered available model:", cachedModelName);
+    return cachedModelName;
+  } catch (e) {
+    console.warn("Model discovery failed, falling back to gemini-1.5-flash:", e);
+    return 'gemini-1.5-flash';
+  }
+}
+
+async function callGemini(prompt, systemInstruction) {
+  const cleanKey = typeof apiKey !== 'undefined' ? apiKey.trim() : '';
+  if (!cleanKey) throw new Error("API key is missing! Please check your config.js file.");
+
+  // Automatically fetch the best model your key actually has permission to use!
+  const targetModel = await discoverValidModel(cleanKey);
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${cleanKey}`;
+  
+  // Backwards compatibility for older v1.0 models that don't support the modern systemInstruction property
+  let payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    systemInstruction: { parts: [{ text: systemInstruction }] }
+  };
+
+  if (targetModel.includes('1.0-pro') || targetModel === 'gemini-pro') {
+      payload = { contents: [{ parts: [{ text: `[System Instruction: ${systemInstruction}]\n\nUser: ${prompt}` }] }] };
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  
+  if (!response.ok) {
+    const errData = await response.json().catch(() => null);
+    const errMsg = errData?.error?.message || response.statusText;
+    
+    // If the auto-discovered model fails with 404, wipe the cache so we discover a new one next time
+    if (response.status === 404) cachedModelName = null;
+    
+    throw new Error(`HTTP ${response.status} on ${targetModel}: ${errMsg}`);
+  }
+  
+  const result = await response.json();
+  return result.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response.";
+}
+
 // ── Navigation history (back/forward) ──
 let navHistory = [];
 let navPos = -1;
@@ -836,7 +925,12 @@ function navReload() {
   setTimeout(() => btn.style.animation = '', 400);
   // re-run screen init if applicable
   const cur = navHistory[navPos];
-  if (cur === 'shop-chat') initShop();
+  if (cur === 'shop-chat') {
+    // FIX: Force re-initialization on explicit reload
+    shopInitialized = false; 
+    initShop();
+    shopInitialized = true;
+  }
   else if (cur === 'tax-form') setTimeout(taxFormAI, 200);
   // visual flash
   const center = document.querySelector('.center');
@@ -853,6 +947,7 @@ function updateNavBtns() {
 
 // ── State ──
 let shopPhase = 0;
+let shopInitialized = false; // FIX: Added to prevent state wipe
 let cartItem = {};
 let cartItems = [];
 let warnOpen = false;
@@ -964,7 +1059,13 @@ function goNoHistory(name) {
   document.getElementById('addr').textContent = urls[name] || 'aigis://home';
   setAI(name);
   if (name === 'tax-form') setTimeout(taxFormAI, 400);
-  if (name === 'shop-chat') initShop();
+  
+  // FIX: Only initialize the shop if it hasn't been set up yet
+  if (name === 'shop-chat' && !shopInitialized) {
+    initShop();
+    shopInitialized = true;
+  }
+  
   // hide AI panel in SafeShop (has its own chat), show everywhere else
   const shopScreens = ['shop-chat', 'shop-success'];
   const shouldHide = shopScreens.includes(name);
@@ -974,7 +1075,6 @@ function goNoHistory(name) {
     aip.classList.add('collapsed');
     btn.classList.remove('panel-open');
     btn.title = 'Open Aigis Assistant';
-    // don't toggle aipOpen so it restores when leaving shop
   } else if (!shouldHide && aipOpen) {
     aip.classList.remove('collapsed');
     btn.classList.add('panel-open');
@@ -1007,13 +1107,33 @@ function appendAI(type, html, btn) {
 function appendAIBtn(label, cls, onclick) {
   return `<button class="ai-act-btn ${cls}" onclick="${onclick}" aria-label="${label}">${label}</button>`;
 }
-function sendAI() {
+async function sendAI() {
   const inp = document.getElementById('aip-text');
   const msg = inp.value.trim();
   if (!msg) return;
-  inp.value = ''; inp.style.height='';
+  inp.value = ''; inp.style.height='auto';
   appendAI('u', msg);
-  setTimeout(() => appendAI('ai',"Thanks for your message! I'm focused on helping you with the current page. Is there something specific I can assist with here?"),800);
+  
+  // Show typing indicator
+  const box = document.getElementById('aip-msgs');
+  const typingId = 'ai-typing-' + Date.now();
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'amsg';
+  typingDiv.id = typingId;
+  typingDiv.innerHTML = `<div class="aavatar">🤖</div><div><div class="abubble"><div class="dots"><span></span><span></span><span></span></div></div></div>`;
+  box.appendChild(typingDiv);
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const systemPrompt = `You are Aigis, a friendly, patient digital companion for an elderly user named Gertrude. Keep answers short, simple, and reassuring. The user is currently looking at the screen: ${activeTabId}.`;
+    const text = await callGemini(msg, systemPrompt);
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', text);
+  } catch (e) {
+    document.getElementById(typingId)?.remove();
+    // Output the exact error to the chat so you know what's broken!
+    appendAI('ai', `I'm having trouble connecting. Error details: ${e.message}`);
+  }
 }
 function toggleAIP() {
   aipOpen = !aipOpen;
@@ -1367,6 +1487,51 @@ function classifyEmail(emailId, verdict) {
     appendAI('ai', msg);
   }
 }
+
+async function analyzeCurrentEmail() {
+  if (!aipOpen) toggleAIP();
+  const emailBody = document.querySelector('.screen.active .ebody')?.innerText || '';
+  if (!emailBody) return;
+
+  appendAI('u', "✨ Can you explain this email to me?");
+  const typingId = 'ai-typing-' + Date.now();
+  const box = document.getElementById('aip-msgs');
+  box.insertAdjacentHTML('beforeend', `<div class="amsg" id="${typingId}"><div class="aavatar">🤖</div><div><div class="abubble"><div class="dots"><span></span><span></span><span></span></div></div></div></div>`);
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const systemPrompt = "You are Aigis, a digital assistant for a senior citizen named Gertrude. Analyze the provided email text. Explain what the email is about in 2-3 very simple sentences. Clearly state if it looks safe or if it might be a scam/phishing attempt.";
+    const text = await callGemini(`Here is the email:\n\n${emailBody}`, systemPrompt);
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', text);
+  } catch(e) {
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', "I'm having trouble reading this right now.");
+  }
+}
+
+async function draftReplyCurrentEmail() {
+  if (!aipOpen) toggleAIP();
+  const emailBody = document.querySelector('.screen.active .ebody')?.innerText || '';
+  if (!emailBody) return;
+
+  appendAI('u', "✨ Please draft a polite reply to this email.");
+  const typingId = 'ai-typing-' + Date.now();
+  const box = document.getElementById('aip-msgs');
+  box.insertAdjacentHTML('beforeend', `<div class="amsg" id="${typingId}"><div class="aavatar">🤖</div><div><div class="abubble"><div class="dots"><span></span><span></span><span></span></div></div></div></div>`);
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const systemPrompt = "You are drafting an email reply on behalf of Gertrude, a polite senior citizen. Write a brief, friendly reply to the provided email. Output ONLY the drafted email body, nothing else.";
+    const text = await callGemini(`Here is the email to reply to:\n\n${emailBody}`, systemPrompt);
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', `Here is a draft you could use:\n\n"${text}"\n\nWould you like me to send something like this?`);
+  } catch(e) {
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', "I'm having trouble drafting a reply right now.");
+  }
+}
+
 function markRead(emailId){
   if(readState[emailId]) return;
   readState[emailId]=true;
@@ -1566,6 +1731,11 @@ function applyFontSize(v){
   // live preview
   const preview = document.getElementById('font-preview');
   if (preview) preview.style.fontSize = base + 'px';
+
+  // FIX: Recalculate textareas so they scale correctly when font changes
+  setTimeout(() => {
+    document.querySelectorAll('textarea').forEach(el => autoResize(el));
+  }, 10);
 }
 function applyHighContrast(on) {
   const browser = document.getElementById('browser');
@@ -1595,7 +1765,11 @@ function openOverlay(id){document.getElementById(id).classList.add('show');}
 function closeOverlay(id){document.getElementById(id).classList.remove('show');}
 
 // ── Auto-resize textareas ──
-function autoResize(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
+function autoResize(el){
+  el.style.height='auto';
+  // FIX: account for the 4px vertical border width on the textareas
+  el.style.height=(el.scrollHeight + 4)+'px';
+}
 
 // ── Init ──
 document.addEventListener('DOMContentLoaded',()=>{
