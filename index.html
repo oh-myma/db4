@@ -13,7 +13,8 @@ body{font-family:'DM Sans',sans-serif;font-size:15px;background:#d4d4d4;display:
 button{font-family:'DM Sans',sans-serif}
 
 /* ── Browser window ── */
-.browser{width:1280px;min-height:800px;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.35)}
+/* FIX: Changed min-height to height, and added max-height/max-width to lock the container and force scrolling inside */
+.browser{width:1280px;height:800px;max-height:95vh;max-width:98vw;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.35)}
 
 /* ── Top bar ── */
 .topbar{background:#2b2b2b;height:44px;display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
@@ -639,13 +640,32 @@ input[type=range]{accent-color:#2b2b2b}
         </div>
       </div>
       
-      <!-- Screen: Phishing Site Trap -->
-      <div class="screen" id="s-phishing">
-        <div class="success-wrap" style="background:#fff0ee">
-          <div class="success-ico">💀</div>
-          <h2 class="success-h" style="color:#c62828">You've visited a malicious site!</h2>
-          <p class="success-s" style="color:#111; max-width: 600px">Because you ignored the warning, you have now arrived at <strong>bnp-paribas-secure.net</strong>.<br><br>In real life, hackers would use this fake page to steal your login credentials.</p>
-          <button class="form-btn submit" style="margin-top:8px; background:#c62828" onclick="go('mail-inbox')">← Retreat to Safety</button>
+      <!-- Screen: Phishing Site Trap (Now a realistic fake login page) -->
+      <div class="screen" id="s-phishing" style="background:#f4f6f8">
+        <div style="background:#00915a; padding: 20px 40px; color: white; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+          <div style="font-size: 24px; font-weight: 800; letter-spacing: -0.5px">BNP PARIBAS</div>
+          <div style="font-size: 14px; opacity: 0.8; margin-top: 4px">| Secure Portal</div>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; overflow-y: auto;">
+          <div style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; width: 100%; max-width: 420px;">
+            <h2 style="font-size: 22px; margin-bottom: 24px; color: #333; text-align: center; font-weight: 700">Access your accounts</h2>
+            <div style="margin-bottom: 16px;">
+              <label style="display:block; margin-bottom: 8px; font-size: 14px; color: #555; font-weight: 600">Customer Number</label>
+              <input type="text" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px" placeholder="10 digits">
+            </div>
+            <div style="margin-bottom: 24px;">
+              <label style="display:block; margin-bottom: 8px; font-size: 14px; color: #555; font-weight: 600">Secret Code</label>
+              <input type="password" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px" placeholder="6 digits">
+            </div>
+            <button style="width: 100%; padding: 14px; background: #00915a; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 16px; transition: background 0.15s" onmouseover="this.style.background='#007a4b'" onmouseout="this.style.background='#00915a'" onclick="alert('In a real scenario, the hacker now has your bank credentials!')">LOG IN</button>
+            <div style="margin-top: 20px; font-size: 13px; color: #888; text-align: center;">
+              <a href="#" style="color: #00915a; text-decoration: none; font-weight: 500">Forgot your secret code?</a>
+            </div>
+          </div>
+          <div style="margin-top: 30px; font-size: 12px; color: #aaa; text-align: center; max-width: 600px; line-height: 1.5">
+            Security Warning: Ensure you are on the correct site. Never share your secret code over email or phone. 
+            <br>© 2026 BNP Paribas. All rights reserved.
+          </div>
         </div>
       </div>
 
@@ -956,7 +976,7 @@ const tabMeta = {
   'search-results':{label:'Search Results',sub:'aigis://search',icon:'🔍'},
   'shop-success':{label:'Order confirmed',sub:'aigis://safeshop',icon:'📦'},
   'facebook':{label:'Facebook',sub:'facebook.com',icon:'👥'},
-  'phishing':{label:'Malicious Site',sub:'bnp-paribas-secure.net',icon:'💀'}
+  'phishing':{label:'Secure Login',sub:'bnp-paribas-secure.net',icon:'🔒'}
 };
 
 const aiScreens = {
