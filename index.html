@@ -30,7 +30,7 @@ button{font-family:'DM Sans',sans-serif}
 .topbar-settings:hover{color:#ccc}
 
 /* ── 3-column layout ── */
-.main{display:flex;flex:1;overflow:hidden;position:relative}
+.main{display:flex;flex:1;overflow:hidden;position:relative;height:0}
 
 /* ── Left sidebar ── */
 .sidebar{width:230px;background:#f0f0f0;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid #ddd;overflow-y:auto}
@@ -52,8 +52,8 @@ button{font-family:'DM Sans',sans-serif}
 .open-tabs-list{display:flex;flex-direction:column;gap:2px;padding:0 8px 8px}
 
 /* ── Center ── */
-.center{flex:1;background:#fff;overflow-y:auto;position:relative;display:flex;flex-direction:column;min-width:0}
-.screen{display:none;flex:1;flex-direction:column;animation:fadeIn .2s ease}
+.center{flex:1;background:#fff;overflow-y:auto;position:relative;display:flex;flex-direction:column;min-width:0;min-height:0}
+.screen{display:none;flex:1;flex-direction:column;animation:fadeIn .2s ease;overflow:hidden;min-height:0}
 .screen.active{display:flex}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -70,9 +70,9 @@ button{font-family:'DM Sans',sans-serif}
 .icon-btn:hover{color:#444}.icon-btn:focus{outline:2px solid #555}
 
 /* ── SafeShop: chat left + grid right ── */
-.shop-layout{flex:1;display:flex;overflow:hidden}
-.shop-chat-col{width:300px;flex-shrink:0;display:flex;flex-direction:column;padding:20px 16px 16px;border-right:1px solid #eee;background:#fafafa;overflow:hidden}
-.shop-grid-col{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:24px 28px}
+.shop-layout{flex:1;display:flex;overflow:hidden;min-height:0}
+.shop-chat-col{width:300px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid #eee;background:#fafafa;overflow:hidden;min-height:0}
+.shop-grid-col{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:24px 28px;min-height:0}
 .shop-grid-hdr{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .shop-grid-title{font-size:28px;font-weight:700;color:#1a1a1a;flex:1}
 .shop-filter-bar{display:flex;align-items:center;gap:10px}
@@ -427,21 +427,24 @@ input[type=range]{accent-color:#2b2b2b}
         <div class="shop-layout">
           <!-- left: chat -->
           <div class="shop-chat-col">
-            <div class="shop-head" style="font-size:16px;margin-bottom:14px">🛒 SafeShop</div>
-            <div class="chat-msgs" id="shop-msgs" style="flex:1;min-height:0;overflow-y:auto"></div>
-            <div id="shop-mic-area" style="display:none">
-              <div class="mic-row" style="margin-top:10px">
-                <button class="mic-big" id="shop-mic-btn" aria-label="Use microphone" onclick="openSTT('shop')">🎤</button>
-                <span style="color:#999;font-size:13px">Speak or type</span>
+            <div style="flex-shrink:0;padding:16px 16px 12px;border-bottom:1px solid #eee">
+              <div class="shop-head" style="font-size:16px;margin:0">🛒 SafeShop</div>
+            </div>
+            <div class="chat-msgs" id="shop-msgs" style="flex:1;min-height:0;overflow-y:auto;padding:16px"></div>
+            <div style="flex-shrink:0;padding:8px 16px 0;border-top:1px solid #eee">
+              <div id="shop-mic-area" style="display:none">
+                <div class="mic-row" style="margin-bottom:8px">
+                  <button class="mic-big" id="shop-mic-btn" aria-label="Use microphone" onclick="openSTT('shop')">🎤</button>
+                  <span style="color:#999;font-size:13px">Speak or type</span>
+                </div>
+              </div>
+              <div id="shop-input-area" style="display:none">
+                <div class="shop-input-row" style="margin-top:6px;margin-bottom:10px">
+                  <textarea class="shop-input" id="shop-text" placeholder="Describe what you're looking for…" aria-label="Describe what you're looking for" rows="1"></textarea>
+                  <button class="shop-send" onclick="sendShop()" aria-label="Send">↑</button>
+                </div>
               </div>
             </div>
-            <div id="shop-input-area" style="display:none">
-              <div class="shop-input-row" style="margin-top:10px">
-                <textarea class="shop-input" id="shop-text" placeholder="Describe what you're looking for…" aria-label="Describe what you're looking for" rows="1"></textarea>
-                <button class="shop-send" onclick="sendShop()" aria-label="Send">↑</button>
-              </div>
-            </div>
-
           </div>
           <!-- right: product grid -->
           <div class="shop-grid-col">
@@ -961,6 +964,7 @@ function goNoHistory(name) {
   document.getElementById('addr').textContent = urls[name] || 'aigis://home';
   setAI(name);
   if (name === 'tax-form') setTimeout(taxFormAI, 400);
+  if (name === 'shop-chat') initShop();
   // hide AI panel in SafeShop (has its own chat), show everywhere else
   const shopScreens = ['shop-chat', 'shop-success'];
   const shouldHide = shopScreens.includes(name);
@@ -1156,8 +1160,7 @@ function sendShop() {
     // show results immediately in the grid
     showShopResults(msg);
     // ai confirms and offers refinement
-    addShopMsg('ai','Here's what I found! 🛍️ You can refine by adding more details, or add items to your cart.');
-    // re-open input for follow-up refinement
+    addShopMsg("ai", "Here's what I found! 🛍️ You can refine by adding more details, or add items to your cart.");
     document.getElementById('shop-input-area').style.display='block';
     document.getElementById('shop-mic-area').style.display='block';
     shopPhase=1;
@@ -1329,14 +1332,14 @@ function classifyEmail(emailId, verdict) {
   // update inbox row color + badge
   const badge = item.querySelector('.etrust');
   if (verdict === 'safe') {
-    item.className = item.className.replace(/score-\w+/, 'score-safe');
+    item.className = item.className.replace(/score-(danger|warn|ok|safe)/, 'score-safe');
     item.style.background = '#eafaf3';
     item.style.borderColor = '#a0e0bb';
     const icon = item.querySelector('.eicon');
     if (icon) { icon.className = 'eicon safe'; icon.textContent = '✅'; }
     if (badge) { badge.className = 'etrust safe'; badge.textContent = '✓ Marked safe by you'; }
   } else {
-    item.className = item.className.replace(/score-\w+/, 'score-danger');
+    item.className = item.className.replace(/score-(danger|warn|ok|safe)/, 'score-danger');
     item.style.background = '#fff0ee';
     item.style.borderColor = '#ffccc8';
     const icon = item.querySelector('.eicon');
