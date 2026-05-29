@@ -146,22 +146,16 @@ button{font-family:'DM Sans',sans-serif}
 .mail-tool-btn.primary:hover{background:#333}
 .elist{display:flex;flex-direction:column;gap:6px}
 
-/* trust score colors */
+/* Trust score base layout (colors injected via JS) */
 .eitem{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border-radius:10px;cursor:pointer;border:none;width:100%;text-align:left;transition:opacity .15s, background .15s;font-family:'DM Sans',sans-serif;border:1px solid transparent; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.05)}
 .eitem:hover{filter:brightness(.97)}.eitem:focus{outline:2px solid #555}
-.eitem.score-danger{background:#fff0ee;border-color:#ffccc8}
-.eitem.score-warn{background:#fff8ee;border-color:#ffe0b0}
-.eitem.score-ok{background:#f0faf4;border-color:#b8e8c8}
-.eitem.score-safe{background:#eafaf3;border-color:#a0e0bb}
 
 /* specific "read" state styles */
-.eitem.read{opacity:0.65; filter:grayscale(0.3); background:#f5f5f5; border-color:transparent; box-shadow:none}
+.eitem.read{background: #f5f5f5 !important; border-color: transparent !important; opacity:0.65; filter:grayscale(0.3); box-shadow:none}
 .eitem.read .esubj{font-weight:500; color:#444}
 .eitem.read .esender{color:#333}
 
 .eicon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.eicon.danger{background:#ffd0c8}.eicon.warn{background:#ffe5b0}.eicon.safe{background:#bcf0ce; border:1px solid #a0e0bb}
-.eicon.ok{background:#d4f4e2; border:1px solid #b8e8c8}
 
 .emeta-row{display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap}
 .esender{font-size:15px;font-weight:700;color:#111}
@@ -169,10 +163,7 @@ button{font-family:'DM Sans',sans-serif}
 .esubj{font-size:15px;font-weight:700;color:#111;margin:2px 0}
 .eprev{font-size:14px;color:#444;font-weight:500}
 .etrust{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:700}
-.etrust.danger{background:#ffded8;color:#a00000}
-.etrust.warn{background:#ffefd0;color:#904000}
-.etrust.ok{background:#d4f4e2;color:#1a6e35}
-.etrust.safe{background:#c8f0da;color:#0d5c2a}
+
 .scam-note{display:none;background:#fffbe8;border:1px solid #ffe0a0;border-radius:8px;padding:12px 16px;margin-top:14px;font-size:14px;color:#7a5800;line-height:1.5;font-weight:500}
 .scam-note.show{display:block}
 
@@ -350,9 +341,9 @@ input[type=range]{accent-color:#2b2b2b}
       <div class="sb-section">
         <div class="sb-lbl">Shortcuts</div>
         <div class="sb-title">Quickly access</div>
-        <button class="sb-item" onclick="openTab('mail-inbox','mail')" aria-label="Gertrude's Mail">
+        <button class="sb-item" onclick="openTab('mail-inbox')" aria-label="E-Mail">
           <div class="sb-icon mail">✉️</div>
-          <div><div class="sb-name">Gertrude's Mail <span class="mail-count" id="sb-mail-count">3</span></div><div class="sb-sub" id="sb-mail-sub">3 new messages</div></div>
+          <div><div class="sb-name">E-Mail <span class="mail-count" id="sb-mail-count">3</span></div><div class="sb-sub" id="sb-mail-sub">3 new messages</div></div>
         </button>
         <button class="sb-item" onclick="openTab('home','facebook')" aria-label="Facebook">
           <div class="sb-icon fb">👥</div>
@@ -452,7 +443,7 @@ input[type=range]{accent-color:#2b2b2b}
       <div class="screen" id="s-mail-inbox">
         <div class="mail-wrap">
           <div class="mail-toolbar">
-            <h2 class="mail-h">✉️ Gertrude's Mail</h2>
+            <h2 class="mail-h">✉️ E-Mail</h2>
             <div style="display:flex; background:#e0e0e0; border-radius:8px; padding:4px; gap:4px; margin-right:auto">
                <button id="mtab-inbox" class="mail-tab-btn active" onclick="switchMailTab('inbox')">Inbox</button>
                <button id="mtab-spam" class="mail-tab-btn" onclick="switchMailTab('spam')">Spam</button>
@@ -491,7 +482,7 @@ input[type=range]{accent-color:#2b2b2b}
             <span>From: <strong>noreply@bnp-paribas-secure.net</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
             <span>May 25, 2026 — 09:14</span>
-            <span class="etrust danger" style="font-size:13px">⚠️ 12% trust score — Likely scam</span>
+            <span class="etrust" id="badge-scam" style="font-size:13px; background:hsl(14, 80%, 90%); color:hsl(14, 80%, 30%)">⚠️ 12% — Likely scam</span>
           </div>
           <div class="ebody">
             <p>Dear Customer,</p><br>
@@ -526,7 +517,7 @@ input[type=range]{accent-color:#2b2b2b}
             <span>From: <strong>impots.gouv.fr</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
             <span>May 24, 2026 — 16:40</span>
-            <span class="etrust ok" style="font-size:13px">✓ 94% trust score — Trusted sender</span>
+            <span class="etrust" id="badge-tax" style="font-size:13px; background:hsl(112, 80%, 90%); color:hsl(112, 80%, 30%)">✓ 94% — Verified</span>
           </div>
           <div class="ebody">
             <p>Dear Madame Gertrude Dupont,</p><br>
@@ -564,7 +555,7 @@ input[type=range]{accent-color:#2b2b2b}
             <span>From: <strong>contact@cabinet-martin.fr</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
             <span>May 15, 2026 — 10:02</span>
-            <span class="etrust safe" style="font-size:13px">✓ 100% — Verified sender</span>
+            <span class="etrust" id="badge-doctor" style="font-size:13px; background:hsl(120, 80%, 90%); color:hsl(120, 80%, 30%)">✓ 100% — Trusted</span>
           </div>
           <div class="ebody">
             <p>Dear Madame Dupont,</p><br>
@@ -955,7 +946,7 @@ const urls = {
 const tabMeta = {
   'home':{label:'Welcome Page',sub:'aigis://home',icon:'🏠'},
   'shop-chat':{label:'SafeShop',sub:'aigis://safeshop',icon:'🛒'},
-  'mail-inbox':{label:"Gertrude's Mail",sub:'aigis://mail',icon:'✉️'},
+  'mail-inbox':{label:"E-Mail",sub:'aigis://mail',icon:'✉️'},
   'scam-email':{label:'BNP Paribas',sub:'⚠️ Suspicious',icon:'⚠️'},
   'tax-email':{label:'Tax reminder',sub:'impots.gouv.fr',icon:'📄'},
   'tax-form':{label:'Tax Declaration',sub:'impots.gouv.fr',icon:'📋'},
@@ -1496,12 +1487,13 @@ function confirmPurchase() {
 // ── Dynamic Mail Inbox System ──
 let currentMailTab = 'inbox';
 const emailsData = [
-  { id: 'email-scam', sender: 'BNP Paribas — URGENT', date: 'Today, 09:14', subject: 'Your account has been suspended', preview: 'Please click the link below to verify your identity immediately…', trust: 'danger', score: '⚠️ 12% — Likely scam', icon: '⚠️', read: false, spam: false },
-  { id: 'email-tax', sender: 'Direction Générale des Finances Publiques', date: 'Yesterday, 16:40', subject: 'Reminder: Tax declaration due May 31', preview: 'Dear Madame Gertrude Dupont, your annual tax declaration is due soon…', trust: 'ok', score: '✓ 94% — Trusted', icon: '📄', read: false, spam: false },
-  { id: 'email-doctor', sender: 'Dr. Martin — Cabinet Médical', date: 'May 15, 10:02', subject: 'Appointment confirmed: June 3 at 10:00', preview: 'Your appointment with Dr. Martin is confirmed for June 3…', trust: 'safe', score: '✓ 100% — Verified', icon: '🏥', read: true, spam: false },
-  { id: 'email-rand1', sender: 'Mairie de Lyon', date: 'May 14, 14:20', subject: 'Your local newsletter', preview: 'Discover the events happening in your area this weekend.', trust: 'safe', score: '✓ 98% — Verified', icon: '🏛️', read: true, spam: false },
-  { id: 'email-rand2', sender: 'Family Group', date: 'May 12, 18:05', subject: 'Photos from the weekend', preview: 'Hi Grandma! Here are the photos from our trip to the lake.', trust: 'safe', score: '✓ 100% — Trusted', icon: '👨‍👩‍👧', read: true, spam: false },
-  { id: 'email-rand3', sender: 'Fnac', date: 'May 10, 09:30', subject: 'Your recent purchase', preview: 'Thank you for your order. Here is your receipt.', trust: 'ok', score: '✓ 88% — Trusted', icon: '🛍️', read: true, spam: false }
+  { id: 'email-scam', sender: 'BNP Paribas — URGENT', date: 'Today, 09:14', subject: 'Your account has been suspended', preview: 'Please click the link below to verify your identity immediately…', percent: 12, read: false, spam: false },
+  { id: 'email-tax', sender: 'Direction Générale des Finances Publiques', date: 'Yesterday, 16:40', subject: 'Reminder: Tax declaration due May 31', preview: 'Dear Madame Gertrude Dupont, your annual tax declaration is due soon…', percent: 94, read: false, spam: false },
+  { id: 'email-doctor', sender: 'Dr. Martin — Cabinet Médical', date: 'May 15, 10:02', subject: 'Appointment confirmed: June 3 at 10:00', preview: 'Your appointment with Dr. Martin is confirmed for June 3…', percent: 100, read: true, spam: false },
+  { id: 'email-rand1', sender: 'Mairie de Lyon', date: 'May 14, 14:20', subject: 'Your local newsletter', preview: 'Discover the events happening in your area this weekend.', percent: 98, read: true, spam: false },
+  { id: 'email-rand2', sender: 'Family Group', date: 'May 12, 18:05', subject: 'Photos from the weekend', preview: 'Hi Grandma! Here are the photos from our trip to the lake.', percent: 100, read: true, spam: false },
+  { id: 'email-rand3', sender: 'Fnac', date: 'May 10, 09:30', subject: 'Your recent purchase', preview: 'Thank you for your order. Here is your receipt.', percent: 88, read: true, spam: false },
+  { id: 'email-spam1', sender: 'Bitcoin Giveaway', date: 'May 01, 03:00', subject: 'YOU WON 10 BTC', preview: 'Claim your prize now before it expires...', percent: 2, read: false, spam: true }
 ];
 
 function renderEmails() {
@@ -1511,26 +1503,11 @@ function renderEmails() {
   
   const filtered = emailsData.filter(e => currentMailTab === 'spam' ? e.spam : !e.spam);
   
-  if (currentMailTab === 'inbox') {
-    const unread = filtered.filter(e => !e.read);
-    const read = filtered.filter(e => e.read);
-    
-    if (unread.length > 0) {
-      container.insertAdjacentHTML('beforeend', `<div style="font-weight:800; color:#444; margin:8px 0 4px; font-size:13px; text-transform:uppercase; letter-spacing:0.5px">New / Unread</div>`);
-      unread.forEach(e => container.appendChild(createEmailEl(e)));
-    }
-    
-    if (read.length > 0) {
-      container.insertAdjacentHTML('beforeend', `<div style="font-weight:800; color:#444; margin:24px 0 4px; font-size:13px; text-transform:uppercase; letter-spacing:0.5px">Older / Read</div>`);
-      read.forEach(e => container.appendChild(createEmailEl(e)));
-    }
+  if (filtered.length === 0) {
+     container.insertAdjacentHTML('beforeend', `<div style="padding: 30px; text-align: center; color: #555; font-weight: 600; font-size: 16px;">No emails found here. You are safe!</div>`);
   } else {
-    // Spam tab
-    if (filtered.length === 0) {
-       container.insertAdjacentHTML('beforeend', `<div style="padding: 30px; text-align: center; color: #555; font-weight: 600; font-size: 16px;">No spam emails found. You are safe!</div>`);
-    } else {
-       filtered.forEach(e => container.appendChild(createEmailEl(e)));
-    }
+     // Just append them all sequentially
+     filtered.forEach(e => container.appendChild(createEmailEl(e)));
   }
   
   // Update badge in sidebar
@@ -1543,10 +1520,42 @@ function renderEmails() {
 
 function createEmailEl(e) {
   const btn = document.createElement('button');
-  btn.className = `eitem score-${e.trust} ${e.read ? 'read' : ''}`;
+  btn.className = `eitem ${e.read ? 'read' : ''}`;
+  
+  // Dynamic gradient math: 0% = Red(0), 100% = Green(120)
+  const hue = Math.floor((e.percent / 100) * 120);
+  
+  if (!e.read) {
+     btn.style.background = `hsl(${hue}, 80%, 98%)`;
+     btn.style.borderColor = `hsl(${hue}, 60%, 85%)`;
+  }
+  
+  const badgeStyle = `background: hsl(${hue}, 80%, 90%); color: hsl(${hue}, 80%, 30%);`;
+  const iconStyle = `background: hsl(${hue}, 80%, 85%); border: 1px solid hsl(${hue}, 80%, 75%);`;
+  
+  let label = e.percent === 100 ? "Trusted" : "Verified";
+  if (e.percent < 50) label = "Likely scam";
+  if (e.percent < 10) label = "Spam";
+  
+  let iconStr = e.percent < 50 ? '⚠️' : '✓';
+  let largeIconStr = '📄';
+  if (e.percent < 50) largeIconStr = '⚠️';
+  else if (e.percent === 100) largeIconStr = '✅';
+  
+  // Custom icons for specific hardcoded emails just for flair
+  if (e.id === 'email-doctor') largeIconStr = '🏥';
+  if (e.id === 'email-rand1') largeIconStr = '🏛️';
+  if (e.id === 'email-rand2') largeIconStr = '👨‍👩‍👧';
+  if (e.id === 'email-rand3') largeIconStr = '🛍️';
+
+  if (e.userClassified === 'safe') { label = "Marked safe by you"; iconStr = '✅'; largeIconStr = '✅'; }
+  if (e.userClassified === 'unsafe') { label = "Marked unsafe by you"; iconStr = '⚠️'; largeIconStr = '⚠️'; }
+  
+  let scoreDisplay = e.userClassified ? label : `${iconStr} ${e.percent}% — ${label}`;
+
   btn.onclick = () => {
      markRead(e.id);
-     if (e.id.startsWith('email-rand')) {
+     if (e.id.startsWith('email-rand') || e.id.startsWith('email-spam')) {
         document.getElementById('gen-subj').textContent = e.subject;
         document.getElementById('gen-sender').textContent = e.sender;
         document.getElementById('gen-date').textContent = e.date;
@@ -1556,12 +1565,13 @@ function createEmailEl(e) {
         go(e.id.replace('email-', '') + '-email'); // Maps to s-scam-email, s-tax-email, etc.
      }
   };
+  
   btn.innerHTML = `
-      <div class="eicon ${e.trust}">${e.icon}</div>
+      <div class="eicon" style="${iconStyle}">${largeIconStr}</div>
       <div style="flex:1;min-width:0">
         <div class="emeta-row">
           <span class="esender">${e.sender}</span>
-          <span class="etrust ${e.trust}">${e.score}</span>
+          <span class="etrust" style="${badgeStyle}">${scoreDisplay}</span>
           <span class="edate">${e.date}</span>
         </div>
         <div class="esubj">${e.subject}</div>
@@ -1582,6 +1592,10 @@ function markRead(emailId){
   const e = emailsData.find(m => m.id === emailId);
   if (e && !e.read) {
      e.read = true;
+     // Automatically route to spam upon read if it's considered dangerous
+     if (e.percent < 50) {
+        e.spam = true;
+     }
      renderEmails();
   }
 }
@@ -1594,26 +1608,32 @@ function classifyEmail(emailId, verdict) {
   const unsafeBtn = document.getElementById('cls-unsafe-' + emailId.replace('email-',''));
 
   if (verdict === 'safe') {
-    e.trust = 'safe';
-    e.score = '✓ Marked safe by you';
-    e.icon = '✅';
+    e.percent = 100;
+    e.userClassified = 'safe';
     e.spam = false;
     
     if (safeBtn)   { safeBtn.style.background='#1a6e35'; safeBtn.style.color='#fff'; safeBtn.textContent='✓ Marked safe'; }
     if (unsafeBtn) { unsafeBtn.style.opacity='.4'; unsafeBtn.style.background=''; unsafeBtn.style.color=''; unsafeBtn.textContent='⚠️ Unsafe'; }
     
+    // update hardcoded badge in the active screen
+    const badge = document.querySelector('.screen.active .etrust');
+    if (badge) { badge.style.background = 'hsl(120, 80%, 90%)'; badge.style.color = 'hsl(120, 80%, 30%)'; badge.innerHTML = '✓ Marked safe by you'; }
+
     const box = document.getElementById('aip-msgs');
     if (box) appendAI('ai', '✅ Got it — this email has been marked as safe.');
     renderEmails();
   } else {
-    e.trust = 'danger';
-    e.score = '⚠️ Marked unsafe by you';
-    e.icon = '⚠️';
+    e.percent = 0;
+    e.userClassified = 'unsafe';
     e.spam = true; // MOVE TO SPAM FOLDER
     
     if (unsafeBtn) { unsafeBtn.style.background='#c62828'; unsafeBtn.style.color='#fff'; unsafeBtn.textContent='⚠️ Marked unsafe'; }
     if (safeBtn)   { safeBtn.style.opacity='.4'; safeBtn.style.background=''; safeBtn.style.color=''; safeBtn.textContent='✓ Safe'; }
     
+    // update hardcoded badge in the active screen
+    const badge = document.querySelector('.screen.active .etrust');
+    if (badge) { badge.style.background = 'hsl(0, 80%, 90%)'; badge.style.color = 'hsl(0, 80%, 30%)'; badge.innerHTML = '⚠️ Marked unsafe by you'; }
+
     const box = document.getElementById('aip-msgs');
     if (box) appendAI('ai', '⚠️ Noted — this email has been marked as unsafe and moved to your spam folder.');
     
@@ -1649,7 +1669,7 @@ async function analyzeCurrentEmail() {
     tabChatHistory[activeTabUid] = box.innerHTML; 
   } catch(e) {
     document.getElementById(typingId)?.remove();
-    appendAI('ai', "I'm having trouble reading this right now.");
+    appendAI('ai', `I'm having trouble reading this right now. Error details: ${e.message}`);
   }
 }
 
@@ -1674,7 +1694,7 @@ async function draftReplyCurrentEmail() {
     tabChatHistory[activeTabUid] = box.innerHTML; 
   } catch(e) {
     document.getElementById(typingId)?.remove();
-    appendAI('ai', "I'm having trouble drafting a reply right now.");
+    appendAI('ai', `I'm having trouble drafting a reply right now. Error details: ${e.message}`);
   }
 }
 
@@ -1734,7 +1754,24 @@ function doSearch(query){
     list.appendChild(div);
   });
   
-  go('search-results'); 
+  // Navigate explicitly ensuring we replace the home tab
+  if (activeTabId === 'home') {
+     const homeTab = openTabs.find(t => t.id === 'home');
+     if (homeTab) {
+        homeTab.id = 'search-results';
+        homeTab.label = 'Search Results';
+        homeTab.icon = '🔍';
+        homeTab.sub = 'aigis://search';
+     }
+     activeTabId = 'search-results';
+     renderTabs();
+  } else {
+     openTab('search-results', 'search');
+  }
+  
+  goNoHistory('search-results');
+  navPush('search-results');
+  setAI('search-results');
 }
 function toggleSrDetail(detailId,badgeId,safety){
   const detail=document.getElementById(detailId),badge=document.getElementById(badgeId);
