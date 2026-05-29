@@ -13,7 +13,6 @@ body{font-family:'DM Sans',sans-serif;font-size:15px;background:#d4d4d4;display:
 button{font-family:'DM Sans',sans-serif}
 
 /* ── Browser window ── */
-/* FIX: Changed min-height to height, and added max-height/max-width to lock the container and force scrolling inside */
 .browser{width:1280px;height:800px;max-height:95vh;max-width:98vw;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.35)}
 
 /* ── Top bar ── */
@@ -74,15 +73,31 @@ button{font-family:'DM Sans',sans-serif}
 
 /* ── SafeShop: chat left + grid right ── */
 .shop-layout{flex:1;display:flex;overflow:hidden;min-height:0}
-.shop-chat-col{width:450px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid #eee;background:#fafafa;overflow:hidden;min-height:0}
-.shop-grid-col{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:24px 28px;min-height:0}
+.shop-chat-col{width:450px;flex-shrink:0;display:flex;flex-direction:column;background:#fafafa;overflow:hidden;min-height:0}
+
+/* SafeShop Resizer */
+.resizer {
+  width: 6px;
+  background: #f0f0f0;
+  cursor: col-resize;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  z-index: 10;
+}
+.resizer:hover, .resizer.dragging {
+  background: #bbb;
+}
+
+.shop-grid-col{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:24px 28px;min-height:0; background: #fff;}
 .shop-grid-hdr{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .shop-grid-title{font-size:28px;font-weight:700;color:#1a1a1a;flex:1}
 .shop-filter-bar{display:flex;align-items:center;gap:10px}
 .shop-filter-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid #ddd;border-radius:50px;background:#fff;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#333;font-weight:500}
 .shop-filter-btn:hover{background:#f5f5f5}
 .shop-search-bar{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid #ddd;border-radius:50px;background:#fff;font-size:14px;color:#555}
-.shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:16px}
 .shop-card{background:#fff;border:1px solid #eee;border-radius:12px;overflow:hidden;transition:box-shadow .15s;cursor:pointer;animation:fadeIn .25s ease}
 .shop-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
 .shop-card-img{width:100%;height:160px;object-fit:cover;display:block;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:40px;color:#ccc}
@@ -340,9 +355,8 @@ input[type=range]{accent-color:#2b2b2b}
     <!-- Sidebar -->
     <nav class="sidebar" aria-label="Navigation">
       <div class="sb-section">
-        <div class="sb-lbl">Shortcuts</div>
-        <div class="sb-title">Quickly access</div>
-        <button class="sb-item" onclick="openTab('mail-inbox')" aria-label="E-Mail">
+        <div class="sb-lbl" style="margin-bottom:8px">QUICK ACCESS</div>
+        <button class="sb-item" onclick="openTab('mail-inbox','mail')" aria-label="E-Mail">
           <div class="sb-icon mail">✉️</div>
           <div><div class="sb-name">E-Mail <span class="mail-count" id="sb-mail-count">3</span></div><div class="sb-sub" id="sb-mail-sub">3 new messages</div></div>
         </button>
@@ -418,6 +432,10 @@ input[type=range]{accent-color:#2b2b2b}
               </div>
             </div>
           </div>
+          
+          <!-- resizer -->
+          <div class="resizer" id="shop-resizer"></div>
+          
           <!-- right: product grid -->
           <div class="shop-grid-col">
             <div class="shop-grid-hdr" id="shop-grid-hdr" style="display:none">
@@ -518,7 +536,7 @@ input[type=range]{accent-color:#2b2b2b}
             <span>From: <strong>impots.gouv.fr</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
             <span>May 24, 2026 — 16:40</span>
-            <span class="etrust" id="badge-tax" style="font-size:13px; background:hsl(112, 80%, 90%); color:hsl(112, 80%, 30%)">✓ 94% — Verified</span>
+            <span class="etrust" id="badge-tax" style="font-size:13px; background:hsl(120, 80%, 90%); color:hsl(120, 80%, 30%)">✓ 100% — Trusted</span>
           </div>
           <div class="ebody">
             <p>Dear Madame Gertrude Dupont,</p><br>
@@ -1379,9 +1397,9 @@ function sendShop() {
 // ── Product catalog by category ──
 const allProducts = {
   nightstand: [
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'HEMNES Nightstand',price:'€89',desc:'Classic design · IKEA · White stain',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Vintage Pink Nightstand',price:'€54',desc:'Retro style · TheGoodCorner',safety:'warn',score:'90%',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Modern Blush Nightstand',price:'€119',desc:'Minimalist · Maisons du Monde',safety:'safe',score:'100%'},
+    {img:'assets/nightstand-1.jpg',name:'HEMNES Nightstand',price:'€89',desc:'Classic design · IKEA · White stain',safety:'safe',score:'100%'},
+    {img:'assets/nightstand-2.jpg',name:'Vintage Pink Nightstand',price:'€54',desc:'Retro style · TheGoodCorner',safety:'warn',score:'90%',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
+    {img:'assets/nightstand-3.jpg',name:'Modern Blush Nightstand',price:'€119',desc:'Minimalist · Maisons du Monde',safety:'safe',score:'100%'},
   ],
   lamp: [
     {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'RANARP Floor Lamp',price:'€35',desc:'Vintage style · IKEA · Off-white',safety:'safe',score:'100%'},
@@ -1399,9 +1417,9 @@ const allProducts = {
     {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Un été à Bordeaux',price:'€14',desc:'Novel · Pocket editions',safety:'safe',score:'100%'},
   ],
   plant: [
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Monstera Deliciosa',price:'€19',desc:'Indoor plant · Truffaut',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Cactus Assortment (3 pots)',price:'€12',desc:'Low maintenance · Botanic',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'White Orchid',price:'€15',desc:'Flowering · Ikea',safety:'safe',score:'100%'},
+    {img:'assets/plant-1.jpg',name:'Monstera Deliciosa',price:'€19',desc:'Indoor plant · Truffaut',safety:'safe',score:'100%'},
+    {img:'assets/plant-2.jpg',name:'Cactus Assortment (3 pots)',price:'€12',desc:'Low maintenance · Botanic',safety:'safe',score:'100%'},
+    {img:'assets/plant-3.jpg',name:'White Orchid',price:'€15',desc:'Flowering · Ikea',safety:'safe',score:'100%'},
   ],
   candle: [
     {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Scented Candle Set',price:'€18',desc:'Lavender & vanilla · Maisons du Monde',safety:'safe',score:'100%'},
@@ -1508,7 +1526,7 @@ function confirmPurchase() {
 let currentMailTab = 'inbox';
 const emailsData = [
   { id: 'email-scam', sender: 'BNP Paribas — URGENT', date: 'Today, 09:14', subject: 'Your account has been suspended', preview: 'Please click the link below to verify your identity immediately…', percent: 12, read: false, spam: false },
-  { id: 'email-tax', sender: 'Direction Générale des Finances Publiques', date: 'Yesterday, 16:40', subject: 'Reminder: Tax declaration due May 31', preview: 'Dear Madame Gertrude Dupont, your annual tax declaration is due soon…', percent: 94, read: false, spam: false },
+  { id: 'email-tax', sender: 'Direction Générale des Finances Publiques', date: 'Yesterday, 16:40', subject: 'Reminder: Tax declaration due May 31', preview: 'Dear Madame Gertrude Dupont, your annual tax declaration is due soon…', percent: 100, read: false, spam: false },
   { id: 'email-doctor', sender: 'Dr. Martin — Cabinet Médical', date: 'May 15, 10:02', subject: 'Appointment confirmed: June 3 at 10:00', preview: 'Your appointment with Dr. Martin is confirmed for June 3…', percent: 100, read: true, spam: false },
   { id: 'email-rand1', sender: 'Mairie de Lyon', date: 'May 14, 14:20', subject: 'Your local newsletter', preview: 'Discover the events happening in your area this weekend.', percent: 98, read: true, spam: false },
   { id: 'email-rand2', sender: 'Family Group', date: 'May 12, 18:05', subject: 'Photos from the weekend', preview: 'Hi Grandma! Here are the photos from our trip to the lake.', percent: 100, read: true, spam: false },
@@ -1557,7 +1575,10 @@ function createEmailEl(e) {
   if (e.percent < 50) label = "Likely scam";
   if (e.percent < 10) label = "Spam";
   
-  let iconStr = e.percent < 50 ? '⚠️' : '✓';
+  let iconStr = '';
+  if (e.percent === 100) iconStr = '✓ ';
+  else if (e.percent < 50) iconStr = '⚠️ ';
+
   let largeIconStr = '📄';
   if (e.percent < 50) largeIconStr = '⚠️';
   else if (e.percent === 100) largeIconStr = '✅';
@@ -1568,10 +1589,10 @@ function createEmailEl(e) {
   if (e.id === 'email-rand2') largeIconStr = '👨‍👩‍👧';
   if (e.id === 'email-rand3') largeIconStr = '🛍️';
 
-  if (e.userClassified === 'safe') { label = "Marked safe by you"; iconStr = '✅'; largeIconStr = '✅'; }
-  if (e.userClassified === 'unsafe') { label = "Marked unsafe by you"; iconStr = '⚠️'; largeIconStr = '⚠️'; }
+  if (e.userClassified === 'safe') { label = "Marked safe by you"; iconStr = '✅ '; largeIconStr = '✅'; }
+  if (e.userClassified === 'unsafe') { label = "Marked unsafe by you"; iconStr = '⚠️ '; largeIconStr = '⚠️'; }
   
-  let scoreDisplay = e.userClassified ? label : `${iconStr} ${e.percent}% — ${label}`;
+  let scoreDisplay = e.userClassified ? label : `${iconStr}${e.percent}% — ${label}`;
 
   btn.onclick = () => {
      markRead(e.id);
@@ -1935,6 +1956,38 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('aip-text').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}});
   document.querySelector('#s-home input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
   document.getElementById('sr-input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
+
+  // Shop Layout Resizer logic
+  const resizer = document.getElementById('shop-resizer');
+  const chatCol = document.querySelector('.shop-chat-col');
+  let isResizing = false;
+
+  if (resizer && chatCol) {
+    resizer.addEventListener('mousedown', (e) => {
+      isResizing = true;
+      resizer.classList.add('dragging');
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      let newWidth = e.clientX - chatCol.getBoundingClientRect().left;
+      if (newWidth < 250) newWidth = 250;
+      if (newWidth > 800) newWidth = 800;
+      chatCol.style.width = newWidth + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isResizing) {
+        isResizing = false;
+        resizer.classList.remove('dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+    });
+  }
 
   renderTabs();
   setAI('home');
