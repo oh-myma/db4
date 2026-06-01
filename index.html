@@ -25,7 +25,6 @@ button{font-family:'DM Sans',sans-serif}
 .addr-bar{flex:1;background:#3c3c3c;border-radius:6px;height:28px;display:flex;align-items:center;padding:0 12px;color:#aaa;font-size:13px;gap:6px;overflow:hidden}
 .addr-lock{color:#28c840;font-size:11px}
 .addr-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* top-bar settings btn */
 .topbar-settings{background:none;border:none;color:#999;cursor:pointer;font-size:16px;padding:4px 6px;border-radius:4px;margin-left:4px}
 .topbar-settings:hover{color:#ccc}
 
@@ -45,10 +44,8 @@ button{font-family:'DM Sans',sans-serif}
 .sb-icon.mail{background:#cce3f8}.sb-icon.fb{background:#d6dff5}.sb-icon.shop{background:#cceedd}.sb-icon.tab{background:#e0e0e0;font-size:13px}
 .sb-name{font-size:14px;font-weight:700;color:#1a1a1a;line-height:1.2}
 .sb-sub{font-size:12px;color:#333;font-weight:500}
-/* pin-to-shortcuts btn inside tab items */
 .pin-btn{margin-left:auto;background:none;border:1px solid #ccc;border-radius:5px;font-size:11px;padding:2px 6px;color:#333;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .pin-btn:hover{background:#ddd;color:#000}
-/* open tabs list */
 .open-tabs-list{display:flex;flex-direction:column;gap:2px;padding:0 8px 8px}
 .open-tab-item{display:flex;align-items:center;gap:6px;padding:6px 8px 6px 10px;border-radius:8px;cursor:pointer;transition:background .15s}
 .open-tab-item:hover{background:#e4e4e4}
@@ -74,11 +71,9 @@ button{font-family:'DM Sans',sans-serif}
 .icon-btn{background:none;border:none;cursor:pointer;color:#333;font-size:18px;padding:2px;display:flex;align-items:center;border-radius:50%}
 .icon-btn:hover{color:#000}.icon-btn:focus{outline:2px solid #555}
 
-/* ── SafeShop: chat left + grid right ── */
+/* ── SafeShop: chat left + resizer + grid right ── */
 .shop-layout{flex:1;display:flex;overflow:hidden;min-height:0}
 .shop-chat-col{width:450px;flex-shrink:0;display:flex;flex-direction:column;background:#fafafa;overflow:hidden;min-height:0}
-
-/* SafeShop Resizer */
 .resizer {
   width: 6px;
   background: #f0f0f0;
@@ -92,7 +87,6 @@ button{font-family:'DM Sans',sans-serif}
 .resizer:hover, .resizer.dragging {
   background: #bbb;
 }
-
 .shop-grid-col{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:24px 28px;min-height:0; background: #fff;}
 .shop-grid-hdr{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .shop-grid-title{font-size:28px;font-weight:700;color:#1a1a1a;flex:1}
@@ -316,23 +310,13 @@ button{font-family:'DM Sans',sans-serif}
 .sr-badge.danger{background:#fff0ee;color:#c62828;cursor:pointer}
 .sr-badge.danger:hover{background:#ffdcd8}
 .sr-badge:focus{outline:2px solid #555}
+button.sr-badge.safe {cursor:pointer}
+button.sr-badge.safe:hover {background:#cff0df}
 .sr-detail{display:none;margin-top:7px;padding:10px 13px;border-radius:8px;font-size:14px;font-weight:500;line-height:1.55}
 .sr-detail.show{display:block}
+.sr-detail.safe{background:#f0faf4;border:1px solid #b8e8c8;color:#1a6e35}
 .sr-detail.warn{background:#fff8f0;border:1px solid #ffd0a0;color:#7a4000}
 .sr-detail.danger{background:#fff4f3;border:1px solid #ffb3ae;color:#7a1a1a}
-
-/* ── Settings panel ── */
-.settings-overlay{display:none;position:fixed;inset:0;z-index:250}
-.settings-overlay.show{display:block}
-.settings-backdrop{position:absolute;inset:0}
-.settings-panel{position:absolute;top:50px;right:60px;background:#fff;border-radius:14px;padding:24px;width:300px;box-shadow:0 12px 40px rgba(0,0,0,.2);animation:fadeIn .15s ease}
-.settings-h{font-size:16px;font-weight:700;color:#222;margin-bottom:16px}
-.settings-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:15px;color:#333;font-weight:600}
-.settings-row label{flex:1}
-.settings-row select,.settings-row input[type=range]{flex:1}
-select{border:1px solid #ddd;border-radius:6px;padding:4px 8px;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:600}
-input[type=range]{accent-color:#2b2b2b}
-.settings-val{font-size:13px;color:#555;min-width:30px;text-align:right}
 
 /* High Contrast Mode Styles */
 .high-contrast-mode { filter: contrast(1.15); }
@@ -355,6 +339,19 @@ input[type=range]{accent-color:#2b2b2b}
     background: #ddd !important;
     outline: 1px solid #000 !important;
 }
+
+/* ── Settings panel ── */
+.settings-overlay{display:none;position:fixed;inset:0;z-index:250}
+.settings-overlay.show{display:block}
+.settings-backdrop{position:absolute;inset:0}
+.settings-panel{position:absolute;top:50px;right:60px;background:#fff;border-radius:14px;padding:24px;width:300px;box-shadow:0 12px 40px rgba(0,0,0,.2);animation:fadeIn .15s ease}
+.settings-h{font-size:16px;font-weight:700;color:#222;margin-bottom:16px}
+.settings-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:15px;color:#333;font-weight:600}
+.settings-row label{flex:1}
+.settings-row select,.settings-row input[type=range]{flex:1}
+select{border:1px solid #ddd;border-radius:6px;padding:4px 8px;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:600}
+input[type=range]{accent-color:#2b2b2b}
+.settings-val{font-size:13px;color:#555;min-width:30px;text-align:right}
 </style>
 </head>
 <body>
@@ -1790,28 +1787,43 @@ function dismissScam(){
 }
 
 // ── Search ──
-const searchData=[
-  {url:'wikipedia.org/wiki/',title:'General information — Wikipedia',desc:'Find encyclopaedic articles on any topic.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
-  {url:'bbc.com/news/',title:'Latest news — BBC News',desc:'Up-to-date world news and in-depth reporting from the BBC.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
-  {url:'lemonde.fr/',title:'Actualités — Le Monde',desc:'Toute l\'actualité française et internationale.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
-  {url:'youtube.com/results?q=',title:'Video results — YouTube',desc:'Watch videos and tutorials related to your search.',safety:'warn',safeLabel:'⚠️ 75% Safe',detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites.'},
-];
 function doSearch(query){
   query=(query||'').trim(); if(!query) return;
   document.getElementById('sr-input').value=query;
   document.getElementById('addr').textContent='aigis://search?q='+encodeURIComponent(query);
   
   const list=document.getElementById('sr-list'); list.innerHTML='';
-  searchData.forEach((r,i)=>{
+  
+  // Generate dynamic results based on user query
+  let dynamicData = [];
+  if (query.toLowerCase().includes('epfl')) {
+    dynamicData = [
+      {url:'epfl.ch/',title:'EPFL: École polytechnique fédérale de Lausanne',desc:"EPFL is Europe's most cosmopolitan technical university with students, professors and staff from over 120 nations.",safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'This is the official, verified website of EPFL. Its identity and security certificates have been thoroughly validated.'},
+      {url:'wikipedia.org/wiki/EPFL',title:'École polytechnique fédérale de Lausanne — Wikipedia',desc:'The École polytechnique fédérale de Lausanne is a public research university in Lausanne, Switzerland.',safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'Wikipedia is a widely trusted, community-edited encyclopedia with strong security protocols.'},
+      {url:'news.epfl.ch/',title:'EPFL News',desc:'Latest news, research, and discoveries from the École polytechnique fédérale de Lausanne.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
+      {url:'youtube.com/results?q=epfl',title:'Video results for EPFL — YouTube',desc:'Watch videos and campus tours related to your search.',safety:'warn',safeLabel:'⚠️ 75% Safe',detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites.'}
+    ];
+  } else {
+    // Dynamically capitalize first letter of query for titles
+    const formattedQuery = query.charAt(0).toUpperCase() + query.slice(1);
+    dynamicData = [
+      {url:`wikipedia.org/wiki/${encodeURIComponent(query)}`,title:`${formattedQuery} — Wikipedia`,desc:`Find encyclopaedic articles and general information about ${query}.`,safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'Wikipedia is a widely trusted, community-edited encyclopedia with strong security protocols.'},
+      {url:`bbc.com/news/topics/${encodeURIComponent(query)}`,title:`Latest news on ${formattedQuery} — BBC News`,desc:`Up-to-date world news and in-depth reporting about ${query}.`,safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'This is the official domain of the BBC, a verified major news organization.'},
+      {url:`youtube.com/results?q=${encodeURIComponent(query)}`,title:`Video results for ${query} — YouTube`,desc:`Watch videos and tutorials related to ${query}.`,safety:'warn',safeLabel:'⚠️ 75% Safe',detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites.'}
+    ];
+  }
+
+  dynamicData.forEach((r,i)=>{
     const div=document.createElement('div');
     div.className='sr-item ' + r.safety;
     const detailId='sr-detail-'+i, badgeId='sr-badge-'+i;
-    const isC=r.safety!=='safe';
-    const badgeTag=isC?'button':'span';
-    const bExtra=isC?`id="${badgeId}" onclick="toggleSrDetail('${detailId}','${badgeId}','${r.safety}')" aria-expanded="false"`:'';
-    const detailHtml=r.detail?`<div class="sr-detail ${r.safety}" id="${detailId}">ℹ️ ${r.detail}</div>`:'';
+    // Allow badges to be clicked if there is a detail explanation
+    const hasDetail = !!r.detail;
+    const badgeTag = hasDetail ? 'button' : 'span';
+    const bExtra = hasDetail ? `id="${badgeId}" onclick="toggleSrDetail('${detailId}','${badgeId}','${r.safety}')" aria-expanded="false"` : '';
+    const detailHtml = hasDetail ? `<div class="sr-detail ${r.safety}" id="${detailId}">ℹ️ ${r.detail}</div>` : '';
     div.innerHTML=`
-      <div class="sr-url">${r.url}${encodeURIComponent(query)}</div>
+      <div class="sr-url">${r.url}</div>
       <button class="sr-title">${r.title}</button>
       <div class="sr-desc">${r.desc}</div>
       <div class="sr-safety"><${badgeTag} class="sr-badge ${r.safety}" ${bExtra}>${r.safeLabel}</${badgeTag}>${detailHtml}</div>`;
@@ -1819,22 +1831,19 @@ function doSearch(query){
   });
   
   // Navigate explicitly ensuring we replace the home tab
-  if (activeTabId === 'home') {
-     const homeTab = openTabs.find(t => t.id === 'home');
-     if (homeTab) {
-        homeTab.id = 'search-results';
-        homeTab.label = 'Search Results';
-        homeTab.icon = '🔍';
-        homeTab.sub = 'aigis://search';
-     }
-     activeTabId = 'search-results';
+  const currentTab = openTabs.find(t => t.uid === activeTabUid);
+  if (currentTab && currentTab.screenId === 'home') {
+     currentTab.screenId = 'search-results';
+     currentTab.label = 'Search Results';
+     currentTab.icon = '🔍';
+     currentTab.sub = 'aigis://search';
      renderTabs();
+     goNoHistory('search-results');
+     navPush('search-results');
   } else {
-     openTab('search-results', 'search');
+     openTab('search-results');
   }
   
-  goNoHistory('search-results');
-  navPush('search-results');
   setAI('search-results');
 }
 function toggleSrDetail(detailId,badgeId,safety){
@@ -1842,7 +1851,13 @@ function toggleSrDetail(detailId,badgeId,safety){
   if(!detail) return;
   const open=detail.classList.toggle('show');
   badge.setAttribute('aria-expanded',open);
-  badge.textContent=open?(safety==='warn'?'⚠️ 75% Safe ▲':'🚨 Not safe ▲'):(safety==='warn'?'⚠️ 75% Safe':'🚨 Not safe');
+  
+  let baseText = '';
+  if (safety === 'safe') baseText = '🛡️ 100% Safe';
+  else if (safety === 'warn') baseText = '⚠️ 75% Safe';
+  else baseText = '🚨 Not safe';
+  
+  badge.textContent=open ? baseText + ' ▲' : baseText;
 }
 
 // ── Tax form ──
@@ -1936,6 +1951,7 @@ function applyFontSize(v){
     document.querySelectorAll('textarea').forEach(el => autoResize(el));
   }, 10);
 }
+
 function applyHighContrast(on) {
   const browser = document.getElementById('browser');
   if (on) {
@@ -1944,6 +1960,7 @@ function applyHighContrast(on) {
     browser.classList.remove('high-contrast-mode');
   }
 }
+
 function applyLanguage(lang) {
   const greetings = {en:'Welcome Gertrude!', fr:'Bienvenue Gertrude !', de:'Willkommen Gertrude!', it:'Benvenuta Gertrude!'};
   const subs = {en:'What will it be today?', fr:'Que souhaitez-vous faire ?', de:'Was möchten Sie heute tun?', it:'Cosa desidera fare oggi?'};
