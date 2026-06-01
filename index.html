@@ -50,6 +50,9 @@ button{font-family:'DM Sans',sans-serif}
 .pin-btn:hover{background:#ddd;color:#000}
 /* open tabs list */
 .open-tabs-list{display:flex;flex-direction:column;gap:2px;padding:0 8px 8px}
+.open-tab-item{display:flex;align-items:center;gap:6px;padding:6px 8px 6px 10px;border-radius:8px;cursor:pointer;transition:background .15s}
+.open-tab-item:hover{background:#e4e4e4}
+.open-tab-item.active{background:#d8d8d8;border-left:3px solid #2b2b2b}
 
 /* ── Center ── */
 .center{flex:1;background:#fff;overflow-y:hidden;position:relative;display:flex;flex-direction:column;min-width:0;min-height:0}
@@ -330,6 +333,28 @@ button{font-family:'DM Sans',sans-serif}
 select{border:1px solid #ddd;border-radius:6px;padding:4px 8px;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:600}
 input[type=range]{accent-color:#2b2b2b}
 .settings-val{font-size:13px;color:#555;min-width:30px;text-align:right}
+
+/* High Contrast Mode Styles */
+.high-contrast-mode { filter: contrast(1.15); }
+.high-contrast-mode .cbubble,
+.high-contrast-mode .abubble,
+.high-contrast-mode .eitem,
+.high-contrast-mode .shop-card,
+.high-contrast-mode .sb-item,
+.high-contrast-mode .open-tab-item,
+.high-contrast-mode .search-wrap,
+.high-contrast-mode .finput {
+    outline: 2px solid #000 !important;
+    outline-offset: -1px;
+}
+.high-contrast-mode .open-tab-item.active,
+.high-contrast-mode .sb-item.active {
+    background: #ccc !important;
+}
+.high-contrast-mode .tab-close-btn {
+    background: #ddd !important;
+    outline: 1px solid #000 !important;
+}
 </style>
 </head>
 <body>
@@ -1075,7 +1100,7 @@ function renderTabs() {
   openTabs.forEach(tab => {
     const isActive = tab.uid === activeTabUid;
     const div = document.createElement('div');
-    div.style.cssText = 'display:flex;align-items:center;gap:6px;padding:6px 8px 6px 10px;border-radius:8px;cursor:pointer;transition:background .15s;' + (isActive?'background:#d8d8d8;border-left:3px solid #2b2b2b;':'');
+    div.className = 'open-tab-item' + (isActive ? ' active' : '');
     div.innerHTML = `
       <span style="font-size:14px;flex-shrink:0">${tab.icon}</span>
       <div style="flex:1;min-width:0;cursor:pointer" onclick="switchTab('${tab.uid}')">
@@ -1084,8 +1109,6 @@ function renderTabs() {
       </div>
       <button class="pin-btn" onclick="alert('Pinned to shortcuts!')" title="Pin to shortcuts">📌</button>
       <button class="tab-close-btn" style="background:none;border:none;color:#222;cursor:pointer;font-size:16px;font-weight:900;padding:2px 6px;border-radius:4px" onclick="closeTab('${tab.uid}',event)" title="Close tab" aria-label="Close tab">✕</button>`;
-    if (!isActive) div.onmouseenter = () => div.style.background='#e4e4e4';
-    div.onmouseleave = () => { if(!isActive) div.style.background=''; };
     list.appendChild(div);
   });
   
@@ -1916,15 +1939,9 @@ function applyFontSize(v){
 function applyHighContrast(on) {
   const browser = document.getElementById('browser');
   if (on) {
-    browser.style.filter = 'contrast(1.15)';
-    document.querySelectorAll('.cbubble,.abubble,.eitem,.pcard,.shop-card').forEach(el => {
-      el.style.border = '2px solid #000';
-    });
+    browser.classList.add('high-contrast-mode');
   } else {
-    browser.style.filter = '';
-    document.querySelectorAll('.cbubble,.abubble,.eitem,.pcard,.shop-card').forEach(el => {
-      el.style.border = '';
-    });
+    browser.classList.remove('high-contrast-mode');
   }
 }
 function applyLanguage(lang) {
