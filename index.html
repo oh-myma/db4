@@ -13,7 +13,7 @@ body{font-family:'DM Sans',sans-serif;font-size:15px;background:#d4d4d4;display:
 button{font-family:'DM Sans',sans-serif}
 
 /* ── Browser window ── */
-.browser{width:1280px;min-height:800px;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.35)}
+.browser{width:1280px;height:800px;max-height:95vh;max-width:98vw;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.35)}
 
 /* ── Top bar ── */
 .topbar{background:#2b2b2b;height:44px;display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
@@ -25,7 +25,6 @@ button{font-family:'DM Sans',sans-serif}
 .addr-bar{flex:1;background:#3c3c3c;border-radius:6px;height:28px;display:flex;align-items:center;padding:0 12px;color:#aaa;font-size:13px;gap:6px;overflow:hidden}
 .addr-lock{color:#28c840;font-size:11px}
 .addr-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* top-bar settings btn */
 .topbar-settings{background:none;border:none;color:#999;cursor:pointer;font-size:16px;padding:4px 6px;border-radius:4px;margin-left:4px}
 .topbar-settings:hover{color:#ccc}
 
@@ -35,7 +34,7 @@ button{font-family:'DM Sans',sans-serif}
 /* ── Left sidebar ── */
 .sidebar{width:230px;background:#f0f0f0;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid #ddd;overflow-y:auto}
 .sb-section{padding:14px 12px 8px}
-.sb-lbl{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1px}
+.sb-lbl{font-size:11px;color:#333;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1px;font-weight:800}
 .sb-title{font-size:13px;font-weight:700;color:#222;margin-bottom:8px}
 .sb-divider{height:1px;background:#ddd;margin:0 12px}
 .sb-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:background .15s}
@@ -44,42 +43,58 @@ button{font-family:'DM Sans',sans-serif}
 .sb-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .sb-icon.mail{background:#cce3f8}.sb-icon.fb{background:#d6dff5}.sb-icon.shop{background:#cceedd}.sb-icon.tab{background:#e0e0e0;font-size:13px}
 .sb-name{font-size:14px;font-weight:700;color:#1a1a1a;line-height:1.2}
-.sb-sub{font-size:12px;color:#777}
-/* pin-to-shortcuts btn inside tab items */
-.pin-btn{margin-left:auto;background:none;border:1px solid #ccc;border-radius:5px;font-size:11px;padding:2px 6px;color:#888;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.pin-btn:hover{background:#ddd;color:#333}
-/* open tabs list */
+.sb-sub{font-size:12px;color:#333;font-weight:500}
+.pin-btn{margin-left:auto;background:none;border:1px solid #ccc;border-radius:5px;font-size:11px;padding:2px 6px;color:#333;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.pin-btn:hover{background:#ddd;color:#000}
 .open-tabs-list{display:flex;flex-direction:column;gap:2px;padding:0 8px 8px}
+.open-tab-item{display:flex;align-items:center;gap:6px;padding:6px 8px 6px 10px;border-radius:8px;cursor:pointer;transition:background .15s}
+.open-tab-item:hover{background:#e4e4e4}
+.open-tab-item.active{background:#d8d8d8;border-left:3px solid #2b2b2b}
 
 /* ── Center ── */
-.center{flex:1;background:#fff;overflow-y:auto;position:relative;display:flex;flex-direction:column;min-width:0;min-height:0}
-.screen{display:none;flex:1;flex-direction:column;animation:fadeIn .2s ease;overflow:hidden;min-height:0}
+.center{flex:1;background:#fff;overflow-y:hidden;position:relative;display:flex;flex-direction:column;min-width:0;min-height:0}
+.screen{display:none;flex:1;flex-direction:column;animation:fadeIn .2s ease;overflow-y:auto;min-height:0}
 .screen.active{display:flex}
+#s-shop-chat {overflow:hidden !important;}
+
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
 /* ── Screen 0: Home ── */
 .home{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px}
 .home-h1{font-size:52px;font-weight:700;color:#1a1a1a;margin-bottom:8px;text-align:center}
-.home-sub{font-size:22px;color:#999;margin-bottom:32px}
+.home-sub{font-size:22px;color:#444;margin-bottom:32px;font-weight:500}
 .search-wrap{display:flex;align-items:center;border:2px solid #e0e0e0;border-radius:50px;padding:10px 16px;width:460px;max-width:100%;background:#fff;gap:10px}
 .search-wrap:focus-within{border-color:#bbb}
 .search-wrap input{flex:1;border:none;outline:none;font-size:17px;font-family:'DM Sans',sans-serif;color:#333}
-.search-wrap input::placeholder{color:#ccc}
-.icon-btn{background:none;border:none;cursor:pointer;color:#999;font-size:18px;padding:2px;display:flex;align-items:center;border-radius:50%}
-.icon-btn:hover{color:#444}.icon-btn:focus{outline:2px solid #555}
+.search-wrap input::placeholder{color:#555;font-weight:500}
+.icon-btn{background:none;border:none;cursor:pointer;color:#333;font-size:18px;padding:2px;display:flex;align-items:center;border-radius:50%}
+.icon-btn:hover{color:#000}.icon-btn:focus{outline:2px solid #555}
 
-/* ── SafeShop: chat left + grid right ── */
+/* ── SafeShop: chat left + resizer + grid right ── */
 .shop-layout{flex:1;display:flex;overflow:hidden;min-height:0}
-.shop-chat-col{width:300px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid #eee;background:#fafafa;overflow:hidden;min-height:0}
-.shop-grid-col{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:24px 28px;min-height:0}
+.shop-chat-col{width:450px;flex-shrink:0;display:flex;flex-direction:column;background:#fafafa;overflow:hidden;min-height:0}
+.resizer {
+  width: 6px;
+  background: #f0f0f0;
+  cursor: col-resize;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  z-index: 10;
+}
+.resizer:hover, .resizer.dragging {
+  background: #bbb;
+}
+.shop-grid-col{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:24px 28px;min-height:0; background: #fff;}
 .shop-grid-hdr{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .shop-grid-title{font-size:28px;font-weight:700;color:#1a1a1a;flex:1}
 .shop-filter-bar{display:flex;align-items:center;gap:10px}
 .shop-filter-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid #ddd;border-radius:50px;background:#fff;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#333;font-weight:500}
 .shop-filter-btn:hover{background:#f5f5f5}
-.shop-search-bar{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid #ddd;border-radius:50px;background:#fff;font-size:14px;color:#999}
-.shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.shop-search-bar{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid #ddd;border-radius:50px;background:#fff;font-size:14px;color:#555}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:16px}
 .shop-card{background:#fff;border:1px solid #eee;border-radius:12px;overflow:hidden;transition:box-shadow .15s;cursor:pointer;animation:fadeIn .25s ease}
 .shop-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
 .shop-card-img{width:100%;height:160px;object-fit:cover;display:block;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:40px;color:#ccc}
@@ -87,7 +102,7 @@ button{font-family:'DM Sans',sans-serif}
 .shop-card-body{padding:14px}
 .shop-card-name{font-size:15px;font-weight:600;color:#222;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .shop-card-price{font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
-.shop-card-desc{font-size:13px;color:#aaa;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shop-card-desc{font-size:13px;color:#555;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .shop-card-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:12px;font-size:12px;font-weight:600;margin-bottom:10px}
 .shop-card-badge.safe{background:#e8faf0;color:#1a6e35}.shop-card-badge.warn{background:#fff3e0;color:#c25a00}
 .shop-card-cart-btn{width:100%;padding:9px;border-radius:8px;border:none;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600;background:#1a1a1a;color:#fff;transition:background .15s}
@@ -95,16 +110,12 @@ button{font-family:'DM Sans',sans-serif}
 .shop-grid-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;color:#ccc;font-size:16px;gap:8px;padding:40px;text-align:center}
 .shop-cart-bar{display:none;align-items:center;gap:14px;background:#1a1a1a;color:#fff;padding:14px 20px;border-radius:12px;margin-top:16px;flex-shrink:0}
 .shop-cart-bar.show{display:flex}
-/* legacy mini card — unused but kept for safety */
-.sr-mini-card{display:none}
-.shop-results-col-empty{display:none}
-
 .shop-head{font-size:22px;font-weight:700;color:#222;margin-bottom:20px;display:flex;align-items:center;gap:10px}
 .chat-msgs{flex:1;display:flex;flex-direction:column;gap:14px;overflow-y:auto;min-height:0}
 .cmsg{display:flex;gap:10px;align-items:flex-start;animation:fadeIn .2s ease}
 .cmsg.u{flex-direction:row-reverse}
 .cavatar{width:36px;height:36px;border-radius:50%;background:#2b2b2b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.cbubble{background:#f2f2f2;border-radius:16px;padding:12px 18px;font-size:16px;color:#333;max-width:380px;line-height:1.5}
+.cbubble{background:#f2f2f2;border-radius:16px;padding:12px 18px;font-size:16px;color:#333;max-width:380px;line-height:1.5;font-weight:500}
 .cmsg.u .cbubble{background:#1a1a1a;color:#fff}
 .mic-row{display:flex;align-items:center;gap:12px;margin-top:12px}
 .mic-big{width:52px;height:52px;border-radius:50%;background:#f0f0f0;border:2px solid #ddd;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .1s}
@@ -116,11 +127,6 @@ button{font-family:'DM Sans',sans-serif}
 .shop-input:focus{border-color:#bbb}
 .shop-send{background:#2b2b2b;color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .shop-send:hover{background:#444}.shop-send:focus{outline:2px solid #555}
-.action-row{display:flex;gap:14px;margin-top:16px}
-.big-btn{flex:1;padding:14px;font-size:16px;font-weight:600;border-radius:12px;border:2px solid;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
-.big-btn.pri{background:#1a1a1a;color:#fff;border-color:#1a1a1a}.big-btn.pri:hover{background:#333}
-.big-btn.sec{background:#fff;color:#1a1a1a;border-color:#ddd}.big-btn.sec:hover{background:#f5f5f5}
-.big-btn:focus{outline:2px solid #555}
 
 /* STT overlay */
 .stt-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;flex-direction:column;gap:20px}
@@ -129,7 +135,7 @@ button{font-family:'DM Sans',sans-serif}
 .stt-mic-anim{width:80px;height:80px;border-radius:50%;background:#ff3b30;display:flex;align-items:center;justify-content:center;font-size:36px;animation:stt-pulse 1s infinite}
 @keyframes stt-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.4)}70%{box-shadow:0 0 0 18px rgba(255,59,48,0)}}
 .stt-label{font-size:18px;font-weight:600;color:#333}
-.stt-transcript{font-size:15px;color:#888;min-height:24px;font-style:italic}
+.stt-transcript{font-size:15px;color:#555;min-height:24px;font-style:italic}
 .stt-cancel{background:#f0f0f0;border:none;border-radius:10px;padding:10px 24px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600}
 .stt-cancel:hover{background:#e0e0e0}
 
@@ -139,65 +145,40 @@ button{font-family:'DM Sans',sans-serif}
 .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
 @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
 
-/* ── Screen 2: Products (kept for fallback) ── */
-.prod-wrap{padding:28px}
-.prod-h{font-size:22px;font-weight:700;color:#222;margin-bottom:4px}
-.prod-sub{color:#888;font-size:15px;margin-bottom:20px}
-.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
-.pcard{background:#fff;border:2px solid #eee;border-radius:14px;overflow:hidden;transition:box-shadow .15s}
-.pcard:hover{box-shadow:0 4px 18px rgba(0,0,0,.1)}
-.pcard img{width:100%;height:160px;object-fit:cover;display:block}
-.pcard-body{padding:14px}
-.pname{font-size:15px;font-weight:600;color:#222;margin-bottom:3px}
-.pprice{font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:8px}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:10px}
-.badge.safe{background:#e8faf0;color:#1a6e35}.badge.warn{background:#fff3e0;color:#c25a00}
-.cbtn{width:100%;padding:10px;border-radius:8px;border:none;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600;transition:background .15s;margin-bottom:6px}
-.cbtn.cart{background:#1a1a1a;color:#fff}.cbtn.cart:hover{background:#333}
-.cbtn.info{background:#f0f0f0;color:#444}.cbtn.info:hover{background:#e4e4e4}
-.cbtn:focus{outline:2px solid #555}
-.warn-exp{background:#fff8f0;border:1px solid #ffd0a0;border-radius:8px;padding:10px 12px;font-size:13px;color:#7a4000;margin-bottom:8px;display:none}
-.warn-exp.show{display:block}
-.other-btn{display:block;margin:0 auto;padding:12px 28px;background:#f0f0f0;border:2px solid #ddd;border-radius:50px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:600}
-.other-btn:hover{background:#e4e4e4}.other-btn:focus{outline:2px solid #555}
-.cart-bar{display:none;align-items:center;gap:14px;background:#1a1a1a;color:#fff;padding:14px 20px;border-radius:12px;margin-top:18px}
-.cart-bar.show{display:flex}
-.cart-info{flex:1;font-size:15px;line-height:1.4}
-.cart-checkout-btn{background:#34c759;color:#fff;border:none;border-radius:8px;padding:11px 22px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.cart-checkout-btn:hover{background:#2ab34a}.cart-checkout-btn:focus{outline:2px solid #aaa}
-
 /* ── Mail inbox ── */
-.mail-wrap{padding:28px;max-width:800px}
+.mail-wrap{padding:28px;max-width:800px;width:100%}
 .mail-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
 .mail-h{font-size:22px;font-weight:700;color:#222;flex:1}
-.mail-tool-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid #ddd;background:#fff;font-size:13px;font-weight:600;color:#444;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+.mail-tab-btn{background:transparent;border:none;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;color:#444;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.15s,color 0.15s}
+.mail-tab-btn:hover{background:#d0d0d0;color:#111}
+.mail-tab-btn.active{background:#fff;color:#1a1a1a;box-shadow:0 1px 3px rgba(0,0,0,0.15)}
+
+.mail-tool-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid #ddd;background:#fff;font-size:13px;font-weight:600;color:#222;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
 .mail-tool-btn:hover{background:#f0f0f0}.mail-tool-btn:focus{outline:2px solid #555}
 .mail-tool-btn.primary{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
 .mail-tool-btn.primary:hover{background:#333}
 .elist{display:flex;flex-direction:column;gap:6px}
-/* trust score colors */
-.eitem{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border-radius:10px;cursor:pointer;border:none;width:100%;text-align:left;transition:opacity .15s;font-family:'DM Sans',sans-serif;border:1px solid transparent}
+
+/* Trust score base layout (colors injected via JS) */
+.eitem{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border-radius:10px;cursor:pointer;border:none;width:100%;text-align:left;transition:opacity .15s, background .15s;font-family:'DM Sans',sans-serif;border:1px solid transparent; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.05)}
 .eitem:hover{filter:brightness(.97)}.eitem:focus{outline:2px solid #555}
-.eitem.score-danger{background:#fff0ee;border-color:#ffccc8}
-.eitem.score-warn{background:#fff8ee;border-color:#ffe0b0}
-.eitem.score-ok{background:#f0faf4;border-color:#b8e8c8}
-.eitem.score-safe{background:#eafaf3;border-color:#a0e0bb}
+
+/* specific "read" state styles */
+.eitem.read{background: #f5f5f5 !important; border-color: transparent !important; opacity:0.65; filter:grayscale(0.3); box-shadow:none}
+.eitem.read .esubj{font-weight:500; color:#444}
+.eitem.read .esender{color:#333}
+
 .eicon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.eicon.danger{background:#ffd0c8}.eicon.warn{background:#ffe5b0}.eicon.safe{background:#bcf0ce}
+
 .emeta-row{display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap}
-.esender{font-size:14px;font-weight:700;color:#222}
-.edate{font-size:12px;color:#aaa;margin-left:auto;white-space:nowrap}
-.esubj{font-size:15px;font-weight:600;color:#333;margin:2px 0}
-.eprev{font-size:13px;color:#888}
-.etrust{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
-.etrust.danger{background:#ffded8;color:#c62828}
-.etrust.warn{background:#ffefd0;color:#b06000}
-.etrust.ok{background:#d4f4e2;color:#1a6e35}
-.etrust.safe{background:#c8f0da;color:#0d5c2a}
-.scam-note{display:none;background:#fffbe8;border:1px solid #ffe0a0;border-radius:8px;padding:12px 16px;margin-top:14px;font-size:14px;color:#7a5800;line-height:1.5}
+.esender{font-size:15px;font-weight:700;color:#111}
+.edate{font-size:15px;font-weight:700;color:#222;margin-left:auto;white-space:nowrap}
+.esubj{font-size:15px;font-weight:700;color:#111;margin:2px 0}
+.eprev{font-size:14px;color:#444;font-weight:500}
+.etrust{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:700}
+
+.scam-note{display:none;background:#fffbe8;border:1px solid #ffe0a0;border-radius:8px;padding:12px 16px;margin-top:14px;font-size:14px;color:#7a5800;line-height:1.5;font-weight:500}
 .scam-note.show{display:block}
-.eitem.read{opacity:.55;filter:grayscale(.4)}
-.eitem.dismissed{display:none}
 
 /* mail count badge */
 .mail-count{font-size:12px;font-weight:600;background:#e53935;color:#fff;border-radius:10px;padding:1px 7px;margin-left:6px;transition:opacity .3s}
@@ -206,7 +187,7 @@ button{font-family:'DM Sans',sans-serif}
 /* ── Email view ── */
 .eview{padding:28px;max-width:720px}
 .eview-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
-.back-btn{background:none;border:1px solid #ddd;border-radius:8px;padding:8px 14px;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#444;white-space:nowrap}
+.back-btn{background:none;border:1px solid #ddd;border-radius:8px;padding:8px 14px;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#222;font-weight:600;white-space:nowrap}
 .back-btn:hover{background:#f5f5f5}.back-btn:focus{outline:2px solid #555}
 .esubj-h{font-size:22px;font-weight:700;color:#1a1a1a;flex:1}
 /* manual classify buttons */
@@ -217,14 +198,14 @@ button{font-family:'DM Sans',sans-serif}
 .classify-btn.unsafe{background:#fff0ee;color:#c62828;border:1px solid #ffccc8}
 .classify-btn.unsafe:hover{background:#ffddd8}
 /* audio description btn */
-.audio-desc-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:7px;border:1px solid #ddd;background:#f8f8f8;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;color:#555}
+.audio-desc-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:7px;border:1px solid #ddd;background:#f8f8f8;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;color:#333}
 .audio-desc-btn:hover{background:#eee}
-.emeta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;font-size:13px;color:#888;align-items:center}
-.ebody{font-size:16px;line-height:1.8;color:#333;border-top:1px solid #eee;padding-top:16px}
-.sus-link{color:#e53935;text-decoration:underline;cursor:pointer;font-weight:600}
+.emeta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px;font-size:14px;color:#444;font-weight:500;align-items:center}
+.ebody{font-size:16px;line-height:1.8;color:#222;border-top:1px solid #eee;padding-top:16px}
+.sus-link{color:#e53935;text-decoration:underline;cursor:pointer;font-weight:700}
 .sus-link:focus{outline:2px solid #e53935}
 .safe-link-wrap{position:relative;display:inline-block}
-.safe-link{color:#1a6e35;text-decoration:underline;cursor:pointer;font-weight:600}
+.safe-link{color:#1a6e35;text-decoration:underline;cursor:pointer;font-weight:700}
 .safe-link:focus{outline:2px solid #34c759}
 .safe-ck{display:none;position:absolute;top:-8px;right:-22px;background:#34c759;color:#fff;width:18px;height:18px;border-radius:50%;font-size:11px;align-items:center;justify-content:center;font-weight:700}
 .safe-link-wrap:hover .safe-ck,.safe-link:focus~.safe-ck{display:flex}
@@ -232,7 +213,7 @@ button{font-family:'DM Sans',sans-serif}
 /* ── Tax form ── */
 .form-wrap{padding:28px;max-width:660px}
 .form-h{font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
-.form-sub-txt{font-size:14px;color:#888;margin-bottom:22px}
+.form-sub-txt{font-size:14px;color:#555;margin-bottom:22px;font-weight:500}
 .fgroup{margin-bottom:16px}
 .flabel{font-size:18px;font-weight:600;color:#333;display:block;margin-bottom:6px}
 .finput{width:100%;padding:12px 14px;font-size:17px;font-family:'DM Sans',sans-serif;border:2px solid #e0e0e0;border-radius:10px;outline:none;background:#fff;transition:border-color .15s,background .4s}
@@ -242,15 +223,15 @@ button{font-family:'DM Sans',sans-serif}
 @keyframes fill-pulse{0%{background:#c0f0d0}100%{background:#f0faf4}}
 .form-actions{display:flex;gap:12px;margin-top:24px}
 .form-btn{padding:14px 28px;border-radius:10px;font-size:16px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;border:none;transition:background .15s}
-.form-btn.back{background:#f0f0f0;color:#444;border:2px solid #ddd}.form-btn.back:hover{background:#e4e4e4}
+.form-btn.back{background:#f0f0f0;color:#222;border:2px solid #ddd}.form-btn.back:hover{background:#e4e4e4}
 .form-btn.submit{background:#1a1a1a;color:#fff}.form-btn.submit:hover{background:#333}
 .form-btn:focus{outline:2px solid #555}
 
-/* ── Success ── */
+/* ── Success & Phishing ── */
 .success-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
 .success-ico{font-size:72px;margin-bottom:20px}
 .success-h{font-size:34px;font-weight:700;color:#1a1a1a;margin-bottom:10px}
-.success-s{font-size:18px;color:#888;margin-bottom:28px}
+.success-s{font-size:18px;color:#444;font-weight:500;margin-bottom:28px}
 /* confetti */
 .confetti-row{display:flex;gap:6px;font-size:28px;margin-bottom:16px;animation:confetti-pop .5s ease}
 @keyframes confetti-pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
@@ -259,17 +240,17 @@ button{font-family:'DM Sans',sans-serif}
 .aip{width:380px;background:#f5f5f5;flex-shrink:0;border-left:1px solid #e0e0e0;display:flex;flex-direction:column;transition:width .25s,opacity .25s}
 .aip.collapsed{width:0;opacity:0;pointer-events:none;overflow:hidden}
 /* floating toggle button */
-.aip-toggle{position:absolute;bottom:20px;right:20px;width:48px;height:48px;border-radius:50%;background:#2b2b2b;border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;transition:background .15s}
+.aip-toggle{display:none;position:absolute;bottom:20px;right:20px;width:48px;height:48px;border-radius:50%;background:#2b2b2b;border:none;color:#fff;font-size:20px;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;transition:background .15s}
 .aip-toggle:hover{background:#444}
 .aip-toggle.panel-open{right:388px}
-.aip-hdr{padding:14px 16px;font-weight:700;font-size:14px;color:#333;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:8px}
-.aip-hdr-close{margin-left:auto;background:none;border:none;color:#aaa;font-size:18px;cursor:pointer;border-radius:4px;padding:2px 5px}
-.aip-hdr-close:hover{color:#555}
+.aip-hdr{padding:14px 16px;font-weight:700;font-size:14px;color:#222;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:8px}
+.aip-hdr-close{margin-left:auto;background:none;border:none;color:#333;font-size:18px;font-weight:bold;cursor:pointer;border-radius:4px;padding:2px 5px}
+.aip-hdr-close:hover{color:#000; background:#e0e0e0}
 .aip-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
 .amsg{display:flex;gap:8px;align-items:flex-start;animation:fadeIn .2s ease}
 .amsg.u{flex-direction:row-reverse}
 .aavatar{width:28px;height:28px;border-radius:50%;background:#2b2b2b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.abubble{background:#fff;border-radius:12px;padding:10px 14px;font-size:14px;color:#333;max-width:280px;line-height:1.5;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.abubble{background:#fff;border-radius:12px;padding:10px 14px;font-size:15px;color:#222;max-width:280px;line-height:1.5;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .amsg.u .abubble{background:#e8e8e8;text-align:right}
 .ai-act-btn{background:#1a1a1a;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:7px;display:block;width:100%;transition:background .15s;font-weight:600}
 .ai-act-btn:hover{background:#333}.ai-act-btn.grn{background:#34c759}.ai-act-btn.grn:hover{background:#2ab34a}
@@ -287,53 +268,77 @@ button{font-family:'DM Sans',sans-serif}
 .mbox.wide{max-width:520px}
 .mtitle{font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:18px}
 .mrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:16px}
-.mrow-lbl{color:#888}.mrow-val{font-weight:600;color:#222}
+.mrow-lbl{color:#444;font-weight:500}.mrow-val{font-weight:700;color:#111}
 .mbtns{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
-.mbtn{flex:1;padding:14px;border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;border:none;transition:background .15s;min-width:100px}
-.mbtn.grey{background:#e0e0e0;color:#444}.mbtn.grey:hover{background:#d0d0d0}
+.mbtn{flex:1;padding:14px;border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;border:none;transition:background .15s;min-width:100px}
+.mbtn.grey{background:#e0e0e0;color:#222}.mbtn.grey:hover{background:#d0d0d0}
 .mbtn.grn{background:#34c759;color:#fff}.mbtn.grn:hover{background:#2ab34a}
 .mbtn.red{background:#ff3b30;color:#fff}.mbtn.red:hover{background:#cc2e24}
-.mbtn.outline{background:#fff;color:#444;border:2px solid #ddd}.mbtn.outline:hover{background:#f5f5f5}
+.mbtn.outline{background:#fff;color:#222;border:2px solid #ddd}.mbtn.outline:hover{background:#f5f5f5}
 .mbtn:focus{outline:2px solid #555}
-.mtext{font-size:15px;color:#444;line-height:1.6;margin-bottom:14px}
+.mtext{font-size:15px;color:#222;line-height:1.6;margin-bottom:14px;font-weight:500}
 .msection{margin-bottom:14px}
-.msec-lbl{font-size:12px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.msec-val{font-size:15px;color:#222;line-height:1.5}
+.msec-lbl{font-size:12px;font-weight:800;color:#444;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.msec-val{font-size:15px;color:#111;line-height:1.5;font-weight:500}
 .import-btn{background:#1a1a1a;color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;width:100%;margin-top:8px}
 .import-btn:hover{background:#333}.import-btn:focus{outline:2px solid #555}
 .scam-ico{font-size:40px;margin-bottom:10px}
 .scam-title{font-size:20px;font-weight:700;color:#c62828;margin-bottom:10px}
 /* don't show again checkbox */
-.dsa-row{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:#888;cursor:pointer}
+.dsa-row{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:#333;font-weight:600;cursor:pointer}
 .dsa-row input{cursor:pointer}
 
 /* ── Search results ── */
 .sr-wrap{padding:20px 28px;max-width:800px;width:100%}
 .sr-topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #eee}
 .sr-logo{font-size:20px;font-weight:700;color:#1a1a1a;white-space:nowrap}
-.sr-meta{font-size:13px;color:#999;margin-bottom:18px}
-.sr-item{margin-bottom:16px;padding:16px 18px;border-radius:12px;border:2px solid transparent;transition:box-shadow .15s}
-.sr-item:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}
-.sr-item.safe{background:#f0faf4;border-color:#6fcf97}
-.sr-item.warn{background:#fff8ee;border-color:#f2994a}
-.sr-item.danger{background:#fff0ee;border-color:#eb5757}
-.sr-url{font-size:12px;color:#1a6e35;margin-bottom:2px}
-.sr-title{font-size:19px;color:#1a0dab;font-weight:600;cursor:pointer;margin-bottom:6px;display:block;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;padding:0}
+/* .sr-item dynamic classes based on trust score */
+.sr-item{margin-bottom:20px; padding:16px; border-radius:12px; border:1px solid transparent; transition: background 0.15s;}
+.sr-item.safe{background:#f0faf4; border-color:#b8e8c8;}
+.sr-item.warn{background:#fff8ee; border-color:#ffe0b0;}
+.sr-item.danger{background:#fff0ee; border-color:#ffccc8;}
+
+.sr-url{font-size:13px;font-weight:600;color:#1a6e35;margin-bottom:2px}
+.sr-title{font-size:20px;color:#1a0dab;font-weight:700;cursor:pointer;margin-bottom:6px;display:block;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;padding:0}
 .sr-title:hover{text-decoration:underline}.sr-title:focus{outline:2px solid #555}
-.sr-desc{font-size:14px;color:#555;line-height:1.5;margin-bottom:6px}
+.sr-desc{font-size:15px;color:#222;font-weight:500;line-height:1.5;margin-bottom:6px}
 .sr-safety{margin-top:7px}
-.sr-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:600;border:none;font-family:'DM Sans',sans-serif;cursor:default}
-.sr-badge.safe{background:#27ae60;color:#fff}
-.sr-badge.warn{background:#f2994a;color:#fff;cursor:pointer}
-.sr-badge.warn:hover{background:#e07b2a}
-.sr-badge.danger{background:#eb5757;color:#fff;cursor:pointer}
-.sr-badge.danger:hover{background:#cc3333}
+.sr-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:700;border:none;font-family:'DM Sans',sans-serif;cursor:default}
+.sr-badge.safe{background:#e8faf0;color:#1a6e35}
+.sr-badge.warn{background:#fff3e0;color:#c25a00;cursor:pointer}
+.sr-badge.warn:hover{background:#ffeacc}
+.sr-badge.danger{background:#fff0ee;color:#c62828;cursor:pointer}
+.sr-badge.danger:hover{background:#ffdcd8}
 .sr-badge:focus{outline:2px solid #555}
-.sr-detail{display:none;margin-top:7px;padding:10px 13px;border-radius:8px;font-size:13px;line-height:1.55}
+button.sr-badge.safe {cursor:pointer}
+button.sr-badge.safe:hover {background:#cff0df}
+.sr-detail{display:none;margin-top:7px;padding:10px 13px;border-radius:8px;font-size:14px;font-weight:500;line-height:1.55}
 .sr-detail.show{display:block}
-.sr-detail.safe{background:#f0faf4;border:1px solid #6fcf97;color:#1a6e35}
+.sr-detail.safe{background:#f0faf4;border:1px solid #b8e8c8;color:#1a6e35}
 .sr-detail.warn{background:#fff8f0;border:1px solid #ffd0a0;color:#7a4000}
 .sr-detail.danger{background:#fff4f3;border:1px solid #ffb3ae;color:#7a1a1a}
+
+/* High Contrast Mode Styles */
+.high-contrast-mode { filter: contrast(1.15); }
+.high-contrast-mode .cbubble,
+.high-contrast-mode .abubble,
+.high-contrast-mode .eitem,
+.high-contrast-mode .shop-card,
+.high-contrast-mode .sb-item,
+.high-contrast-mode .open-tab-item,
+.high-contrast-mode .search-wrap,
+.high-contrast-mode .finput {
+    outline: 2px solid #000 !important;
+    outline-offset: -1px;
+}
+.high-contrast-mode .open-tab-item.active,
+.high-contrast-mode .sb-item.active {
+    background: #ccc !important;
+}
+.high-contrast-mode .tab-close-btn {
+    background: #ddd !important;
+    outline: 1px solid #000 !important;
+}
 
 /* ── Settings panel ── */
 .settings-overlay{display:none;position:fixed;inset:0;z-index:250}
@@ -341,12 +346,12 @@ button{font-family:'DM Sans',sans-serif}
 .settings-backdrop{position:absolute;inset:0}
 .settings-panel{position:absolute;top:50px;right:60px;background:#fff;border-radius:14px;padding:24px;width:300px;box-shadow:0 12px 40px rgba(0,0,0,.2);animation:fadeIn .15s ease}
 .settings-h{font-size:16px;font-weight:700;color:#222;margin-bottom:16px}
-.settings-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:15px;color:#333}
+.settings-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:15px;color:#333;font-weight:600}
 .settings-row label{flex:1}
 .settings-row select,.settings-row input[type=range]{flex:1}
-select{border:1px solid #ddd;border-radius:6px;padding:4px 8px;font-size:14px;font-family:'DM Sans',sans-serif}
+select{border:1px solid #ddd;border-radius:6px;padding:4px 8px;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:600}
 input[type=range]{accent-color:#2b2b2b}
-.settings-val{font-size:13px;color:#888;min-width:30px;text-align:right}
+.settings-val{font-size:13px;color:#555;min-width:30px;text-align:right}
 </style>
 </head>
 <body>
@@ -366,17 +371,16 @@ input[type=range]{accent-color:#2b2b2b}
     <button class="topbar-settings nav-btn" onclick="toggleSettings()" aria-label="Settings" title="Settings">⚙️</button>
   </div>
 
-  <!-- 3-column -->
+  <!-- 3-column layout -->
   <div class="main">
 
     <!-- Sidebar -->
     <nav class="sidebar" aria-label="Navigation">
       <div class="sb-section">
-        <div class="sb-lbl">Shortcuts</div>
-        <div class="sb-title">Quickly access</div>
-        <button class="sb-item" onclick="openTab('mail-inbox','mail')" aria-label="Gertrude's Mail">
+        <div class="sb-lbl" style="margin-bottom:8px">QUICK ACCESS</div>
+        <button class="sb-item" onclick="openTab('mail-inbox','mail')" aria-label="E-Mail">
           <div class="sb-icon mail">✉️</div>
-          <div><div class="sb-name">Gertrude's Mail <span class="mail-count" id="sb-mail-count">3</span></div><div class="sb-sub" id="sb-mail-sub">3 new messages</div></div>
+          <div><div class="sb-name">E-Mail <span class="mail-count" id="sb-mail-count">3</span></div><div class="sb-sub" id="sb-mail-sub">3 new messages</div></div>
         </button>
         <button class="sb-item" onclick="openTab('home','facebook')" aria-label="Facebook">
           <div class="sb-icon fb">👥</div>
@@ -422,7 +426,6 @@ input[type=range]{accent-color:#2b2b2b}
               <button class="icon-btn" aria-label="Voice search" onclick="openSTT('sr-search')">🎤</button>
             </div>
           </div>
-          <div class="sr-meta" id="sr-meta">About 4 results (0.42 seconds)</div>
           <div id="sr-list"></div>
         </div>
       </div>
@@ -440,7 +443,7 @@ input[type=range]{accent-color:#2b2b2b}
               <div id="shop-mic-area" style="display:none">
                 <div class="mic-row" style="margin-bottom:8px">
                   <button class="mic-big" id="shop-mic-btn" aria-label="Use microphone" onclick="openSTT('shop')">🎤</button>
-                  <span style="color:#999;font-size:13px">Speak or type</span>
+                  <span style="color:#555;font-size:13px;font-weight:600">Speak or type</span>
                 </div>
               </div>
               <div id="shop-input-area" style="display:none">
@@ -451,6 +454,10 @@ input[type=range]{accent-color:#2b2b2b}
               </div>
             </div>
           </div>
+          
+          <!-- resizer -->
+          <div class="resizer" id="shop-resizer"></div>
+          
           <!-- right: product grid -->
           <div class="shop-grid-col">
             <div class="shop-grid-hdr" id="shop-grid-hdr" style="display:none">
@@ -463,7 +470,7 @@ input[type=range]{accent-color:#2b2b2b}
             <div class="shop-grid" id="shop-grid" style="display:none"></div>
             <div class="shop-grid-empty" id="shop-grid-empty">
               <span style="font-size:48px">🛒</span>
-              <span>Tell the assistant what you're looking for<br>and results will appear here</span>
+              <span style="font-weight:600">Tell the assistant what you're looking for<br>and results will appear here</span>
             </div>
             <div class="shop-cart-bar" id="shop-cart-bar">
               <div style="flex:1;font-size:14px" id="shop-cart-label">🛒 1 item in cart</div>
@@ -473,54 +480,25 @@ input[type=range]{accent-color:#2b2b2b}
         </div>
       </div>
 
-      <!-- Screen 4: Mail inbox -->
+      <!-- Screen 4: Mail inbox (Dynamic) -->
       <div class="screen" id="s-mail-inbox">
         <div class="mail-wrap">
           <div class="mail-toolbar">
-            <h2 class="mail-h">✉️ Gertrude's Mail</h2>
-            <button class="mail-tool-btn primary" onclick="alert('Compose new email')" aria-label="New mail">✏️ New mail</button>
+            <h2 class="mail-h">✉️ E-Mail</h2>
+            <div style="display:flex; background:#e0e0e0; border-radius:8px; padding:4px; gap:4px; margin-right:auto">
+               <button id="mtab-inbox" class="mail-tab-btn active" onclick="switchMailTab('inbox')">Inbox</button>
+               <button id="mtab-spam" class="mail-tab-btn" onclick="switchMailTab('spam')">Spam</button>
+            </div>
+            <button class="mail-tool-btn primary" onclick="alert('Compose new email')">✏️ New mail</button>
             <button class="mail-tool-btn" onclick="alert('Filter options')" aria-label="Filter">⚙️ Filter</button>
             <button class="mail-tool-btn" onclick="openSTT('mail-voice')" aria-label="Voice command">🎤 Voice</button>
             <button class="mail-tool-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Audio</button>
           </div>
-          <div class="elist">
-            <button class="eitem score-danger" id="email-scam" onclick="openTab('scam-email','mail')" aria-label="Open suspicious email from BNP Paribas">
-              <div class="eicon danger">⚠️</div>
-              <div style="flex:1;min-width:0">
-                <div class="emeta-row">
-                  <span class="esender">BNP Paribas — URGENT</span>
-                  <span class="etrust danger">⚠️ 12% — Likely scam</span>
-                  <span class="edate">Today, 09:14</span>
-                </div>
-                <div class="esubj">Your account has been suspended</div>
-                <div class="eprev">Please click the link below to verify your identity immediately…</div>
-              </div>
-            </button>
-            <button class="eitem score-ok" id="email-tax" onclick="openTab('tax-email','mail')" aria-label="Open tax office reminder email">
-              <div class="eicon safe">📄</div>
-              <div style="flex:1;min-width:0">
-                <div class="emeta-row">
-                  <span class="esender">Direction Générale des Finances Publiques</span>
-                  <span class="etrust ok">✓ 94% — Trusted</span>
-                  <span class="edate">Yesterday, 16:40</span>
-                </div>
-                <div class="esubj">Reminder: Tax declaration due May 31</div>
-                <div class="eprev">Dear Madame Gertrude Dupont, your annual tax declaration is due soon…</div>
-              </div>
-            </button>
-            <button class="eitem score-safe" id="email-doctor" onclick="openTab('doctor-email','mail')" aria-label="Open doctor appointment email">
-              <div class="eicon safe">🏥</div>
-              <div style="flex:1;min-width:0">
-                <div class="emeta-row">
-                  <span class="esender">Dr. Martin — Cabinet Médical</span>
-                  <span class="etrust safe">✓ 100% — Verified</span>
-                  <span class="edate">May 15, 10:02</span>
-                </div>
-                <div class="esubj">Appointment confirmed: June 3 at 10:00</div>
-                <div class="eprev">Your appointment with Dr. Martin is confirmed for June 3…</div>
-              </div>
-            </button>
+          
+          <div id="email-list-container" class="elist">
+            <!-- Rendered by JS -->
           </div>
+          
           <div class="scam-note" id="scam-note">
             💡 <strong>Good to know:</strong> Your real bank will never ask you to verify your account by clicking a link in an email. If unsure, call the number on the back of your card.
           </div>
@@ -533,6 +511,8 @@ input[type=range]{accent-color:#2b2b2b}
           <div class="eview-head">
             <button class="back-btn" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back</button>
             <h2 class="esubj-h">Your account has been suspended</h2>
+            <button class="audio-desc-btn" onclick="analyzeCurrentEmail()">🤖 Explain</button>
+            <button class="audio-desc-btn" onclick="draftReplyCurrentEmail()">🤖 Draft Reply</button>
             <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
             <div class="email-classify">
               <button class="classify-btn safe" id="cls-safe-scam" onclick="classifyEmail('email-scam','safe')" aria-label="Mark as safe">✓ Safe</button>
@@ -543,7 +523,7 @@ input[type=range]{accent-color:#2b2b2b}
             <span>From: <strong>noreply@bnp-paribas-secure.net</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
             <span>May 25, 2026 — 09:14</span>
-            <span class="etrust danger" style="font-size:13px">⚠️ 12% trust score — Likely scam</span>
+            <span class="etrust" id="badge-scam" style="font-size:13px; background:hsl(14, 80%, 90%); color:hsl(14, 80%, 30%)">⚠️ 12% — Likely scam</span>
           </div>
           <div class="ebody">
             <p>Dear Customer,</p><br>
@@ -566,6 +546,8 @@ input[type=range]{accent-color:#2b2b2b}
           <div class="eview-head">
             <button class="back-btn" onclick="go('mail-inbox')" aria-label="Back to inbox">← Back</button>
             <h2 class="esubj-h">Reminder: Tax declaration due May 31</h2>
+            <button class="audio-desc-btn" onclick="analyzeCurrentEmail()">🤖 Explain</button>
+            <button class="audio-desc-btn" onclick="draftReplyCurrentEmail()">🤖 Draft Reply</button>
             <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
             <div class="email-classify">
               <button class="classify-btn safe" id="cls-safe-tax" onclick="classifyEmail('email-tax','safe')" aria-label="Mark as safe">✓ Safe</button>
@@ -576,7 +558,7 @@ input[type=range]{accent-color:#2b2b2b}
             <span>From: <strong>impots.gouv.fr</strong></span>
             <span>To: gertrude.dupont@gmail.com</span>
             <span>May 24, 2026 — 16:40</span>
-            <span class="etrust ok" style="font-size:13px">✓ 94% trust score — Trusted sender</span>
+            <span class="etrust" id="badge-tax" style="font-size:13px; background:hsl(120, 80%, 90%); color:hsl(120, 80%, 30%)">✓ 100% — Trusted</span>
           </div>
           <div class="ebody">
             <p>Dear Madame Gertrude Dupont,</p><br>
@@ -584,14 +566,66 @@ input[type=range]{accent-color:#2b2b2b}
             <p>Please complete your declaration via the official tax portal:</p><br>
             <p>
               <span class="safe-link-wrap">
-                <span class="safe-link" onclick="openTab('tax-form','mail')" tabindex="0"
-                      onkeydown="if(event.key==='Enter')openTab('tax-form','mail')"
+                <span class="safe-link" onclick="go('tax-form')" tabindex="0"
+                      onkeydown="if(event.key==='Enter')go('tax-form')"
                       role="link" aria-label="Safe link to official tax form">→ Access my tax declaration</span>
                 <span class="safe-ck" aria-hidden="true">✓</span>
               </span>
             </p><br>
             <p>If you need assistance, call 0800 000 000.</p><br>
             <p>Direction Générale des Finances Publiques</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 9: Doctor email -->
+      <div class="screen" id="s-doctor-email">
+        <div class="eview">
+          <div class="eview-head">
+            <button class="back-btn" onclick="markRead('email-doctor'); go('mail-inbox')" aria-label="Back to inbox">← Back</button>
+            <h2 class="esubj-h">Appointment confirmed: June 3 at 10:00</h2>
+            <button class="audio-desc-btn" onclick="analyzeCurrentEmail()">🤖 Explain</button>
+            <button class="audio-desc-btn" onclick="draftReplyCurrentEmail()">🤖 Draft Reply</button>
+            <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
+            <div class="email-classify">
+              <button class="classify-btn safe" id="cls-safe-doctor" onclick="classifyEmail('email-doctor','safe')" aria-label="Mark as safe">✓ Safe</button>
+              <button class="classify-btn unsafe" id="cls-unsafe-doctor" onclick="classifyEmail('email-doctor','unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
+            </div>
+          </div>
+          <div class="emeta">
+            <span>From: <strong>contact@cabinet-martin.fr</strong></span>
+            <span>To: gertrude.dupont@gmail.com</span>
+            <span>May 15, 2026 — 10:02</span>
+            <span class="etrust" id="badge-doctor" style="font-size:13px; background:hsl(120, 80%, 90%); color:hsl(120, 80%, 30%)">✓ 100% — Trusted</span>
+          </div>
+          <div class="ebody">
+            <p>Dear Madame Dupont,</p><br>
+            <p>We are pleased to confirm your appointment with <strong>Dr. Martin</strong> on <strong>Tuesday, June 3, 2026 at 10:00</strong>.</p><br>
+            <p>📍 Cabinet Médical du Parc<br>14 Avenue des Roses, 69002 Lyon<br>2nd floor, room 204</p><br>
+            <p>Please remember to bring your <em>carte Vitale</em> and any recent prescriptions.</p><br>
+            <p>To cancel or reschedule, please call us at <strong>04 72 00 00 00</strong> at least 24 hours in advance.</p><br>
+            <p>We look forward to seeing you.<br>The team at Cabinet Médical du Parc</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Generic Email Viewer for dynamically generated mockup emails -->
+      <div class="screen" id="s-generic-email">
+        <div class="eview">
+          <div class="eview-head">
+            <button class="back-btn" onclick="go('mail-inbox')">← Back</button>
+            <h2 class="esubj-h" id="gen-subj">Subject</h2>
+            <button class="audio-desc-btn" onclick="analyzeCurrentEmail()">🤖 Explain</button>
+            <button class="audio-desc-btn" onclick="draftReplyCurrentEmail()">🤖 Draft Reply</button>
+            <button class="audio-desc-btn" onclick="alert('Audio description activated')">🔊 Read aloud</button>
+          </div>
+          <div class="emeta">
+            <span>From: <strong id="gen-sender">Sender</strong></span>
+            <span>To: gertrude.dupont@gmail.com</span>
+            <span id="gen-date">Date</span>
+          </div>
+          <div class="ebody" id="gen-body">
+            Body content
           </div>
         </div>
       </div>
@@ -642,35 +676,35 @@ input[type=range]{accent-color:#2b2b2b}
           <div class="success-ico">📦</div>
           <h2 class="success-h">Order placed successfully!</h2>
           <p class="success-s" id="shop-success-msg">Your item should arrive in 3 to 5 business days. Enjoy!</p>
-          <button class="form-btn back" style="margin-top:8px" onclick="openTab('shop-chat','shop')" aria-label="Back to shop">← Back to SafeShop</button>
+          <button class="form-btn back" style="margin-top:8px" onclick="go('shop-chat')" aria-label="Back to shop">← Back to SafeShop</button>
         </div>
       </div>
-
-      <!-- Screen 9: Doctor email -->
-      <div class="screen" id="s-doctor-email">
-        <div class="eview">
-          <div class="eview-head">
-            <button class="back-btn" onclick="markRead('email-doctor'); go('mail-inbox')" aria-label="Back to inbox">← Back</button>
-            <h2 class="esubj-h">Appointment confirmed: June 3 at 10:00</h2>
-            <button class="audio-desc-btn" onclick="alert('Audio description activated')" aria-label="Audio description">🔊 Read aloud</button>
-            <div class="email-classify">
-              <button class="classify-btn safe" id="cls-safe-doctor" onclick="classifyEmail('email-doctor','safe')" aria-label="Mark as safe">✓ Safe</button>
-              <button class="classify-btn unsafe" id="cls-unsafe-doctor" onclick="classifyEmail('email-doctor','unsafe')" aria-label="Mark as unsafe">⚠️ Unsafe</button>
+      
+      <!-- Screen: Phishing Site Trap (Now a realistic fake login page) -->
+      <div class="screen" id="s-phishing" style="background:#f4f6f8">
+        <div style="background:#00915a; padding: 20px 40px; color: white; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+          <div style="font-size: 24px; font-weight: 800; letter-spacing: -0.5px">BNP PARIBAS</div>
+          <div style="font-size: 14px; opacity: 0.8; margin-top: 4px">| Secure Portal</div>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; overflow-y: auto;">
+          <div style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; width: 100%; max-width: 420px;">
+            <h2 style="font-size: 22px; margin-bottom: 24px; color: #333; text-align: center; font-weight: 700">Access your accounts</h2>
+            <div style="margin-bottom: 16px;">
+              <label style="display:block; margin-bottom: 8px; font-size: 14px; color: #555; font-weight: 600">Customer Number</label>
+              <input type="text" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px" placeholder="10 digits">
+            </div>
+            <div style="margin-bottom: 24px;">
+              <label style="display:block; margin-bottom: 8px; font-size: 14px; color: #555; font-weight: 600">Secret Code</label>
+              <input type="password" style="width: 100%; padding: 12px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px" placeholder="6 digits">
+            </div>
+            <button style="width: 100%; padding: 14px; background: #00915a; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 16px; transition: background 0.15s" onmouseover="this.style.background='#007a4b'" onmouseout="this.style.background='#00915a'" onclick="alert('In a real scenario, the hacker now has your bank credentials!')">LOG IN</button>
+            <div style="margin-top: 20px; font-size: 13px; color: #888; text-align: center;">
+              <a href="#" style="color: #00915a; text-decoration: none; font-weight: 500">Forgot your secret code?</a>
             </div>
           </div>
-          <div class="emeta">
-            <span>From: <strong>contact@cabinet-martin.fr</strong></span>
-            <span>To: gertrude.dupont@gmail.com</span>
-            <span>May 15, 2026 — 10:02</span>
-            <span class="etrust safe" style="font-size:13px">✓ 100% — Verified sender</span>
-          </div>
-          <div class="ebody">
-            <p>Dear Madame Dupont,</p><br>
-            <p>We are pleased to confirm your appointment with <strong>Dr. Martin</strong> on <strong>Tuesday, June 3, 2026 at 10:00</strong>.</p><br>
-            <p>📍 Cabinet Médical du Parc<br>14 Avenue des Roses, 69002 Lyon<br>2nd floor, room 204</p><br>
-            <p>Please remember to bring your <em>carte Vitale</em> and any recent prescriptions.</p><br>
-            <p>To cancel or reschedule, please call us at <strong>04 72 00 00 00</strong> at least 24 hours in advance.</p><br>
-            <p>We look forward to seeing you.<br>The team at Cabinet Médical du Parc</p>
+          <div style="margin-top: 30px; font-size: 12px; color: #aaa; text-align: center; max-width: 600px; line-height: 1.5">
+            Security Warning: Ensure you are on the correct site. Never share your secret code over email or phone. 
+            <br>© 2026 BNP Paribas. All rights reserved.
           </div>
         </div>
       </div>
@@ -718,7 +752,7 @@ input[type=range]{accent-color:#2b2b2b}
     <h2 class="scam-title" id="scam-title">Warning: Suspicious Link</h2>
     <p class="mtext" id="scam-text">This link leads to a website flagged in multiple scam databases. We recommend not clicking it.</p>
     <div class="mbtns" id="scam-btns">
-      <button class="mbtn grey" onclick="closeOverlay('o-scam');go('mail-inbox')" aria-label="Go back to inbox">← Go back</button>
+      <button class="mbtn grey" onclick="closeOverlay('o-scam');go('scam-email')" aria-label="Go back to email">← Go back</button>
       <button class="mbtn outline" onclick="dismissScamIgnore()" aria-label="Ignore warning">Ignore anyway</button>
       <button class="mbtn red" onclick="showScamInfo()" aria-label="More information">More info</button>
     </div>
@@ -731,7 +765,7 @@ input[type=range]{accent-color:#2b2b2b}
   <div class="mbox">
     <h2 class="mtitle" id="miss-title" style="color:#c25a00">📄 Document Required</h2>
     <p class="mtext">Your <strong>Tax Number</strong> could not be filled automatically. You can find it on your previous tax notice (<em>avis d'imposition</em>).</p>
-    <p style="font-size:15px;color:#888;margin-bottom:4px">Please import a photo or scan of the document:</p>
+    <p style="font-size:15px;color:#888;margin-bottom:4px;font-weight:600">Please import a photo or scan of the document:</p>
     <input type="file" id="doc-file" accept="image/*,.pdf" style="display:none" onchange="importDoc()">
     <button class="import-btn" onclick="document.getElementById('doc-file').click()" aria-label="Import document">📁 Import document</button>
     <div class="mbtns" style="margin-top:10px">
@@ -750,7 +784,7 @@ input[type=range]{accent-color:#2b2b2b}
     <div class="msection"><div class="msec-lbl">Income declared</div><div class="msec-val" id="rev-inc">—</div></div>
     <div class="msection"><div class="msec-lbl">Tax Number</div><div class="msec-val" id="rev-tax">—</div></div>
     <div class="msection"><div class="msec-lbl">Refund to (IBAN)</div><div class="msec-val" id="rev-iban">—</div></div>
-    <p style="font-size:14px;color:#888;line-height:1.5;margin-bottom:16px">Please check everything is correct before sending.</p>
+    <p style="font-size:14px;color:#444;font-weight:600;line-height:1.5;margin-bottom:16px">Please check everything is correct before sending.</p>
     <div class="mbtns">
       <button class="mbtn grey" onclick="closeOverlay('o-review')" aria-label="Go back">Go back</button>
       <button class="mbtn grn" onclick="submitTaxes()" aria-label="Send tax declaration">Send ✓</button>
@@ -779,8 +813,8 @@ input[type=range]{accent-color:#2b2b2b}
       <span class="settings-val" id="font-size-val">15px</span>
     </div>
     <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:6px">
-      <label style="font-weight:600">Preview</label>
-      <div id="font-preview" style="font-size:15px;color:#555;border:1px solid #eee;border-radius:8px;padding:8px 12px;width:100%;background:#fafafa">
+      <label style="font-weight:700">Preview</label>
+      <div id="font-preview" style="font-size:15px;color:#222;border:1px solid #ddd;border-radius:8px;padding:8px 12px;width:100%;background:#fafafa;font-weight:500">
         The quick brown fox jumps over the lazy dog.
       </div>
     </div>
@@ -808,7 +842,90 @@ input[type=range]{accent-color:#2b2b2b}
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
+let cachedModelName = null;
+
+async function discoverValidModel(key) {
+  if (cachedModelName) return cachedModelName;
+  
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+    if (!res.ok) {
+        const err = await res.json().catch(()=>({}));
+        throw new Error(err.error?.message || "Could not list models");
+    }
+    const data = await res.json();
+    
+    // Find all Gemini models that support generateContent
+    const validModels = data.models.filter(m => 
+      m.supportedGenerationMethods && 
+      m.supportedGenerationMethods.includes('generateContent') &&
+      m.name.includes('gemini')
+    );
+    
+    if (validModels.length === 0) throw new Error("No text generation models available for this API key.");
+    
+    // Pick the smartest/fastest available default based on what is active on this API key tier
+    const bestModel = validModels.find(m => m.name.includes('gemini-1.5-flash')) 
+                   || validModels.find(m => m.name.includes('gemini-1.5'))
+                   || validModels.find(m => m.name.includes('gemini-2'))
+                   || validModels[0];
+    
+    cachedModelName = bestModel.name.replace('models/', '');
+    console.log("Auto-discovered available model:", cachedModelName);
+    return cachedModelName;
+  } catch (e) {
+    console.warn("Model discovery failed, falling back to gemini-1.5-flash:", e);
+    return 'gemini-1.5-flash';
+  }
+}
+
+async function callGemini(prompt, systemInstruction) {
+  const cleanKey = typeof apiKey !== 'undefined' ? apiKey.trim() : '';
+  if (!cleanKey) throw new Error("API key is missing! Please check your config.js file.");
+
+  // Automatically fetch the best model your key actually has permission to use!
+  const targetModel = await discoverValidModel(cleanKey);
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${cleanKey}`;
+  
+  // Backwards compatibility for older v1.0 models that don't support the modern systemInstruction property
+  let payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    systemInstruction: { parts: [{ text: systemInstruction }] }
+  };
+
+  if (targetModel.includes('1.0-pro') || targetModel === 'gemini-pro') {
+      payload = { contents: [{ parts: [{ text: `[System Instruction: ${systemInstruction}]\n\nUser: ${prompt}` }] }] };
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  
+  if (!response.ok) {
+    const errData = await response.json().catch(() => null);
+    const errMsg = errData?.error?.message || response.statusText;
+    
+    // If the auto-discovered model fails with 404, wipe the cache so we discover a new one next time
+    if (response.status === 404) cachedModelName = null;
+    
+    throw new Error(`HTTP ${response.status} on ${targetModel}: ${errMsg}`);
+  }
+  
+  const result = await response.json();
+  return result.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response.";
+}
+
+// ── Markdown Parser for Drafts ──
+function parseMD(text) {
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+             .replace(/\*(.*?)\*/g, '<em>$1</em>')
+             .replace(/\n/g, '<br>');
+}
+
 // ── Navigation history (back/forward) ──
 let navHistory = [];
 let navPos = -1;
@@ -841,7 +958,11 @@ function navReload() {
   setTimeout(() => btn.style.animation = '', 400);
   // re-run screen init if applicable
   const cur = navHistory[navPos];
-  if (cur === 'shop-chat') initShop();
+  if (cur === 'shop-chat') {
+    shopInitialized = false; 
+    initShop();
+    shopInitialized = true;
+  }
   else if (cur === 'tax-form') setTimeout(taxFormAI, 200);
   // visual flash
   const center = document.querySelector('.center');
@@ -858,14 +979,20 @@ function updateNavBtns() {
 
 // ── State ──
 let shopPhase = 0;
+let shopInitialized = false; 
 let cartItem = {};
 let cartItems = [];
 let warnOpen = false;
 let autofillDone = false;
 let aipOpen = true;
 let sttContext = '';
-let openTabs = [{id:'home',label:'Welcome Page',sub:'aigis://home',icon:'🏠'}];
-let activeTabId = 'home';
+
+// Use UIDs for tabs to uniquely identify them and preserve state
+let activeTabUid = 'tab-' + Date.now();
+let openTabs = [{uid: activeTabUid, screenId: 'home', label: 'Welcome Page', sub: 'aigis://home', icon: '🏠'}];
+
+// Object to store AI chat HTML history mapped by Tab UID
+let tabChatHistory = {}; 
 
 // ── URL map ──
 const urls = {
@@ -873,117 +1000,200 @@ const urls = {
   'shop-chat':'aigis://safeshop','shop-results':'aigis://safeshop/results',
   'mail-inbox':'aigis://mail/inbox','scam-email':'aigis://mail/1','tax-email':'aigis://mail/2',
   'tax-form':'impots.gouv.fr/declaration/2025','tax-success':'impots.gouv.fr/declaration/submitted',
-  'doctor-email':'aigis://mail/3','shop-success':'aigis://safeshop/order-confirmed'
+  'doctor-email':'aigis://mail/3','shop-success':'aigis://safeshop/order-confirmed',
+  'generic-email':'aigis://mail/view', 'phishing':'http://bnp-paribas-secure.net/login'
 };
 const tabMeta = {
   'home':{label:'Welcome Page',sub:'aigis://home',icon:'🏠'},
   'shop-chat':{label:'SafeShop',sub:'aigis://safeshop',icon:'🛒'},
-  'mail-inbox':{label:"Gertrude's Mail",sub:'aigis://mail',icon:'✉️'},
+  'mail-inbox':{label:"E-Mail",sub:'aigis://mail',icon:'✉️'},
   'scam-email':{label:'BNP Paribas',sub:'⚠️ Suspicious',icon:'⚠️'},
   'tax-email':{label:'Tax reminder',sub:'impots.gouv.fr',icon:'📄'},
   'tax-form':{label:'Tax Declaration',sub:'impots.gouv.fr',icon:'📋'},
   'tax-success':{label:'Taxes submitted!',sub:'Done ✓',icon:'✅'},
   'doctor-email':{label:'Dr. Martin',sub:'cabinet-martin.fr',icon:'🏥'},
+  'generic-email':{label:'Email',sub:'aigis://mail',icon:'✉️'},
   'search-results':{label:'Search Results',sub:'aigis://search',icon:'🔍'},
   'shop-success':{label:'Order confirmed',sub:'aigis://safeshop',icon:'📦'},
-  'facebook':{label:'Facebook',sub:'facebook.com',icon:'👥'}
+  'facebook':{label:'Facebook',sub:'facebook.com',icon:'👥'},
+  'phishing':{label:'Secure Login',sub:'bnp-paribas-secure.net',icon:'🔒'}
 };
 
 const aiScreens = {
   'home':[{t:'ai',m:"Hello Gertrude! 👋 I'm Aigis, your online companion. I'm here to help you shop safely, check your emails, and fill out forms. What would you like to do today?"}],
   'search-results':[{t:'ai',m:"Here are your search results! Each one has a safety rating so you know which sites to trust. Let me know if you need help with any of them."}],
   'shop-chat':[{t:'ai',m:"SafeShop is open! Tell me what you're looking for and I'll find the best and safest options for you."}],
-  'mail-inbox':[{t:'ai',m:"You have 3 messages. ⚠️ The first email looks suspicious — I recommend not clicking any links in it!"}],
+  'mail-inbox':[{t:'ai',m:"You have some messages waiting in your inbox. ⚠️ One of them looks suspicious — I recommend not clicking any links inside it!"}],
   'scam-email':[{t:'ai',m:"🚨 Alert: The sender <strong>bnp-paribas-secure.net</strong> is NOT the real BNP Paribas. This is a phishing attempt. Do not click any links!"}],
   'tax-email':[{t:'ai',m:"✅ This email is from a verified government address (impots.gouv.fr). It is safe. I can help you fill in the tax form automatically if you'd like."}],
   'tax-form':[],
   'tax-success':[{t:'ai',m:"🎉 Excellent! Your 2025 tax declaration has been submitted. You'll receive a confirmation email within a few days. Well done, Gertrude!"}],
   'doctor-email':[{t:'ai',m:"✅ This appointment confirmation from Dr. Martin is legitimate. Don't forget to bring your carte Vitale on June 3!"}],
+  'generic-email':[{t:'ai',m:"You're reading an email. Let me know if you need help drafting a reply or understanding what it says!"}],
+  'phishing':[{t:'ai',m:"🚨 STOP! This site is dangerous and is trying to steal your information. Please hit the button to retreat to safety immediately."}],
   'shop-success':[{t:'ai',m:"🎉 Your order is confirmed! I'll keep an eye on your inbox for delivery updates and flag them as trusted when they arrive."}]
 };
 
 // ── Tab management ──
+
+function saveCurrentTabChat() {
+  if (activeTabUid) {
+    const box = document.getElementById('aip-msgs');
+    tabChatHistory[activeTabUid] = box.innerHTML;
+  }
+}
+
 function openNewTab() {
-  // open a fresh home tab
-  const id = 'home-' + Date.now();
+  saveCurrentTabChat();
+  const uid = 'tab-' + Date.now();
   const meta = {label:'New Tab',sub:'aigis://home',icon:'🏠'};
-  openTabs.push({id:'home', label:meta.label, sub:meta.sub, icon:meta.icon, uid:id});
-  activeTabId = 'home';
+  openTabs.push({uid: uid, screenId: 'home', label: meta.label, sub: meta.sub, icon: meta.icon});
+  activeTabUid = uid;
   renderTabs();
-  go('home');
+  goNoHistory('home', true);
 }
 
-function openTab(screenId, context) {
-  const meta = tabMeta[screenId] || {label:screenId,sub:'',icon:'🏷️'};
-  const existing = openTabs.find(t => t.id === screenId);
-  if (!existing) {
-    openTabs.push({id:screenId, label:meta.label, sub:meta.sub, icon:meta.icon});
+function openTab(screenId) {
+  saveCurrentTabChat();
+  let tab = openTabs.find(t => t.screenId === screenId);
+  if (!tab) {
+    const meta = tabMeta[screenId] || {label:screenId,sub:'',icon:'🏷️'};
+    tab = {uid: 'tab-' + Date.now(), screenId: screenId, label: meta.label, sub: meta.sub, icon: meta.icon};
+    openTabs.push(tab);
   }
-  activeTabId = screenId;
+  activeTabUid = tab.uid;
   renderTabs();
-  go(screenId); // go() already calls navPush
+  go(screenId); // This will handle the UI update
 }
 
-function closeTab(tabId, e) {
+function closeTab(uid, e) {
   e.stopPropagation();
-  openTabs = openTabs.filter(t => t.id !== tabId);
-  if (openTabs.length === 0) openTabs = [{id:'home',label:'Welcome Page',sub:'aigis://home',icon:'🏠'}];
-  if (activeTabId === tabId) {
-    activeTabId = openTabs[openTabs.length-1].id;
-    go(activeTabId);
+  openTabs = openTabs.filter(t => t.uid !== uid);
+  delete tabChatHistory[uid]; // clear memory
+  
+  if (openTabs.length === 0) {
+    openNewTab();
+  } else if (activeTabUid === uid) {
+    switchTab(openTabs[openTabs.length-1].uid);
+  } else {
+    renderTabs();
   }
-  renderTabs();
 }
 
-function switchTab(tabId) {
-  activeTabId = tabId;
+function switchTab(uid) {
+  if (activeTabUid === uid) return;
+  saveCurrentTabChat();
+  activeTabUid = uid;
+  const tab = openTabs.find(t => t.uid === uid);
   renderTabs();
-  go(tabId);
+  goNoHistory(tab.screenId, true);
 }
 
 function renderTabs() {
   const list = document.getElementById('open-tabs-list');
   list.innerHTML = '';
+  
+  // Render existing tabs
   openTabs.forEach(tab => {
+    const isActive = tab.uid === activeTabUid;
     const div = document.createElement('div');
-    div.style.cssText = 'display:flex;align-items:center;gap:6px;padding:6px 8px 6px 10px;border-radius:8px;cursor:pointer;transition:background .15s;' + (tab.id===activeTabId?'background:#d8d8d8;border-left:3px solid #2b2b2b;':'');
+    div.className = 'open-tab-item' + (isActive ? ' active' : '');
     div.innerHTML = `
       <span style="font-size:14px;flex-shrink:0">${tab.icon}</span>
-      <div style="flex:1;min-width:0;cursor:pointer" onclick="switchTab('${tab.id}')">
-        <div style="font-size:13px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${tab.label}</div>
-        <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${tab.sub}</div>
+      <div style="flex:1;min-width:0;cursor:pointer" onclick="switchTab('${tab.uid}')">
+        <div style="font-size:13px;font-weight:700;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${tab.label}</div>
+        <div style="font-size:11px;font-weight:600;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${tab.sub}</div>
       </div>
       <button class="pin-btn" onclick="alert('Pinned to shortcuts!')" title="Pin to shortcuts">📌</button>
-      <button style="background:none;border:none;color:#bbb;cursor:pointer;font-size:14px;padding:2px 4px;border-radius:4px" onclick="closeTab('${tab.id}',event)" title="Close tab" aria-label="Close tab">✕</button>`;
-    if (tab.id !== activeTabId) div.onmouseenter = () => div.style.background='#e4e4e4';
-    div.onmouseleave = () => { if(tab.id!==activeTabId) div.style.background=''; };
+      <button class="tab-close-btn" style="background:none;border:none;color:#222;cursor:pointer;font-size:16px;font-weight:900;padding:2px 6px;border-radius:4px" onclick="closeTab('${tab.uid}',event)" title="Close tab" aria-label="Close tab">✕</button>`;
     list.appendChild(div);
   });
+  
+  // Append '+' New Tab button at the bottom of the list
+  const addBtn = document.createElement('button');
+  addBtn.className = 'sb-item';
+  addBtn.style.marginTop = '8px';
+  addBtn.style.border = '2px dashed #999';
+  addBtn.style.justifyContent = 'center';
+  addBtn.style.background = 'transparent';
+  addBtn.innerHTML = `<span style="font-size:18px; font-weight:900; color:#222">+</span> <span style="font-weight:700; color:#222">New Tab</span>`;
+  addBtn.onclick = openNewTab;
+  addBtn.onmouseenter = () => addBtn.style.background = '#e0e0e0';
+  addBtn.onmouseleave = () => addBtn.style.background = 'transparent';
+  list.appendChild(addBtn);
 }
 
 // ── Navigation ──
-function goNoHistory(name) {
+function goNoHistory(name, isTabSwitch = false) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('s-' + name);
   if (el) el.classList.add('active');
   document.getElementById('addr').textContent = urls[name] || 'aigis://home';
-  setAI(name);
+
+  // Update current tab metadata if navigating within a tab
+  if (!isTabSwitch) {
+     const currentTab = openTabs.find(t => t.uid === activeTabUid);
+     if (currentTab) {
+        currentTab.screenId = name;
+        const meta = tabMeta[name] || {label:name, sub:'', icon:'🏷️'};
+        currentTab.label = meta.label;
+        currentTab.sub = meta.sub;
+        currentTab.icon = meta.icon;
+        renderTabs();
+     }
+  }
+
+  // Restore AI chat history or inject context
+  const box = document.getElementById('aip-msgs');
+  if (isTabSwitch) {
+     if (tabChatHistory[activeTabUid] !== undefined) {
+         box.innerHTML = tabChatHistory[activeTabUid];
+         box.scrollTop = box.scrollHeight;
+     } else {
+         setAI(name); // First time this tab is opened
+     }
+  } else {
+     // We are navigating inside a tab. Append the new screen's AI prompt WITHOUT clearing.
+     const msgs = aiScreens[name] || [];
+     if (msgs.length > 0) {
+         msgs.forEach(m => {
+             // Basic check to prevent duplicate messages if clicking back/forward quickly
+             if (!box.innerHTML.includes(m.m.substring(0, 30))) {
+                 appendAI(m.t, m.m);
+             }
+         });
+     }
+     tabChatHistory[activeTabUid] = box.innerHTML;
+  }
+
   if (name === 'tax-form') setTimeout(taxFormAI, 400);
-  if (name === 'shop-chat') initShop();
-  // hide AI panel in SafeShop (has its own chat), show everywhere else
+  if (name === 'mail-inbox') renderEmails();
+  
+  if (name === 'shop-chat' && !shopInitialized) {
+    initShop();
+    shopInitialized = true;
+  }
+  
+  // hide AI panel in SafeShop (has its own chat), hide the toggle button if panel is OPEN
   const shopScreens = ['shop-chat', 'shop-success'];
   const shouldHide = shopScreens.includes(name);
   const aip = document.getElementById('aip');
   const btn = document.getElementById('aip-toggle');
-  if (shouldHide && aipOpen) {
+  
+  if (shouldHide) {
     aip.classList.add('collapsed');
     btn.classList.remove('panel-open');
-    btn.title = 'Open Aigis Assistant';
-    // don't toggle aipOpen so it restores when leaving shop
-  } else if (!shouldHide && aipOpen) {
-    aip.classList.remove('collapsed');
-    btn.classList.add('panel-open');
-    btn.title = 'Close Aigis Assistant';
+    btn.style.display = 'none'; // Completely hides the secondary toggle inside Safeshop
+  } else {
+    if (aipOpen) {
+      aip.classList.remove('collapsed');
+      btn.style.display = 'none'; // Hide the toggle because the panel's "X" is visible
+    } else {
+      aip.classList.add('collapsed');
+      btn.classList.remove('panel-open');
+      btn.style.display = 'flex'; // Reveal toggle to let user open it
+      btn.title = 'Open Aigis Assistant';
+    }
   }
 }
 
@@ -998,6 +1208,7 @@ function setAI(screen) {
   const box = document.getElementById('aip-msgs');
   box.innerHTML = '';
   c.forEach(m => appendAI(m.t, m.m));
+  tabChatHistory[activeTabUid] = box.innerHTML; // save initial state
 }
 function appendAI(type, html, btn) {
   const box = document.getElementById('aip-msgs');
@@ -1012,20 +1223,59 @@ function appendAI(type, html, btn) {
 function appendAIBtn(label, cls, onclick) {
   return `<button class="ai-act-btn ${cls}" onclick="${onclick}" aria-label="${label}">${label}</button>`;
 }
-function sendAI() {
+
+async function sendAI() {
   const inp = document.getElementById('aip-text');
   const msg = inp.value.trim();
   if (!msg) return;
-  inp.value = ''; inp.style.height='';
+  inp.value = ''; inp.style.height='auto';
   appendAI('u', msg);
-  setTimeout(() => appendAI('ai',"Thanks for your message! I'm focused on helping you with the current page. Is there something specific I can assist with here?"),800);
+  
+  // Show typing indicator
+  const box = document.getElementById('aip-msgs');
+  const typingId = 'ai-typing-' + Date.now();
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'amsg';
+  typingDiv.id = typingId;
+  typingDiv.innerHTML = `<div class="aavatar">🤖</div><div><div class="abubble"><div class="dots"><span></span><span></span><span></span></div></div></div>`;
+  box.appendChild(typingDiv);
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    // FIX: Safely find the current tab using the new activeTabUid variable
+    const currentTab = typeof openTabs !== 'undefined' ? openTabs.find(t => t.uid === activeTabUid) : null;
+    const tabName = currentTab ? currentTab.label : 'Browser';
+    const systemPrompt = `You are Aigis, a friendly, patient digital companion for an elderly user named Gertrude. Keep answers short, simple, and reassuring. The user is currently looking at the screen: ${tabName}.`;
+    
+    const text = await callGemini(msg, systemPrompt);
+    
+    document.getElementById(typingId)?.remove();
+    // Render markdown and append
+    appendAI('ai', typeof parseMD === 'function' ? parseMD(text) : text); 
+    
+    // Save history so it doesn't disappear when you change tabs
+    if (typeof tabChatHistory !== 'undefined' && typeof activeTabUid !== 'undefined') {
+        tabChatHistory[activeTabUid] = box.innerHTML; 
+    }
+  } catch (e) {
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', `I'm having trouble connecting. Error details: ${e.message}`);
+  }
 }
+
 function toggleAIP() {
   aipOpen = !aipOpen;
-  document.getElementById('aip').classList.toggle('collapsed', !aipOpen);
+  const aip = document.getElementById('aip');
   const btn = document.getElementById('aip-toggle');
-  btn.classList.toggle('panel-open', aipOpen);
-  btn.title = aipOpen ? 'Close AI panel' : 'Open AI panel';
+  
+  if (aipOpen) {
+      aip.classList.remove('collapsed');
+      btn.style.display = 'none'; // Hide floating button when panel is open
+  } else {
+      aip.classList.add('collapsed');
+      btn.style.display = 'flex'; // Show floating button when panel is closed
+      btn.title = 'Open AI panel';
+  }
 }
 
 // ── STT simulation ──
@@ -1172,13 +1422,12 @@ function sendShop() {
   },1800);
 }
 
-// ── Product catalog by category — Unsplash source photos ──
-// Unsplash source URLs: free, no API key, resizes on the fly
+// ── Product catalog by category ──
 const allProducts = {
   nightstand: [
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'HEMNES Nightstand',price:'€89',desc:'Classic design · IKEA · White stain',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Vintage Pink Nightstand',price:'€54',desc:'Retro style · TheGoodCorner',safety:'warn',score:'90%',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Modern Blush Nightstand',price:'€119',desc:'Minimalist · Maisons du Monde',safety:'safe',score:'100%'},
+    {img:'assets/nightstand-1.jpg',name:'HEMNES Nightstand',price:'€89',desc:'Classic design · IKEA · White stain',safety:'safe',score:'100%'},
+    {img:'assets/nightstand-2.jpg',name:'Vintage Pink Nightstand',price:'€54',desc:'Retro style · TheGoodCorner',safety:'warn',score:'90%',warn:'Sold by a reseller on TheGoodCorner with some negative reviews.'},
+    {img:'assets/nightstand-3.jpg',name:'Modern Blush Nightstand',price:'€119',desc:'Minimalist · Maisons du Monde',safety:'safe',score:'100%'},
   ],
   lamp: [
     {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'RANARP Floor Lamp',price:'€35',desc:'Vintage style · IKEA · Off-white',safety:'safe',score:'100%'},
@@ -1196,9 +1445,9 @@ const allProducts = {
     {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Un été à Bordeaux',price:'€14',desc:'Novel · Pocket editions',safety:'safe',score:'100%'},
   ],
   plant: [
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Monstera Deliciosa',price:'€19',desc:'Indoor plant · Truffaut',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Cactus Assortment (3 pots)',price:'€12',desc:'Low maintenance · Botanic',safety:'safe',score:'100%'},
-    {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'White Orchid',price:'€15',desc:'Flowering · Ikea',safety:'safe',score:'100%'},
+    {img:'assets/plant-1.jpg',name:'Monstera Deliciosa',price:'€19',desc:'Indoor plant · Truffaut',safety:'safe',score:'100%'},
+    {img:'assets/plant-2.jpg',name:'Cactus Assortment (3 pots)',price:'€12',desc:'Low maintenance · Botanic',safety:'safe',score:'100%'},
+    {img:'assets/plant-3.jpg',name:'White Orchid',price:'€15',desc:'Flowering · Ikea',safety:'safe',score:'100%'},
   ],
   candle: [
     {img:'https://placehold.co/300x160/e8e8e8/aaaaaa?text=Photo',name:'Scented Candle Set',price:'€18',desc:'Lavender & vanilla · Maisons du Monde',safety:'safe',score:'100%'},
@@ -1217,37 +1466,26 @@ const allProducts = {
   ]
 };
 
-// Reads ALL user messages in the chat to understand full context,
-// not just the last one (fixes "green" refinement resolving to wrong category)
 function getProductsForQuery(query) {
   const allUserBubbles = Array.from(document.querySelectorAll('#shop-msgs .cmsg.u .cbubble'))
     .map(el => el.textContent.toLowerCase())
     .join(' ');
-  // combine everything the user has said with the explicit query
   const q = (allUserBubbles + ' ' + (query||'')).toLowerCase();
-  if (q.includes('nightstand') || q.includes('chevet') || q.includes('bedside') || q.includes('table de nuit')) return allProducts.nightstand;
-  if (q.includes('lamp') || q.includes('lampe') || q.includes('light') || q.includes('lumière')) return allProducts.lamp;
-  if (q.includes('chair') || q.includes('chaise') || q.includes('fauteuil') || q.includes('armchair')) return allProducts.chair;
-  if (q.includes('book') || q.includes('livre') || q.includes('roman') || q.includes('cook')) return allProducts.book;
-  if (q.includes('plant') || q.includes('plante') || q.includes('fleur') || q.includes('flower') || q.includes('monstera') || q.includes('cactus')) return allProducts.plant;
-  if (q.includes('candle') || q.includes('bougie') || q.includes('scent')) return allProducts.candle;
+  if (q.includes('nightstand') || q.includes('chevet') || q.includes('bedside')) return allProducts.nightstand;
+  if (q.includes('lamp') || q.includes('lampe') || q.includes('light')) return allProducts.lamp;
+  if (q.includes('chair') || q.includes('chaise') || q.includes('fauteuil')) return allProducts.chair;
+  if (q.includes('book') || q.includes('livre') || q.includes('roman')) return allProducts.book;
+  if (q.includes('plant') || q.includes('plante') || q.includes('fleur')) return allProducts.plant;
+  if (q.includes('candle') || q.includes('bougie')) return allProducts.candle;
   if (q.includes('rug') || q.includes('tapis') || q.includes('carpet')) return allProducts.rug;
   return allProducts.default;
 }
 
-// legacy — kept for backward compat references
-const shopProducts = allProducts.nightstand;
-
 function showShopResults(queryOverride) {
-  // show grid
   const grid = document.getElementById('shop-grid');
   const hdr = document.getElementById('shop-grid-hdr');
   const empty = document.getElementById('shop-grid-empty');
-  grid.innerHTML='';
-  grid.style.display='grid';
-  hdr.style.display='flex';
-  empty.style.display='none';
-  // derive title from last user message
+  grid.innerHTML=''; grid.style.display='grid'; hdr.style.display='flex'; empty.style.display='none';
   const userBubbles = document.querySelectorAll('#shop-msgs .cmsg.u .cbubble');
   const lastMsg = queryOverride || (userBubbles.length ? userBubbles[userBubbles.length-1].textContent : 'your search');
   document.getElementById('shop-grid-title').textContent = `Results for "${lastMsg}"`;
@@ -1263,7 +1501,7 @@ function showShopResults(queryOverride) {
         <div class="shop-card-price">${p.price}</div>
         <div class="shop-card-desc">${p.desc||'Quality product · Verified vendor'}</div>
         <div class="shop-card-badge ${p.safety}">${p.safety==='safe'?'🛡️':'⚠️'} ${p.score} Safe</div>
-        ${p.warn?`<div style="font-size:12px;color:#c25a00;margin-bottom:8px;background:#fff8f0;border-radius:6px;padding:6px 8px">ℹ️ ${p.warn}</div>`:''}
+        ${p.warn?`<div style="font-size:12px;color:#c25a00;margin-bottom:8px;background:#fff8f0;border-radius:6px;padding:6px 8px;font-weight:500">ℹ️ ${p.warn}</div>`:''}
         <button class="shop-card-cart-btn" id="${p.btnId}" onclick="addToCartShop('${p.name}','${p.price}','${p.btnId}')">Add to cart</button>
       </div>`;
     grid.appendChild(card);
@@ -1280,25 +1518,10 @@ function addToCartShop(name, price, btnId) {
   const count = cartItems.length;
   document.getElementById('shop-cart-bar').classList.add('show');
   document.getElementById('shop-cart-label').textContent=`🛒 ${count} item${count>1?'s':''} in cart`;
-  // re-open input so user can keep searching for more things
   document.getElementById('shop-mic-area').style.display='block';
   document.getElementById('shop-input-area').style.display='block';
   shopPhase = 1;
   addShopMsg('ai',`✅ <strong>${name}</strong> added to cart! You can search for more items, or checkout when you're ready.`);
-}
-
-// ── Products (kept for any fallback) ──
-function toggleWarn(){
-  warnOpen=!warnOpen;
-  document.getElementById('warn-exp').classList.toggle('show',warnOpen);
-  document.getElementById('info-btn').textContent=warnOpen?'Hide info':'More info';
-}
-function addToCart(name,price,btnId){
-  cartItem={name,price}; cartItems=[{name,price}];
-  const btn=document.getElementById(btnId);
-  if(btn){btn.textContent='✓ In cart';btn.disabled=true;btn.style.opacity='.7';}
-  const bar=document.getElementById('cart-bar');
-  if(bar){bar.classList.add('show');document.getElementById('cart-bar-info').textContent=`🛒 ${name} — ${price}`;}
 }
 
 function checkout() {
@@ -1324,85 +1547,231 @@ function confirmPurchase() {
     ? `Your ${cartItems[0].name} should arrive in 3 to 5 business days. Enjoy!`
     : `Your ${cartItems.length} items should arrive in 3 to 5 business days. Enjoy!`;
   document.getElementById('shop-success-msg').textContent = summary;
-  openTab('shop-success','shop');
+  go('shop-success'); 
 }
 
-// ── Mail ──
-const readState={'email-scam':false,'email-tax':false,'email-doctor':false};
+// ── Dynamic Mail Inbox System ──
+let currentMailTab = 'inbox';
+const emailsData = [
+  { id: 'email-scam', sender: 'BNP Paribas — URGENT', date: 'Today, 09:14', subject: 'Your account has been suspended', preview: 'Please click the link below to verify your identity immediately…', percent: 12, read: false, spam: false },
+  { id: 'email-tax', sender: 'Direction Générale des Finances Publiques', date: 'Yesterday, 16:40', subject: 'Reminder: Tax declaration due May 31', preview: 'Dear Madame Gertrude Dupont, your annual tax declaration is due soon…', percent: 100, read: false, spam: false },
+  { id: 'email-doctor', sender: 'Dr. Martin — Cabinet Médical', date: 'May 15, 10:02', subject: 'Appointment confirmed: June 3 at 10:00', preview: 'Your appointment with Dr. Martin is confirmed for June 3…', percent: 100, read: true, spam: false },
+  { id: 'email-rand1', sender: 'Mairie de Lyon', date: 'May 14, 14:20', subject: 'Your local newsletter', preview: 'Discover the events happening in your area this weekend.', percent: 98, read: true, spam: false },
+  { id: 'email-rand2', sender: 'Family Group', date: 'May 12, 18:05', subject: 'Photos from the weekend', preview: 'Hi Grandma! Here are the photos from our trip to the lake.', percent: 100, read: true, spam: false },
+  { id: 'email-rand3', sender: 'Fnac', date: 'May 10, 09:30', subject: 'Your recent purchase', preview: 'Thank you for your order. Here is your receipt.', percent: 88, read: true, spam: false },
+  { id: 'email-spam1', sender: 'Bitcoin Giveaway', date: 'May 01, 03:00', subject: 'YOU WON 10 BTC', preview: 'Claim your prize now before it expires...', percent: 2, read: false, spam: true }
+];
+
+function renderEmails() {
+  const container = document.getElementById('email-list-container');
+  if (!container) return;
+  container.innerHTML = '';
+  
+  const filtered = emailsData.filter(e => currentMailTab === 'spam' ? e.spam : !e.spam);
+  
+  if (filtered.length === 0) {
+     container.insertAdjacentHTML('beforeend', `<div style="padding: 30px; text-align: center; color: #555; font-weight: 600; font-size: 16px;">No emails found here. You are safe!</div>`);
+  } else {
+     // Just append them all sequentially
+     filtered.forEach(e => container.appendChild(createEmailEl(e)));
+  }
+  
+  // Update badge in sidebar
+  const unreadCount = emailsData.filter(e => !e.read && !e.spam).length;
+  const countEl = document.getElementById('sb-mail-count');
+  const subEl = document.getElementById('sb-mail-sub');
+  if(countEl){ countEl.textContent = unreadCount; if(unreadCount===0) countEl.classList.add('zero'); else countEl.classList.remove('zero'); }
+  if(subEl) subEl.textContent = unreadCount === 0 ? 'No new messages' : `${unreadCount} new message${unreadCount>1?'s':''}`;
+}
+
+function createEmailEl(e) {
+  const btn = document.createElement('button');
+  btn.className = `eitem ${e.read ? 'read' : ''}`;
+  
+  // Dynamic gradient math: 0% = Red(0), 100% = Green(120)
+  const hue = Math.floor((e.percent / 100) * 120);
+  
+  if (!e.read) {
+     btn.style.background = `hsl(${hue}, 80%, 98%)`;
+     btn.style.borderColor = `hsl(${hue}, 60%, 85%)`;
+  }
+  
+  const badgeStyle = `background: hsl(${hue}, 80%, 90%); color: hsl(${hue}, 80%, 30%);`;
+  const iconStyle = `background: hsl(${hue}, 80%, 85%); border: 1px solid hsl(${hue}, 80%, 75%);`;
+  
+  let label = e.percent === 100 ? "Trusted" : "Verified";
+  if (e.percent < 50) label = "Likely scam";
+  if (e.percent < 10) label = "Spam";
+  
+  let iconStr = '';
+  if (e.percent === 100) iconStr = '✓ ';
+  else if (e.percent < 50) iconStr = '⚠️ ';
+
+  let largeIconStr = '📄';
+  if (e.percent < 50) largeIconStr = '⚠️';
+  else if (e.percent === 100) largeIconStr = '✅';
+  
+  // Custom icons for specific hardcoded emails just for flair
+  if (e.id === 'email-doctor') largeIconStr = '🏥';
+  if (e.id === 'email-rand1') largeIconStr = '🏛️';
+  if (e.id === 'email-rand2') largeIconStr = '👨‍👩‍👧';
+  if (e.id === 'email-rand3') largeIconStr = '🛍️';
+
+  if (e.userClassified === 'safe') { label = "Marked safe by you"; iconStr = '✅ '; largeIconStr = '✅'; }
+  if (e.userClassified === 'unsafe') { label = "Marked unsafe by you"; iconStr = '⚠️ '; largeIconStr = '⚠️'; }
+  
+  let scoreDisplay = e.userClassified ? label : `${iconStr}${e.percent}% — ${label}`;
+
+  btn.onclick = () => {
+     markRead(e.id);
+     if (e.id.startsWith('email-rand') || e.id.startsWith('email-spam')) {
+        document.getElementById('gen-subj').textContent = e.subject;
+        document.getElementById('gen-sender').textContent = e.sender;
+        document.getElementById('gen-date').textContent = e.date;
+        document.getElementById('gen-body').innerHTML = `<p>${e.preview}</p><br><p>Best regards,<br>${e.sender.split(' ')[0]}</p>`;
+        go('generic-email'); // Navigate within current tab
+     } else {
+        go(e.id.replace('email-', '') + '-email'); // Maps to s-scam-email, s-tax-email, etc.
+     }
+  };
+  
+  btn.innerHTML = `
+      <div class="eicon" style="${iconStyle}">${largeIconStr}</div>
+      <div style="flex:1;min-width:0">
+        <div class="emeta-row">
+          <span class="esender">${e.sender}</span>
+          <span class="etrust" style="${badgeStyle}">${scoreDisplay}</span>
+          <span class="edate">${e.date}</span>
+        </div>
+        <div class="esubj">${e.subject}</div>
+        <div class="eprev">${e.preview}</div>
+      </div>
+  `;
+  return btn;
+}
+
+function switchMailTab(tab) {
+   currentMailTab = tab;
+   document.getElementById('mtab-inbox').classList.toggle('active', tab === 'inbox');
+   document.getElementById('mtab-spam').classList.toggle('active', tab === 'spam');
+   renderEmails();
+}
+
+function markRead(emailId){
+  const e = emailsData.find(m => m.id === emailId);
+  if (e && !e.read) {
+     e.read = true;
+     // Automatically route to spam upon read if it's considered dangerous
+     if (e.percent < 50) {
+        e.spam = true;
+     }
+     renderEmails();
+  }
+}
 
 function classifyEmail(emailId, verdict) {
-  const item = document.getElementById(emailId);
-  if (!item) return;
-
-  // update inbox row color + badge
-  const badge = item.querySelector('.etrust');
-  if (verdict === 'safe') {
-    item.className = item.className.replace(/score-(danger|warn|ok|safe)/, 'score-safe');
-    item.style.background = '#eafaf3';
-    item.style.borderColor = '#a0e0bb';
-    const icon = item.querySelector('.eicon');
-    if (icon) { icon.className = 'eicon safe'; icon.textContent = '✅'; }
-    if (badge) { badge.className = 'etrust safe'; badge.textContent = '✓ Marked safe by you'; }
-  } else {
-    item.className = item.className.replace(/score-(danger|warn|ok|safe)/, 'score-danger');
-    item.style.background = '#fff0ee';
-    item.style.borderColor = '#ffccc8';
-    const icon = item.querySelector('.eicon');
-    if (icon) { icon.className = 'eicon danger'; icon.textContent = '⚠️'; }
-    if (badge) { badge.className = 'etrust danger'; badge.textContent = '⚠️ Marked unsafe by you'; }
-  }
-
-  // update the classify buttons in the open email view to reflect current state
+  const e = emailsData.find(m => m.id === emailId);
+  if (!e) return;
+  
   const safeBtn   = document.getElementById('cls-safe-'   + emailId.replace('email-',''));
   const unsafeBtn = document.getElementById('cls-unsafe-' + emailId.replace('email-',''));
-  if (verdict === 'safe') {
-    if (safeBtn)   { safeBtn.style.background='#1a6e35'; safeBtn.style.color='#fff'; safeBtn.textContent='✓ Marked safe'; }
-    if (unsafeBtn) { unsafeBtn.style.opacity='.4'; }
-  } else {
-    if (unsafeBtn) { unsafeBtn.style.background='#c62828'; unsafeBtn.style.color='#fff'; unsafeBtn.textContent='⚠️ Marked unsafe'; }
-    if (safeBtn)   { safeBtn.style.opacity='.4'; }
-  }
 
-  // subtle AI panel confirmation
-  const box = document.getElementById('aip-msgs');
-  if (box) {
-    const msg = verdict === 'safe'
-      ? '✅ Got it — this email has been marked as safe.'
-      : '⚠️ Noted — this email has been marked as unsafe and will be treated with caution.';
-    appendAI('ai', msg);
+  if (verdict === 'safe') {
+    e.percent = 100;
+    e.userClassified = 'safe';
+    e.spam = false;
+    
+    if (safeBtn)   { safeBtn.style.background='#1a6e35'; safeBtn.style.color='#fff'; safeBtn.textContent='✓ Marked safe'; }
+    if (unsafeBtn) { unsafeBtn.style.opacity='.4'; unsafeBtn.style.background=''; unsafeBtn.style.color=''; unsafeBtn.textContent='⚠️ Unsafe'; }
+    
+    // update hardcoded badge in the active screen
+    const badge = document.querySelector('.screen.active .etrust');
+    if (badge) { badge.style.background = 'hsl(120, 80%, 90%)'; badge.style.color = 'hsl(120, 80%, 30%)'; badge.innerHTML = '✓ Marked safe by you'; }
+
+    const box = document.getElementById('aip-msgs');
+    if (box) appendAI('ai', '✅ Got it — this email has been marked as safe.');
+    renderEmails();
+  } else {
+    e.percent = 0;
+    e.userClassified = 'unsafe';
+    e.spam = true; // MOVE TO SPAM FOLDER
+    
+    if (unsafeBtn) { unsafeBtn.style.background='#c62828'; unsafeBtn.style.color='#fff'; unsafeBtn.textContent='⚠️ Marked unsafe'; }
+    if (safeBtn)   { safeBtn.style.opacity='.4'; safeBtn.style.background=''; safeBtn.style.color=''; safeBtn.textContent='✓ Safe'; }
+    
+    // update hardcoded badge in the active screen
+    const badge = document.querySelector('.screen.active .etrust');
+    if (badge) { badge.style.background = 'hsl(0, 80%, 90%)'; badge.style.color = 'hsl(0, 80%, 30%)'; badge.innerHTML = '⚠️ Marked unsafe by you'; }
+
+    const box = document.getElementById('aip-msgs');
+    if (box) appendAI('ai', '⚠️ Noted — this email has been marked as unsafe and moved to your spam folder.');
+    
+    // Logically remove it from the inbox render
+    renderEmails();
+
+    // If viewing the email currently, pop back to inbox automatically after a delay
+    setTimeout(() => {
+      const currentScreenId = 's-' + emailId.replace('email-', '') + '-email';
+      if (document.getElementById(currentScreenId)?.classList.contains('active')) {
+        go('mail-inbox');
+      }
+    }, 2500);
   }
 }
-function markRead(emailId){
-  if(readState[emailId]) return;
-  readState[emailId]=true;
-  const el=document.getElementById(emailId);
-  if(el) el.classList.add('read');
-  const unread=Object.values(readState).filter(v=>!v).length;
-  const countEl=document.getElementById('sb-mail-count');
-  const subEl=document.getElementById('sb-mail-sub');
-  if(countEl){countEl.textContent=unread;if(unread===0)countEl.classList.add('zero');}
-  if(subEl) subEl.textContent=unread===0?'No new messages':`${unread} new message${unread>1?'s':''}`;
+
+async function analyzeCurrentEmail() {
+  if (!aipOpen) toggleAIP();
+  const emailBody = document.querySelector('.screen.active .ebody')?.innerText || '';
+  if (!emailBody) return;
+
+  appendAI('u', "🤖 Can you explain this email to me?");
+  const typingId = 'ai-typing-' + Date.now();
+  const box = document.getElementById('aip-msgs');
+  box.insertAdjacentHTML('beforeend', `<div class="amsg" id="${typingId}"><div class="aavatar">🤖</div><div><div class="abubble"><div class="dots"><span></span><span></span><span></span></div></div></div></div>`);
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const systemPrompt = "You are Aigis, a digital assistant for a senior citizen named Gertrude. Analyze the provided email text. Explain what the email is about in 2-3 very simple sentences. Clearly state if it looks safe or if it might be a scam/phishing attempt.";
+    const text = await callGemini(`Here is the email:\n\n${emailBody}`, systemPrompt);
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', parseMD(text));
+    tabChatHistory[activeTabUid] = box.innerHTML; 
+  } catch(e) {
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', `I'm having trouble reading this right now. Error details: ${e.message}`);
+  }
 }
+
+async function draftReplyCurrentEmail() {
+  if (!aipOpen) toggleAIP();
+  const emailBody = document.querySelector('.screen.active .ebody')?.innerText || '';
+  if (!emailBody) return;
+
+  appendAI('u', "🤖 Please draft a polite reply to this email.");
+  const typingId = 'ai-typing-' + Date.now();
+  const box = document.getElementById('aip-msgs');
+  box.insertAdjacentHTML('beforeend', `<div class="amsg" id="${typingId}"><div class="aavatar">🤖</div><div><div class="abubble"><div class="dots"><span></span><span></span><span></span></div></div></div></div>`);
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const systemPrompt = "You are drafting an email reply on behalf of Gertrude, a polite senior citizen. Write a brief, friendly reply to the provided email. Output ONLY the drafted email body, nothing else.";
+    const text = await callGemini(`Here is the email to reply to:\n\n${emailBody}`, systemPrompt);
+    document.getElementById(typingId)?.remove();
+    const parsedText = parseMD(text);
+    // Add distinct styling to the draft so it stands out
+    appendAI('ai', `Here is a draft you could use:<br><br><div style="background:#f5f5f5; padding:12px; border-radius:8px; border:1px solid #ddd; color:#111; font-style:italic">"${parsedText}"</div><br>Would you like me to send something like this?`);
+    tabChatHistory[activeTabUid] = box.innerHTML; 
+  } catch(e) {
+    document.getElementById(typingId)?.remove();
+    appendAI('ai', `I'm having trouble drafting a reply right now. Error details: ${e.message}`);
+  }
+}
+
 function showScamPopup(){openOverlay('o-scam');}
 function dismissScamIgnore(){
   closeOverlay('o-scam');
-  markRead('email-scam');
-  go('mail-inbox');
-  setTimeout(() => {
-    const el = document.getElementById('email-scam');
-    if (el) {
-      el.style.transition = 'opacity .4s, max-height .4s';
-      el.style.overflow = 'hidden';
-      el.style.maxHeight = el.offsetHeight + 'px';
-      requestAnimationFrame(() => {
-        el.style.opacity = '0';
-        el.style.maxHeight = '0';
-        el.style.padding = '0';
-        el.style.margin = '0';
-      });
-      setTimeout(() => el.classList.add('dismissed'), 420);
-    }
-  }, 200);
+  // Trap the user in the phishing screen instead of letting them stay in the safe email
+  go('phishing');
 }
 function showScamInfo(){
   document.getElementById('scam-title').textContent='How to spot a scam email';
@@ -1418,76 +1787,71 @@ function dismissScam(){
   document.getElementById('scam-title').textContent='Warning: Suspicious Link';
   document.getElementById('scam-text').textContent='This link leads to a website flagged in multiple scam databases. We recommend not clicking it.';
   document.getElementById('scam-btns').innerHTML=
-    `<button class="mbtn grey" onclick="closeOverlay('o-scam');go('mail-inbox')">← Go back</button>`
+    `<button class="mbtn grey" onclick="closeOverlay('o-scam')">← Go back</button>`
     +`<button class="mbtn outline" onclick="dismissScamIgnore()">Ignore anyway</button>`
     +`<button class="mbtn red" onclick="showScamInfo()">More info</button>`;
-  markRead('email-scam');
-  go('mail-inbox');
-  // hide the scam email from inbox after a short delay — it has been moved to scam folder
-  setTimeout(() => {
-    const el = document.getElementById('email-scam');
-    if (el) {
-      el.style.transition = 'opacity .4s, max-height .4s';
-      el.style.overflow = 'hidden';
-      el.style.maxHeight = el.offsetHeight + 'px';
-      requestAnimationFrame(() => {
-        el.style.opacity = '0';
-        el.style.maxHeight = '0';
-        el.style.padding = '0';
-        el.style.margin = '0';
-      });
-      setTimeout(() => el.classList.add('dismissed'), 420);
-    }
-  }, 200);
+  
   setTimeout(()=>document.getElementById('scam-note').classList.add('show'),600);
 }
 
 // ── Search ──
-const searchData={
-  default:[
-    {url:'wikipedia.org/wiki/',title:'General information — Wikipedia',desc:'Find encyclopaedic articles on any topic.',safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'Wikipedia is a widely trusted, community-edited encyclopedia with strong security protocols.'},
-    {url:'bbc.com/news/',title:'Latest news — BBC News',desc:'Up-to-date world news and in-depth reporting from the BBC.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
-    {url:'lemonde.fr/',title:'Actualités — Le Monde',desc:"Toute l'actualité française et internationale.",safety:'safe',safeLabel:'🛡️ 100% Safe'},
-    {url:'youtube.com/results?q=',title:'Video results — YouTube',desc:'Watch videos and tutorials related to your search.',safety:'warn',safeLabel:'⚠️ 75% Safe',detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites.'},
-  ],
-  epfl:[
-    {url:'epfl.ch/',title:'EPFL — École Polytechnique Fédérale de Lausanne',desc:"EPFL is Europe's most cosmopolitan technical university, with students, professors and staff from over 120 nations.",safety:'safe',safeLabel:'🛡️ 100% Safe',detail:"This is the official, verified website of EPFL. Its identity and security certificates have been thoroughly validated."},
-    {url:'wikipedia.org/wiki/EPFL',title:'École polytechnique fédérale de Lausanne — Wikipedia',desc:'The École polytechnique fédérale de Lausanne is a public research university in Lausanne, Switzerland.',safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'Wikipedia is a widely trusted, community-edited encyclopedia with strong security protocols.'},
-    {url:'actu.epfl.ch/',title:'EPFL News — Latest research and discoveries',desc:'News, events, and research highlights from EPFL.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
-    {url:'youtube.com/results?q=epfl',title:'EPFL videos — YouTube',desc:'Watch lectures, campus tours, and research presentations from EPFL.',safety:'warn',safeLabel:'⚠️ 75% Safe',detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites.'},
-  ]
-};
-
-function getSearchResults(query) {
-  const q = (query||'').toLowerCase();
-  if (q.includes('epfl') || q.includes('polytechnique') || q.includes('lausanne')) return searchData.epfl;
-  return searchData.default;
-}
-
 function doSearch(query){
   query=(query||'').trim(); if(!query) return;
   document.getElementById('sr-input').value=query;
   document.getElementById('addr').textContent='aigis://search?q='+encodeURIComponent(query);
-  const results = getSearchResults(query);
-  document.getElementById('sr-meta') && (document.getElementById('sr-meta').textContent='About '+results.length+' results (0.38 seconds)');
+  
   const list=document.getElementById('sr-list'); list.innerHTML='';
-  results.forEach((r,i)=>{
-    const div=document.createElement('div'); div.className='sr-item ' + (r.safety || 'safe');
+  
+  // Generate dynamic results based on user query
+  let dynamicData = [];
+  if (query.toLowerCase().includes('epfl')) {
+    dynamicData = [
+      {url:'epfl.ch/',title:'EPFL: École polytechnique fédérale de Lausanne',desc:"EPFL is Europe's most cosmopolitan technical university with students, professors and staff from over 120 nations.",safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'This is the official, verified website of EPFL. Its identity and security certificates have been thoroughly validated.'},
+      {url:'wikipedia.org/wiki/EPFL',title:'École polytechnique fédérale de Lausanne — Wikipedia',desc:'The École polytechnique fédérale de Lausanne is a public research university in Lausanne, Switzerland.',safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'Wikipedia is a widely trusted, community-edited encyclopedia with strong security protocols.'},
+      {url:'news.epfl.ch/',title:'EPFL News',desc:'Latest news, research, and discoveries from the École polytechnique fédérale de Lausanne.',safety:'safe',safeLabel:'🛡️ 100% Safe'},
+      {url:'youtube.com/results?q=epfl',title:'Video results for EPFL — YouTube',desc:'Watch videos and campus tours related to your search.',safety:'warn',safeLabel:'⚠️ 75% Safe',detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites.'}
+    ];
+  } else {
+    // Dynamically capitalize first letter of query for titles
+    const formattedQuery = query.charAt(0).toUpperCase() + query.slice(1);
+    dynamicData = [
+      {url:`wikipedia.org/wiki/${encodeURIComponent(query)}`,title:`${formattedQuery} — Wikipedia`,desc:`Find encyclopaedic articles and general information about ${query}.`,safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'Wikipedia is a widely trusted, community-edited encyclopedia with strong security protocols.'},
+      {url:`bbc.com/news/topics/${encodeURIComponent(query)}`,title:`Latest news on ${formattedQuery} — BBC News`,desc:`Up-to-date world news and in-depth reporting about ${query}.`,safety:'safe',safeLabel:'🛡️ 100% Safe',detail:'This is the official domain of the BBC, a verified major news organization.'},
+      {url:`youtube.com/results?q=${encodeURIComponent(query)}`,title:`Video results for ${query} — YouTube`,desc:`Watch videos and tutorials related to ${query}.`,safety:'warn',safeLabel:'⚠️ 75% Safe',detail:'YouTube is a trustworthy platform, but individual videos may contain misleading content or links to unsafe external websites.'}
+    ];
+  }
+
+  dynamicData.forEach((r,i)=>{
+    const div=document.createElement('div');
+    div.className='sr-item ' + r.safety;
     const detailId='sr-detail-'+i, badgeId='sr-badge-'+i;
+    // Allow badges to be clicked if there is a detail explanation
     const hasDetail = !!r.detail;
     const badgeTag = hasDetail ? 'button' : 'span';
     const bExtra = hasDetail ? `id="${badgeId}" onclick="toggleSrDetail('${detailId}','${badgeId}','${r.safety}')" aria-expanded="false"` : '';
-    const detailHtml=r.detail?`<div class="sr-detail ${r.safety}" id="${detailId}">ℹ️ ${r.detail}</div>`:'';
+    const detailHtml = hasDetail ? `<div class="sr-detail ${r.safety}" id="${detailId}">ℹ️ ${r.detail}</div>` : '';
     div.innerHTML=`
-      <div class="sr-url">${r.url}${encodeURIComponent(query)}</div>
+      <div class="sr-url">${r.url}</div>
       <button class="sr-title">${r.title}</button>
       <div class="sr-desc">${r.desc}</div>
       <div class="sr-safety"><${badgeTag} class="sr-badge ${r.safety}" ${bExtra}>${r.safeLabel}</${badgeTag}>${detailHtml}</div>`;
     list.appendChild(div);
   });
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s-search-results').classList.add('active');
-  openTab('search-results','search');
+  
+  // Navigate explicitly ensuring we replace the home tab
+  const currentTab = openTabs.find(t => t.uid === activeTabUid);
+  if (currentTab && currentTab.screenId === 'home') {
+     currentTab.screenId = 'search-results';
+     currentTab.label = 'Search Results';
+     currentTab.icon = '🔍';
+     currentTab.sub = 'aigis://search';
+     renderTabs();
+     goNoHistory('search-results');
+     navPush('search-results');
+  } else {
+     openTab('search-results');
+  }
+  
   setAI('search-results');
 }
 function toggleSrDetail(detailId,badgeId,safety){
@@ -1495,9 +1859,13 @@ function toggleSrDetail(detailId,badgeId,safety){
   if(!detail) return;
   const open=detail.classList.toggle('show');
   badge.setAttribute('aria-expanded',open);
-  const labels={safe:'🛡️ 100% Safe',warn:'⚠️ 75% Safe',danger:'🚨 Not safe'};
-  const base = labels[safety] || '🛡️ 100% Safe';
-  badge.textContent = open ? base + ' ▲' : base;
+  
+  let baseText = '';
+  if (safety === 'safe') baseText = '🛡️ 100% Safe';
+  else if (safety === 'warn') baseText = '⚠️ 75% Safe';
+  else baseText = '🚨 Not safe';
+  
+  badge.textContent=open ? baseText + ' ▲' : baseText;
 }
 
 // ── Tax form ──
@@ -1541,7 +1909,7 @@ function importDoc(){
 function submitTaxes(){
   closeOverlay('o-review');
   markRead('email-tax');
-  openTab('tax-success','mail');
+  go('tax-success'); 
 }
 function openReview(){
   const val=id=>document.getElementById(id).value.trim()||'—';
@@ -1559,8 +1927,6 @@ function toggleSettings(){document.getElementById('settings-overlay').classList.
 function applyFontSize(v){
   const base = parseInt(v);
   document.getElementById('font-size-val').textContent = base + 'px';
-  // inject a stylesheet that overrides font sizes across the whole browser UI
-  // scale factor relative to default base of 15px
   const scale = base / 15;
   const rules = `
     #browser { font-size: ${base}px !important; }
@@ -1586,24 +1952,23 @@ function applyFontSize(v){
     #browser .pprice, #browser .shop-card-price { font-size: ${Math.round(base * 1.33)}px !important; }
   `;
   document.getElementById('dyn-font').textContent = rules;
-  // live preview
   const preview = document.getElementById('font-preview');
   if (preview) preview.style.fontSize = base + 'px';
+
+  setTimeout(() => {
+    document.querySelectorAll('textarea').forEach(el => autoResize(el));
+  }, 10);
 }
+
 function applyHighContrast(on) {
   const browser = document.getElementById('browser');
   if (on) {
-    browser.style.filter = 'contrast(1.15)';
-    document.querySelectorAll('.cbubble,.abubble,.eitem,.pcard,.shop-card').forEach(el => {
-      el.style.border = '2px solid #000';
-    });
+    browser.classList.add('high-contrast-mode');
   } else {
-    browser.style.filter = '';
-    document.querySelectorAll('.cbubble,.abubble,.eitem,.pcard,.shop-card').forEach(el => {
-      el.style.border = '';
-    });
+    browser.classList.remove('high-contrast-mode');
   }
 }
+
 function applyLanguage(lang) {
   const greetings = {en:'Welcome Gertrude!', fr:'Bienvenue Gertrude !', de:'Willkommen Gertrude!', it:'Benvenuta Gertrude!'};
   const subs = {en:'What will it be today?', fr:'Que souhaitez-vous faire ?', de:'Was möchten Sie heute tun?', it:'Cosa desidera fare oggi?'};
@@ -1613,12 +1978,13 @@ function applyLanguage(lang) {
   if (s && subs[lang]) s.textContent = subs[lang];
 }
 
-// ── Overlay helpers ──
 function openOverlay(id){document.getElementById(id).classList.add('show');}
 function closeOverlay(id){document.getElementById(id).classList.remove('show');}
 
-// ── Auto-resize textareas ──
-function autoResize(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
+function autoResize(el){
+  el.style.height='auto';
+  el.style.height=(el.scrollHeight + 4)+'px';
+}
 
 // ── Init ──
 document.addEventListener('DOMContentLoaded',()=>{
@@ -1626,23 +1992,50 @@ document.addEventListener('DOMContentLoaded',()=>{
     ov.addEventListener('click',e=>{if(e.target===ov)ov.classList.remove('show');});
   });
 
-  // auto-resize textareas
   document.getElementById('shop-text').addEventListener('input',function(){autoResize(this);});
   document.getElementById('aip-text').addEventListener('input',function(){autoResize(this);});
-
   document.getElementById('shop-text').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendShop();}});
   document.getElementById('aip-text').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}});
   document.querySelector('#s-home input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
   document.getElementById('sr-input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value);});
 
-  // init tabs and AI
+  // Shop Layout Resizer logic
+  const resizer = document.getElementById('shop-resizer');
+  const chatCol = document.querySelector('.shop-chat-col');
+  let isResizing = false;
+
+  if (resizer && chatCol) {
+    resizer.addEventListener('mousedown', (e) => {
+      isResizing = true;
+      resizer.classList.add('dragging');
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      let newWidth = e.clientX - chatCol.getBoundingClientRect().left;
+      if (newWidth < 250) newWidth = 250;
+      if (newWidth > 800) newWidth = 800;
+      chatCol.style.width = newWidth + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isResizing) {
+        isResizing = false;
+        resizer.classList.remove('dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+    });
+  }
+
   renderTabs();
   setAI('home');
   navPush('home');
   updateNavBtns();
-
-  // mark scam email as read when we navigate away from it properly
-  document.getElementById('s-scam-email'); // just ensure it exists
+  renderEmails(); // Ensure emails list initializes
 });
 </script>
 </body>
